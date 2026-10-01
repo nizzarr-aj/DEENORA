@@ -4,6 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.weight
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.LaunchedEffect
+import com.deenora.app.ads.AdMobConsentManager
+import com.deenora.app.ads.DeenoraBannerAd
 import com.deenora.app.data.local.AppDatabase
 import com.deenora.app.data.preferences.UserPreferencesRepository
 import com.deenora.app.service.PrayerNotificationHelper
@@ -11,6 +24,7 @@ import com.deenora.app.service.PrayerWorkManagerScheduler
 import com.deenora.app.ui.DeenoraApp
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -18,15 +32,41 @@ class MainActivity : ComponentActivity() {
         val database = AppDatabase.getDatabase(applicationContext)
         val preferencesRepository = UserPreferencesRepository(applicationContext)
 
-        // Initialize Notification Channel and schedule prayer alerts via WorkManager
         PrayerNotificationHelper.createNotificationChannel(applicationContext)
         PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(applicationContext)
 
         setContent {
-            DeenoraApp(
-                database = database,
-                preferencesRepository = preferencesRepository
-            )
+            val context = LocalContext.current
+
+            LaunchedEffect(Unit) {
+                AdMobConsentManager.requestConsentAndInitialize(
+                    activity = this@MainActivity
+                )
+            }
+
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                ) {
+                    DeenoraApp(
+                        database = database,
+                        preferencesRepository = preferencesRepository
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding()
+                        .padding(top = 4.dp)
+                ) {
+                    DeenoraBannerAd()
+                }
+            }
         }
     }
 }
