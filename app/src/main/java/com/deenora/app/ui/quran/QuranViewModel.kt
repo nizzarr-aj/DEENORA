@@ -1,5 +1,7 @@
 package com.deenora.app.ui.quran
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deenora.app.data.local.dao.BookmarkDao
@@ -9,14 +11,12 @@ import com.deenora.app.data.quran.Ayah
 import com.deenora.app.data.quran.JuzInfo
 import com.deenora.app.data.quran.QuranRepository
 import com.deenora.app.data.quran.Surah
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 data class QuranUiState(
     val searchQuery: String = "",
-    val selectedTab: Int = 0, // 0 = Surahs, 1 = Juz, 2 = Bookmarks
+    val selectedTab: Int = 0,
     val filteredSurahs: List<Surah> = QuranRepository.SURAHS,
     val juzList: List<JuzInfo> = QuranRepository.JUZ_LIST,
     val bookmarks: List<BookmarkEntity> = emptyList(),
@@ -35,17 +35,15 @@ class QuranViewModel(
     private val _uiState = MutableStateFlow(QuranUiState())
     val uiState: StateFlow<QuranUiState> = _uiState.asStateFlow()
 
-    private var audioJob: Job? = null
+    private var mediaPlayer: MediaPlayer? = null
 
     init {
-        // Collect bookmarks from Room
         viewModelScope.launch {
             bookmarkDao.getAllBookmarks().collect { list ->
                 _uiState.update { it.copy(bookmarks = list) }
             }
         }
 
-        // Collect font size preference
         viewModelScope.launch {
             preferencesRepository.settings.collect { settings ->
                 _uiState.update { it.copy(fontSizeSp = settings.quranFontSize) }
@@ -73,6 +71,7 @@ class QuranViewModel(
     }
 
     fun openSurah(surah: Surah) {
+        stopAudio()
         val verses = QuranRepository.getVersesForSurah(surah.number)
         _uiState.update {
             it.copy(
@@ -90,36 +89,105 @@ class QuranViewModel(
     }
 
     fun toggleAudio() {
-        val currentlyPlaying = _uiState.value.isAudioPlaying
-        if (currentlyPlaying) {
+        if (_uiState.value.isAudioPlaying) {
             stopAudio()
         } else {
-            startAudioSimulation()
+            playAyah(_uiState.value.playingAyahIndex)
         }
     }
 
-    private fun startAudioSimulation() {
-        _uiState.update { it.copy(isAudioPlaying = true) }
-        audioJob?.cancel()
-        audioJob = viewModelScope.launch {
-            val totalVerses = _uiState.value.currentVerses.size
-            while (_uiState.value.isAudioPlaying) {
-                delay(4000L) // 4 seconds per ayah preview
-                val nextIdx = _uiState.value.playingAyahIndex + 1
-                if (nextIdx < totalVerses) {
-                    _uiState.update { it.copy(playingAyahIndex = nextIdx) }
-                } else {
-                    _uiState.update { it.copy(isAudioPlaying = false, playingAyahIndex = 0) }
-                    break
-                }
+    private fun playAyah(index: Int) {
+        val verses = _uiState.value.currentVerses
+        val surah = _uiState.value.selectedSurah
+
+        if (surah == null || index !in verses.indices) {
+            _uiState.update { it.copy(isAudioPlaying = false, playingAyahIndex = 0) }
+            return
+        }
+
+        releaseMediaPlayer()
+
+        val ayah = verses[index]
+        val audioUrl = buildEveryAyahUrl(surah.number, ayah.ayahNumber)
+
+        _uiState.update {
+            it.copy(
+                isAudioPlaying = true,
+                playingAyahIndex = index
+            )
+        }
+
+        val player = MediaPlayer()
+        mediaPlayer = player
+
+        player.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build()
+        )
+
+        player.setOnPreparedListener { mp ->
+            if (mediaPlayer === mp) {
+                mp.start()
+            } else {
+                mp.release()
             }
         }
+
+        player.setOnCompletionListener {
+            val nextIndex = _uiState.value.playingAyahIndex + 1
+            if (nextIndex < _uiState.value.currentVerses.size) {
+                playAyah(nextIndex)
+            } else {
+                stopAudio()
+                _uiState.update { it.copy(playingAyahIndex = 0) }
+            }
+        }
+
+        player.setOnErrorListener { _, _, _ ->
+            releaseMediaPlayer()
+            _uiState.update { it.copy(isAudioPlaying = false) }
+            true
+        }
+
+        try {
+            player.setDataSource(audioUrl)
+            player.prepareAsync()
+        } catch (_: Exception) {
+            releaseMediaPlayer()
+            _uiState.update { it.copy(isAudioPlaying = false) }
+        }
+    }
+
+    private fun buildEveryAyahUrl(surahNumber: Int, ayahNumber: Int): String {
+        val fileName = "%03d%03d.mp3".format(surahNumber, ayahNumber)
+        return "https://everyayah.com/data/Alafasy_128kbps/$fileName"
     }
 
     private fun stopAudio() {
-        audioJob?.cancel()
-        audioJob = null
+        releaseMediaPlayer()
         _uiState.update { it.copy(isAudioPlaying = false) }
+    }
+
+    private fun releaseMediaPlayer() {
+        mediaPlayer?.let { player ->
+            try {
+                if (player.isPlaying) player.stop()
+            } catch (_: IllegalStateException) {
+            }
+            try {
+                player.reset()
+            } catch (_: IllegalStateException) {
+            }
+            player.release()
+        }
+        mediaPlayer = null
+    }
+
+    override fun onCleared() {
+        releaseMediaPlayer()
+        super.onCleared()
     }
 
     fun toggleBookmark(ayah: Ayah, surah: Surah) {
