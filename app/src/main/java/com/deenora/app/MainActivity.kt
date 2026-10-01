@@ -11,10 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.weight
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.runtime.LaunchedEffect
 import com.deenora.app.ads.AdMobConsentManager
 import com.deenora.app.ads.DeenoraBannerAd
 import com.deenora.app.data.local.AppDatabase
@@ -22,6 +21,7 @@ import com.deenora.app.data.preferences.UserPreferencesRepository
 import com.deenora.app.service.PrayerNotificationHelper
 import com.deenora.app.service.PrayerWorkManagerScheduler
 import com.deenora.app.ui.DeenoraApp
+import com.google.android.gms.ads.MobileAds
 
 class MainActivity : ComponentActivity() {
 
@@ -30,28 +30,39 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val database = AppDatabase.getDatabase(applicationContext)
-        val preferencesRepository = UserPreferencesRepository(applicationContext)
+        val preferencesRepository =
+            UserPreferencesRepository(applicationContext)
 
-        PrayerNotificationHelper.createNotificationChannel(applicationContext)
-        PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(applicationContext)
+        PrayerNotificationHelper.createNotificationChannel(
+            applicationContext
+        )
+
+        PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(
+            applicationContext
+        )
 
         setContent {
-            val context = LocalContext.current
 
             LaunchedEffect(Unit) {
+
                 AdMobConsentManager.requestConsentAndInitialize(
-                    activity = this@MainActivity
+                    activity = this@MainActivity,
+                    onAdsReady = {
+                        MobileAds.initialize(this@MainActivity)
+                    }
                 )
             }
 
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
+
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
                 ) {
+
                     DeenoraApp(
                         database = database,
                         preferencesRepository = preferencesRepository
@@ -64,6 +75,7 @@ class MainActivity : ComponentActivity() {
                         .navigationBarsPadding()
                         .padding(top = 4.dp)
                 ) {
+
                     DeenoraBannerAd()
                 }
             }
