@@ -1,0 +1,6 @@
+{
+  "name": "DEENORA",
+  "description": "DEENORA (دينورا) - Premium Islamic Companion featuring real prayer times, Quran reader, Azkar, Qibla compass, Tasbih, and Islamic calendar with full Arabic RTL, English, and French support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
