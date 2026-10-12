@@ -441,6 +441,7 @@ fun DiscoverCardItem(
 
 @Composable
 private fun PremiumInfoCard(language: AppLanguage) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
@@ -449,30 +450,47 @@ private fun PremiumInfoCard(language: AppLanguage) {
     ) {
         Column(Modifier.padding(18.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    Icons.Outlined.Star,
-                    contentDescription = null,
-                    tint = GoldPrimary
-                )
+                Icon(Icons.Outlined.Star, contentDescription = null, tint = GoldPrimary)
                 Spacer(Modifier.width(8.dp))
-                Text(
-                    when (language) {
-                        AppLanguage.ARABIC -> "DEENORA Premium"
-                        AppLanguage.ENGLISH -> "DEENORA Premium"
-                        AppLanguage.FRENCH -> "DEENORA Premium"
-                    },
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text("DEENORA Premium", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
             }
             Spacer(Modifier.height(8.dp))
             Text(
                 when (language) {
-                    AppLanguage.ARABIC -> "مكان جاهز لإضافة المزايا المدفوعة لاحقًا: بدون إعلانات، مزايا إضافية ومحتوى موسّع."
-                    AppLanguage.ENGLISH -> "Premium area ready for future Google Play Billing features such as ad-free use and expanded content."
-                    AppLanguage.FRENCH -> "Espace Premium prêt pour de futures fonctions Google Play Billing et du contenu étendu."
+                    AppLanguage.ARABIC -> "الأسعار المقترحة: 5 د.ت للشهر أو 50 د.ت للسنة. الدفع عبر Binance Pay، وتفعيل الاشتراك بعد التثبت من وصول المبلغ."
+                    AppLanguage.ENGLISH -> "Suggested plans: TND 5 monthly or TND 50 yearly. Pay with Binance Pay; Premium is enabled only after payment is verified."
+                    AppLanguage.FRENCH -> "Tarifs proposés : 5 TND par mois ou 50 TND par an. Paiement via Binance Pay ; activation après vérification du paiement."
                 },
                 style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(Modifier.height(12.dp))
+            Button(
+                onClick = {
+                    val intent = android.content.Intent(
+                        android.content.Intent.ACTION_VIEW,
+                        android.net.Uri.parse("https://app.binance.com/uni-qr/THSKrs7M")
+                    )
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    when (language) {
+                        AppLanguage.ARABIC -> "فتح Binance Pay"
+                        AppLanguage.ENGLISH -> "Open Binance Pay"
+                        AppLanguage.FRENCH -> "Ouvrir Binance Pay"
+                    }
+                )
+            }
+            Spacer(Modifier.height(6.dp))
+            Text(
+                when (language) {
+                    AppLanguage.ARABIC -> "ملاحظة: هذه خطوة دفع أولية؛ لا يتم تأكيد الاشتراك آليًا من هذا الرابط."
+                    AppLanguage.ENGLISH -> "Note: this is a payment handoff only; this link does not automatically verify or activate a subscription."
+                    AppLanguage.FRENCH -> "Remarque : ce lien ouvre le paiement, sans vérification ni activation automatique de l’abonnement."
+                },
+                style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
