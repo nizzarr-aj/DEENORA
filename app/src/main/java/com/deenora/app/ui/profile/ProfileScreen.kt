@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deenora.app.data.prayer.AsrJuristicMethod
@@ -38,6 +39,13 @@ import android.os.Build
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -59,6 +67,113 @@ fun ProfileScreen(
     var showMethodDialog by remember { mutableStateOf(false) }
     var showAsrDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
+    var showAccountDialog by remember { mutableStateOf(false) }
+    var accountEmail by remember { mutableStateOf("") }
+    var accountPassword by remember { mutableStateOf("") }
+    var accountBusy by remember { mutableStateOf(false) }
+    var accountMessage by remember { mutableStateOf("") }
+    var accountSignedIn by remember { mutableStateOf(
+        context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("email", null) != null
+    ) }
+    val accountScope = rememberCoroutineScope()
+
+    suspend fun supabaseAuth(signUp: Boolean, email: String, password: String): String =
+        withContext(Dispatchers.IO) {
+            val endpoint = if (signUp) "signup" else "token?grant_type=password"
+            val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/$endpoint").openConnection() as HttpURLConnection)
+            try {
+                connection.requestMethod = "POST"
+                connection.connectTimeout = 15000
+                connection.readTimeout = 15000
+                connection.setRequestProperty("Content-Type", "application/json")
+                connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-gCPeXA_Xdn0eGmo")
+                connection.doOutput = true
+                connection.outputStream.use {
+                    it.write(JSONObject().put("email", email.trim()).put("password", password).toString().toByteArray(Charsets.UTF_8))
+                }
+                val code = connection.responseCode
+                val stream = if (code in 200..299) connection.inputStream else connection.errorStream
+                val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+                val json = runCatching { JSONObject(body) }.getOrNull()
+                if (code !in 200..299) {
+                    throw IllegalStateException(json?.optString("msg")?.takeIf { it.isNotBlank() }
+                        ?: json?.optString("message")?.takeIf { it.isNotBlank() }
+                        ?: "HTTP $code")
+                }
+                val accessToken = json?.optString("access_token").orEmpty()
+                if (accessToken.isNotBlank()) {
+                    context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
+                        .putString("email", email.trim()).putString("access_token", accessToken)
+                        .putString("refresh_token", json?.optString("refresh_token").orEmpty()).apply()
+                    "SIGNED_IN"
+                } else {
+                    "CHECK_EMAIL"
+                }
+            } finally {
+                connection.disconnect()
+            }
+        }
+
+    if (showAccountDialog) {
+        AlertDialog(
+            onDismissRequest = { if (!accountBusy) showAccountDialog = false },
+            title = { Text(if (currentLanguage == AppLanguage.ARABIC) "حساب Deenora" else if (currentLanguage == AppLanguage.ENGLISH) "Deenora account" else "Compte Deenora") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    OutlinedTextField(
+                        value = accountEmail, onValueChange = { accountEmail = it },
+                        label = { Text("Email") }, singleLine = true,
+                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Email),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = accountPassword, onValueChange = { accountPassword = it },
+                        label = { Text(if (currentLanguage == AppLanguage.ARABIC) "كلمة السر (8 أحرف على الأقل)" else "Password (8+ characters)") },
+                        singleLine = true, visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (accountMessage.isNotBlank()) Text(accountMessage, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                }
+            },
+            confirmButton = {
+                Column(horizontalAlignment = Alignment.End) {
+                    TextButton(enabled = !accountBusy && accountEmail.contains("@") && accountPassword.length >= 8, onClick = {
+                        accountBusy = true
+                        accountMessage = ""
+                        accountScope.launch {
+                            try {
+                                val result = supabaseAuth(false, accountEmail, accountPassword)
+                                accountSignedIn = result == "SIGNED_IN"
+                                accountMessage = if (result == "CHECK_EMAIL") "Check your email to confirm the account." else ""
+                                if (accountSignedIn) showAccountDialog = false
+                            } catch (e: Exception) {
+                                accountMessage = e.message ?: "Could not sign in."
+                            } finally { accountBusy = false }
+                        }
+                    }) { Text(if (accountBusy) "…" else if (currentLanguage == AppLanguage.ARABIC) "دخول" else "Sign in") }
+                    TextButton(enabled = !accountBusy && accountEmail.contains("@") && accountPassword.length >= 8, onClick = {
+                        accountBusy = true
+                        accountMessage = ""
+                        accountScope.launch {
+                            try {
+                                val result = supabaseAuth(true, accountEmail, accountPassword)
+                                accountMessage = if (result == "CHECK_EMAIL") {
+                                    if (currentLanguage == AppLanguage.ARABIC) "تفقد بريدك لتأكيد الحساب، وبعدها ادخل." else "Check your inbox to confirm, then sign in."
+                                } else "Account created."
+                            } catch (e: Exception) {
+                                accountMessage = e.message ?: "Could not create account."
+                            } finally { accountBusy = false }
+                        }
+                    }) { Text(if (currentLanguage == AppLanguage.ARABIC) "إنشاء حساب" else "Create account") }
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showAccountDialog = false }) {
+                    Text(if (currentLanguage == AppLanguage.ARABIC) "إغلاق" else "Close")
+                }
+            }
+        )
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -79,6 +194,58 @@ fun ProfileScreen(
             contentPadding = PaddingValues(top = 16.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Column(Modifier.fillMaxWidth().padding(18.dp)) {
+                        Text(
+                            if (accountSignedIn) (accountEmail.ifBlank { context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("email", "") ?: "" })
+                            else when (currentLanguage) {
+                                AppLanguage.ARABIC -> "حساب Deenora"
+                                AppLanguage.ENGLISH -> "Deenora account"
+                                AppLanguage.FRENCH -> "Compte Deenora"
+                            },
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(Modifier.height(6.dp))
+                        Text(
+                            if (accountSignedIn) when (currentLanguage) {
+                                AppLanguage.ARABIC -> "تم تسجيل الدخول. تنجم تخرج من الحساب من هنا."
+                                AppLanguage.ENGLISH -> "You are signed in. You can sign out here."
+                                AppLanguage.FRENCH -> "Vous êtes connecté. Vous pouvez vous déconnecter ici."
+                            } else when (currentLanguage) {
+                                AppLanguage.ARABIC -> "أنشئ حساب أو ادخل بالإيميل وكلمة السر."
+                                AppLanguage.ENGLISH -> "Create an account or sign in with email and password."
+                                AppLanguage.FRENCH -> "Créez un compte ou connectez-vous avec e-mail et mot de passe."
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        if (accountSignedIn) {
+                            OutlinedButton(
+                                onClick = {
+                                    context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit().clear().apply()
+                                    accountSignedIn = false
+                                    accountEmail = ""
+                                    accountPassword = ""
+                                    accountMessage = ""
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) { Text(if (currentLanguage == AppLanguage.ARABIC) "تسجيل الخروج" else if (currentLanguage == AppLanguage.ENGLISH) "Sign out" else "Déconnexion") }
+                        } else {
+                            Button(onClick = { showAccountDialog = true }, modifier = Modifier.fillMaxWidth()) {
+                                Text(if (currentLanguage == AppLanguage.ARABIC) "تسجيل الدخول / إنشاء حساب" else if (currentLanguage == AppLanguage.ENGLISH) "Sign in / Create account" else "Connexion / Créer un compte")
+                            }
+                        }
+                    }
+                }
+            }
+
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
