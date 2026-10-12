@@ -44,6 +44,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.CustomCredential
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.android.gms.tasks.Tasks
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -76,6 +84,38 @@ fun ProfileScreen(
         context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("email", null) != null
     ) }
     val accountScope = rememberCoroutineScope()
+
+    suspend fun signInWithGoogle() {
+        val credentialManager = CredentialManager.create(context)
+        val option = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId("1017191935314-u71sb9n884kfihsc994hshvd0glme4tj.apps.googleusercontent.com")
+            .setAutoSelectEnabled(false)
+            .build()
+        val request = GetCredentialRequest.Builder().addCredentialOption(option).build()
+        val result = credentialManager.getCredential(context, request)
+        val credential = result.credential
+        if (credential !is CustomCredential || credential.type != GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+            throw IllegalStateException("Google sign-in was cancelled or returned an unsupported credential.")
+        }
+        val googleCredential = GoogleIdTokenCredential.createFrom(credential.data)
+        val firebaseCredential = GoogleAuthProvider.getCredential(googleCredential.idToken, null)
+        val authResult = withContext(Dispatchers.IO) {
+            Tasks.await(FirebaseAuth.getInstance().signInWithCredential(firebaseCredential))
+        }
+        val user = authResult.user ?: throw IllegalStateException("Google account could not be loaded.")
+        val email = user.email ?: throw IllegalStateException("No email was returned by Google.")
+        context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
+            .putString("email", email)
+            .putString("firebase_uid", user.uid)
+            .putString("auth_provider", "google")
+            .remove("access_token")
+            .remove("refresh_token")
+            .apply()
+        accountEmail = email
+        accountSignedIn = true
+        showAccountDialog = false
+    }
 
     suspend fun supabaseAuth(signUp: Boolean, email: String, password: String): String =
         withContext(Dispatchers.IO) {
@@ -132,6 +172,21 @@ fun ProfileScreen(
                         singleLine = true, visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth()
                     )
+                    OutlinedButton(
+                        enabled = !accountBusy,
+                        onClick = {
+                            accountBusy = true
+                            accountMessage = ""
+                            accountScope.launch {
+                                try { signInWithGoogle() }
+                                catch (e: Exception) { accountMessage = e.message ?: "Google sign-in failed." }
+                                finally { accountBusy = false }
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(if (currentLanguage == AppLanguage.ARABIC) "المواصلة باستعمال Google" else "Continue with Google")
+                    }
                     if (accountMessage.isNotBlank()) Text(accountMessage, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
                 }
             },
