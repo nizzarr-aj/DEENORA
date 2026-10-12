@@ -41,6 +41,8 @@ android {
 
   buildTypes {
     release {
+      // Real AdMob inventory is only enabled in release builds.
+      buildConfigField("boolean", "USE_TEST_ADS", "false")
       isCrunchPngs = false
       isMinifyEnabled = false
       proguardFiles(
@@ -51,6 +53,8 @@ android {
     }
 
     debug {
+      // Keep all local/CI testing on Google's official test ad unit.
+      buildConfigField("boolean", "USE_TEST_ADS", "true")
       signingConfig = signingConfigs.getByName("debugConfig")
     }
   }
