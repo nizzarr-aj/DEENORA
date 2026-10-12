@@ -117,6 +117,12 @@ dependencies {
   implementation(libs.converter.moshi)
   implementation(libs.firebase.ai)
 
+  // Google sign-in (Credential Manager + Firebase Authentication)
+  implementation(libs.firebase.auth)
+  implementation(libs.androidx.credentials)
+  implementation(libs.androidx.credentials.play.services)
+  implementation(libs.googleid)
+
   implementation(libs.firebase.appcheck.recaptcha)
   implementation(libs.firebase.appcheck.debug)
 
