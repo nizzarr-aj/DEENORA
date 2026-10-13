@@ -106,16 +106,20 @@ fun ProfileScreen(
         }
         val user = authResult.user ?: throw IllegalStateException("Google account could not be loaded.")
         val email = user.email ?: throw IllegalStateException("No email was returned by Google.")
+        val supabaseResult = supabaseGoogleAuth(googleCredential.idToken)
         context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
             .putString("email", email)
             .putString("firebase_uid", user.uid)
             .putString("auth_provider", "google")
-            .remove("access_token")
-            .remove("refresh_token")
             .apply()
         accountEmail = email
         accountSignedIn = true
-        showAccountDialog = false
+        if (supabaseResult) {
+            showAccountDialog = false
+            accountMessage = ""
+        } else {
+            accountMessage = "Google login worked, but Deenora admin session could not be created. Check Google provider settings in Supabase."
+        }
     }
 
     suspend fun supabaseAuth(signUp: Boolean, email: String, password: String): String =
@@ -155,6 +159,58 @@ fun ProfileScreen(
             }
         }
 
+    suspend fun supabaseGoogleAuth(idToken: String): Boolean = withContext(Dispatchers.IO) {
+        val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/token?grant_type=id_token").openConnection() as HttpURLConnection)
+        try {
+            connection.requestMethod = "POST"
+            connection.connectTimeout = 15000
+            connection.readTimeout = 15000
+            connection.setRequestProperty("Content-Type", "application/json")
+            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo")
+            connection.doOutput = true
+            connection.outputStream.use {
+                it.write(JSONObject().put("provider", "google").put("id_token", idToken).toString().toByteArray(Charsets.UTF_8))
+            }
+            val code = connection.responseCode
+            val stream = if (code in 200..299) connection.inputStream else connection.errorStream
+            val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+            if (code !in 200..299) return@withContext false
+            val json = JSONObject(body)
+            val access = json.optString("access_token")
+            if (access.isBlank()) return@withContext false
+            context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
+                .putString("email", accountEmail.ifBlank { json.optJSONObject("user")?.optString("email").orEmpty() })
+                .putString("access_token", access)
+                .putString("refresh_token", json.optString("refresh_token"))
+                .apply()
+            true
+        } finally { connection.disconnect() }
+    }
+
+    suspend fun recoverPassword(email: String): String = withContext(Dispatchers.IO) {
+        val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/recover").openConnection() as HttpURLConnection)
+        try {
+            connection.requestMethod = "POST"
+            connection.connectTimeout = 15000
+            connection.readTimeout = 15000
+            connection.setRequestProperty("Content-Type", "application/json")
+            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo")
+            connection.doOutput = true
+            connection.outputStream.use {
+                it.write(JSONObject().put("email", email.trim()).toString().toByteArray(Charsets.UTF_8))
+            }
+            val code = connection.responseCode
+            val stream = if (code in 200..299) connection.inputStream else connection.errorStream
+            val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+            if (code !in 200..299) {
+                val json = runCatching { JSONObject(body) }.getOrNull()
+                throw IllegalStateException(json?.optString("msg")?.takeIf { it.isNotBlank() }
+                    ?: json?.optString("message")?.takeIf { it.isNotBlank() } ?: "Password reset request failed (HTTP $code)")
+            }
+            "If this email belongs to an account, a password reset link will be sent."
+        } finally { connection.disconnect() }
+    }
+
     if (showAccountDialog) {
         AlertDialog(
             onDismissRequest = { if (!accountBusy) showAccountDialog = false },
@@ -188,7 +244,22 @@ fun ProfileScreen(
                     ) {
                         Text(if (currentLanguage == AppLanguage.ARABIC) "المواصلة باستعمال Google" else "Continue with Google")
                     }
-                    if (accountMessage.isNotBlank()) Text(accountMessage, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                    TextButton(
+                        enabled = !accountBusy && accountEmail.contains("@"),
+                        onClick = {
+                            accountBusy = true
+                            accountMessage = ""
+                            accountScope.launch {
+                                try {
+                                    accountMessage = recoverPassword(accountEmail)
+                                } catch (e: Exception) {
+                                    accountMessage = e.message ?: "Could not send password reset email."
+                                } finally { accountBusy = false }
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) { Text(if (currentLanguage == AppLanguage.ARABIC) "نسيت كلمة السر؟" else if (currentLanguage == AppLanguage.FRENCH) "Mot de passe oublié ?" else "Forgot password?") }
+                    if (accountMessage.isNotBlank()) Text(accountMessage, color = if (accountMessage.startsWith("If this email") || accountMessage.startsWith("Google login worked")) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
                 }
             },
             confirmButton = {
