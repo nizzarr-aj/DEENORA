@@ -14,6 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      DEBUG_KEYSTORE_CONFIGURED: ${{ secrets.DEBUG_KEYSTORE_BASE64 != '' }}
       KEYSTORE_PATH: ${{ github.workspace }}/my-upload-key.jks
       STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -35,22 +36,17 @@ jobs:
         with:
           gradle-version: "9.3.1"
 
-      - name: Prepare stable signing key
-        if: env.RELEASE_SIGNING_CONFIGURED == 'true'
+      - name: Restore stable debug keystore
+        if: env.DEBUG_KEYSTORE_CONFIGURED == 'true'
         env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          DEBUG_KEYSTORE_BASE64: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
         run: |
-          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE_PATH"
-          test -s "$KEYSTORE_PATH"
-          keytool -list -keystore "$KEYSTORE_PATH" -storepass "$STORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null
-
-      - name: Explain missing stable signing key
-        if: env.RELEASE_SIGNING_CONFIGURED != 'true'
-        run: |
-          echo "::warning::Stable signing secrets are not configured. The debug APK will be signed with a temporary CI key, so Google sign-in fingerprints may change between builds."
+          printf '%s' "$DEBUG_KEYSTORE_BASE64" | base64 --decode > debug.keystore
+          test -s debug.keystore
+          keytool -list -keystore debug.keystore -storepass android -alias androiddebugkey >/dev/null
 
       - name: Create temporary debug keystore
-        if: env.RELEASE_SIGNING_CONFIGURED != 'true'
+        if: env.DEBUG_KEYSTORE_CONFIGURED != 'true'
         run: |
           keytool -genkeypair -v \
             -keystore debug.keystore \
@@ -62,13 +58,9 @@ jobs:
             -validity 10000 \
             -dname "CN=Android Debug,O=Android,C=US"
 
-      - name: Print signing SHA-1 fingerprint
+      - name: Print debug SHA-1 fingerprint
         run: |
-          if [ "$RELEASE_SIGNING_CONFIGURED" = "true" ]; then
-            keytool -list -v -keystore "$KEYSTORE_PATH" -alias "$KEY_ALIAS" -storepass "$STORE_PASSWORD" -keypass "$KEY_PASSWORD" | grep -E 'SHA1:|SHA-1:'
-          else
-            keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android | grep -E 'SHA1:|SHA-1:'
-          fi
+          keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android | grep -E 'SHA1:|SHA-1:'
 
       - name: Build debug APK
         run: gradle --no-daemon assembleDebug
@@ -79,6 +71,15 @@ jobs:
           name: DEENORA-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+
+      - name: Prepare release signing key
+        if: env.RELEASE_SIGNING_CONFIGURED == 'true'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE_PATH"
+          test -s "$KEYSTORE_PATH"
+          keytool -list -keystore "$KEYSTORE_PATH" -storepass "$STORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null
 
       - name: Build signed release APK
         if: env.RELEASE_SIGNING_CONFIGURED == 'true'
