@@ -76,6 +76,7 @@ fun ProfileScreen(
     var showAsrDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
     var showAccountDialog by remember { mutableStateOf(false) }
+    var showAdminPanel by remember { mutableStateOf(false) }
     var accountEmail by remember { mutableStateOf("") }
     var accountPassword by remember { mutableStateOf("") }
     var accountBusy by remember { mutableStateOf(false) }
@@ -230,6 +231,12 @@ fun ProfileScreen(
         )
     }
 
+    val savedEmail = context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("email", "").orEmpty()
+    val savedAccessToken = context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("access_token", "").orEmpty()
+    if (showAdminPanel) {
+        AdminPremiumPanel(accessToken = savedAccessToken, onClose = { showAdminPanel = false })
+    }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -296,6 +303,30 @@ fun ProfileScreen(
                             Button(onClick = { showAccountDialog = true }, modifier = Modifier.fillMaxWidth()) {
                                 Text(if (currentLanguage == AppLanguage.ARABIC) "تسجيل الدخول / إنشاء حساب" else if (currentLanguage == AppLanguage.ENGLISH) "Sign in / Create account" else "Connexion / Créer un compte")
                             }
+                        }
+                    }
+                }
+            }
+
+            if (savedEmail.equals("nizarajala3@gmail.com", ignoreCase = true)) {
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = EmeraldDark),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text("Admin • Premium", color = Color.White, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
+                            Text("Review payment requests and manage Premium approvals.", color = Color.White.copy(alpha = 0.85f), style = MaterialTheme.typography.bodySmall)
+                            Button(
+                                onClick = {
+                                    if (savedAccessToken.isBlank()) {
+                                        accountMessage = "Sign in with your Deenora email and password first. Google sign-in currently does not create a Supabase session."
+                                        showAccountDialog = true
+                                    } else showAdminPanel = true
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) { Text("Open admin panel") }
                         }
                     }
                 }
