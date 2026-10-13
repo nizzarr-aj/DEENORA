@@ -86,6 +86,35 @@ fun ProfileScreen(
     ) }
     val accountScope = rememberCoroutineScope()
 
+    suspend fun supabaseGoogleAuth(idToken: String): Boolean = withContext(Dispatchers.IO) {
+        val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/token?grant_type=id_token").openConnection() as HttpURLConnection)
+        try {
+            connection.requestMethod = "POST"
+            connection.connectTimeout = 15000
+            connection.readTimeout = 15000
+            connection.setRequestProperty("Content-Type", "application/json")
+            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo")
+            connection.doOutput = true
+            connection.outputStream.use {
+                it.write(JSONObject().put("provider", "google").put("id_token", idToken).toString().toByteArray(Charsets.UTF_8))
+            }
+            val code = connection.responseCode
+            val stream = if (code in 200..299) connection.inputStream else connection.errorStream
+            val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+            if (code !in 200..299) return@withContext false
+            val json = JSONObject(body)
+            val access = json.optString("access_token")
+            if (access.isBlank()) return@withContext false
+            context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
+                .putString("email", accountEmail.ifBlank { json.optJSONObject("user")?.optString("email").orEmpty() })
+                .putString("access_token", access)
+                .putString("refresh_token", json.optString("refresh_token"))
+                .apply()
+            true
+        } finally { connection.disconnect() }
+    }
+
+
     suspend fun signInWithGoogle() {
         val credentialManager = CredentialManager.create(context)
         val option = GetGoogleIdOption.Builder()
@@ -159,33 +188,6 @@ fun ProfileScreen(
             }
         }
 
-    suspend fun supabaseGoogleAuth(idToken: String): Boolean = withContext(Dispatchers.IO) {
-        val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/token?grant_type=id_token").openConnection() as HttpURLConnection)
-        try {
-            connection.requestMethod = "POST"
-            connection.connectTimeout = 15000
-            connection.readTimeout = 15000
-            connection.setRequestProperty("Content-Type", "application/json")
-            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo")
-            connection.doOutput = true
-            connection.outputStream.use {
-                it.write(JSONObject().put("provider", "google").put("id_token", idToken).toString().toByteArray(Charsets.UTF_8))
-            }
-            val code = connection.responseCode
-            val stream = if (code in 200..299) connection.inputStream else connection.errorStream
-            val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
-            if (code !in 200..299) return@withContext false
-            val json = JSONObject(body)
-            val access = json.optString("access_token")
-            if (access.isBlank()) return@withContext false
-            context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
-                .putString("email", accountEmail.ifBlank { json.optJSONObject("user")?.optString("email").orEmpty() })
-                .putString("access_token", access)
-                .putString("refresh_token", json.optString("refresh_token"))
-                .apply()
-            true
-        } finally { connection.disconnect() }
-    }
 
     suspend fun recoverPassword(email: String): String = withContext(Dispatchers.IO) {
         val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/recover").openConnection() as HttpURLConnection)
