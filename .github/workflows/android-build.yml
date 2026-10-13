@@ -62,6 +62,11 @@ jobs:
         run: |
           keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android | grep -E 'SHA1:|SHA-1:'
 
+      - name: Verify stable signing fingerprint
+        if: env.DEBUG_KEYSTORE_CONFIGURED == 'true'
+        run: |
+          keytool -list -v -keystore debug.keystore -storepass android -alias androiddebugkey | grep -E 'SHA1:|SHA-1:'
+
       - name: Build debug APK
         run: gradle --no-daemon assembleDebug
 
