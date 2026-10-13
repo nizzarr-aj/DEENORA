@@ -19,7 +19,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 private const val ADMIN_FUNCTION_URL = "https://iujslmvuyundjxbkkkon.supabase.co/functions/v1/admin-premium"
-private const val SUPABASE_PUBLIC_KEY = "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo"
+private const val SUPABASE_PUBLIC_KEY = "sb_publishable_6AlIaFNnew-_-2Y-GCP-eXA_Xdn0eGmo"
 
 @Composable
 fun AdminPremiumPanel(accessToken: String, onClose: () -> Unit) {
