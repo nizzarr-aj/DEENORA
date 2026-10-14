@@ -188,7 +188,7 @@ object AzkarRepository {
 
         ZikrItem(
             id = "m_12", category = ZikrCategory.MORNING,
-            arabicText = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...", transliteration = "Allahu la ilaha illa Huwa al-Hayyul-Qayyum...",
+            arabicText = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ", transliteration = "Allahu la ilaha illa Huwa al-Hayyul-Qayyum...",
             translationEn = "Allah—there is no deity except Him, the Ever-Living, the Sustainer. (Ayat al-Kursi; full verse should be displayed in the app.)", translationFr = "Allah, nulle divinité en dehors de Lui, le Vivant, Celui qui subsiste par Lui-même. (Verset du Trône.)", targetCount = 1,
             virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "آية الكرسي من سورة البقرة"
         ),
@@ -200,13 +200,13 @@ object AzkarRepository {
         ),
         ZikrItem(
             id = "m_14", category = ZikrCategory.MORNING,
-            arabicText = "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِن شَرِّ مَا خَلَقَ...", transliteration = "Qul a'udhu bi-Rabbil-falaq...",
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِنْ شَرِّ مَا خَلَقَ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ", transliteration = "Qul a'udhu bi-Rabbil-falaq...",
             translationEn = "Say: I seek refuge in the Lord of daybreak. (Surah Al-Falaq.)", translationFr = "Dis : Je cherche protection auprès du Seigneur de l’aube. (Sourate Al-Falaq.)", targetCount = 3,
             virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الفلق؛ سنن أبي داود والترمذي"
         ),
         ZikrItem(
             id = "m_15", category = ZikrCategory.MORNING,
-            arabicText = "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ...", transliteration = "Qul a'udhu bi-Rabbin-nas, Malikin-nas...",
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ مِنَ الْجِنَّةِ وَالنَّاسِ", transliteration = "Qul a'udhu bi-Rabbin-nas, Malikin-nas...",
             translationEn = "Say: I seek refuge in the Lord of mankind. (Surah An-Nas.)", translationFr = "Dis : Je cherche protection auprès du Seigneur des hommes. (Sourate An-Nas.)", targetCount = 3,
             virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الناس؛ سنن أبي داود والترمذي"
         ),
@@ -366,7 +366,7 @@ object AzkarRepository {
 
         ZikrItem(
             id = "e_10", category = ZikrCategory.EVENING,
-            arabicText = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...", transliteration = "Allahu la ilaha illa Huwa al-Hayyul-Qayyum...",
+            arabicText = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ", transliteration = "Allahu la ilaha illa Huwa al-Hayyul-Qayyum...",
             translationEn = "Allah—there is no deity except Him, the Ever-Living, the Sustainer. (Ayat al-Kursi; full verse should be displayed in the app.)", translationFr = "Allah, nulle divinité en dehors de Lui, le Vivant, Celui qui subsiste par Lui-même. (Verset du Trône.)", targetCount = 1,
             virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "آية الكرسي من سورة البقرة"
         ),
@@ -378,13 +378,13 @@ object AzkarRepository {
         ),
         ZikrItem(
             id = "e_12", category = ZikrCategory.EVENING,
-            arabicText = "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِن شَرِّ مَا خَلَقَ...", transliteration = "Qul a'udhu bi-Rabbil-falaq...",
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِنْ شَرِّ مَا خَلَقَ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ", transliteration = "Qul a'udhu bi-Rabbil-falaq...",
             translationEn = "Say: I seek refuge in the Lord of daybreak. (Surah Al-Falaq.)", translationFr = "Dis : Je cherche protection auprès du Seigneur de l’aube. (Sourate Al-Falaq.)", targetCount = 3,
             virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الفلق؛ سنن أبي داود والترمذي"
         ),
         ZikrItem(
             id = "e_13", category = ZikrCategory.EVENING,
-            arabicText = "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ...", transliteration = "Qul a'udhu bi-Rabbin-nas, Malikin-nas...",
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ مِنَ الْجِنَّةِ وَالنَّاسِ", transliteration = "Qul a'udhu bi-Rabbin-nas, Malikin-nas...",
             translationEn = "Say: I seek refuge in the Lord of mankind. (Surah An-Nas.)", translationFr = "Dis : Je cherche protection auprès du Seigneur des hommes. (Sourate An-Nas.)", targetCount = 3,
             virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الناس؛ سنن أبي داود والترمذي"
         ),
