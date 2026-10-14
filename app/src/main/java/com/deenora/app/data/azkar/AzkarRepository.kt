@@ -186,6 +186,91 @@ object AzkarRepository {
             reference = "سنن أبي داود"
         ),
 
+        ZikrItem(
+            id = "m_12", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...", transliteration = "Allahu la ilaha illa Huwa al-Hayyul-Qayyum...",
+            translationEn = "Allah—there is no deity except Him, the Ever-Living, the Sustainer. (Ayat al-Kursi; full verse should be displayed in the app.)", translationFr = "Allah, nulle divinité en dehors de Lui, le Vivant, Celui qui subsiste par Lui-même. (Verset du Trône.)", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "آية الكرسي من سورة البقرة"
+        ),
+        ZikrItem(
+            id = "m_13", category = ZikrCategory.MORNING,
+            arabicText = "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", transliteration = "Qul huwa Allahu ahad, Allahus-samad...",
+            translationEn = "Say: He is Allah, One; Allah, the Eternal Refuge. (Surah Al-Ikhlas.)", translationFr = "Dis : Il est Allah, Unique, le Seul à être imploré. (Sourate Al-Ikhlas.)", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الإخلاص؛ سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "m_14", category = ZikrCategory.MORNING,
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِن شَرِّ مَا خَلَقَ...", transliteration = "Qul a'udhu bi-Rabbil-falaq...",
+            translationEn = "Say: I seek refuge in the Lord of daybreak. (Surah Al-Falaq.)", translationFr = "Dis : Je cherche protection auprès du Seigneur de l’aube. (Sourate Al-Falaq.)", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الفلق؛ سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "m_15", category = ZikrCategory.MORNING,
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ...", transliteration = "Qul a'udhu bi-Rabbin-nas, Malikin-nas...",
+            translationEn = "Say: I seek refuge in the Lord of mankind. (Surah An-Nas.)", translationFr = "Dis : Je cherche protection auprès du Seigneur des hommes. (Sourate An-Nas.)", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الناس؛ سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "m_16", category = ZikrCategory.MORNING,
+            arabicText = "أَصْبَحْنَا عَلَىٰ فِطْرَةِ الْإِسْلَامِ وَكَلِمَةِ الْإِخْلَاصِ وَدِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَمِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ", transliteration = "Asbahna 'ala fitratil-Islam...",
+            translationEn = "We have entered the morning upon the natural way of Islam, the word of sincerity, the religion of our Prophet Muhammad, and the way of Abraham, upright and submitting to Allah.", translationFr = "Nous voici au matin sur la disposition naturelle de l’islam, la parole de sincérité, la religion de notre Prophète Muhammad et la voie d’Abraham.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "مسند أحمد"
+        ),
+        ZikrItem(
+            id = "m_17", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا", transliteration = "Allahumma inni as'aluka 'ilman nafi'an wa rizqan tayyiban wa 'amalan mutaqabbalan.",
+            translationEn = "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.", translationFr = "Ô Allah, je Te demande une science utile, une subsistance bonne et des œuvres agréées.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن ابن ماجه"
+        ),
+        ZikrItem(
+            id = "m_18", category = ZikrCategory.MORNING,
+            arabicText = "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", transliteration = "Hasbiyallahu la ilaha illa Huwa, 'alayhi tawakkaltu...",
+            translationEn = "Allah is sufficient for me; there is no deity except Him. In Him I put my trust, and He is Lord of the Mighty Throne.", translationFr = "Allah me suffit. Nulle divinité en dehors de Lui. Je place en Lui ma confiance et Il est le Seigneur du Trône immense.", targetCount = 7,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود؛ ورد في أذكار الصباح"
+        ),
+        ZikrItem(
+            id = "m_19", category = ZikrCategory.MORNING,
+            arabicText = "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", transliteration = "Subhanallahi wa bihamdih.",
+            translationEn = "Glory and praise be to Allah.", translationFr = "Gloire et louange à Allah.", targetCount = 100,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح البخاري ومسلم"
+        ),
+        ZikrItem(
+            id = "m_20", category = ZikrCategory.MORNING,
+            arabicText = "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", transliteration = "La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd...",
+            translationEn = "None has the right to be worshipped but Allah alone, without partner; His is the dominion and praise, and He is capable of all things.", translationFr = "Nulle divinité ne mérite d’être adorée sauf Allah, Seul sans associé ; à Lui la royauté et la louange, et Il est capable de toute chose.", targetCount = 10,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح البخاري ومسلم"
+        ),
+        ZikrItem(
+            id = "m_21", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ", transliteration = "Allahumma ajirni minan-nar.",
+            translationEn = "O Allah, protect me from the Fire.", translationFr = "Ô Allah, protège-moi du Feu.", targetCount = 7,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "ورد في بعض روايات السنن؛ يلزم التحقق من درجة الحديث"
+        ),
+        ZikrItem(
+            id = "m_22", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ", transliteration = "Allahumma inni a'udhu bika minal-hammi wal-hazan...",
+            translationEn = "O Allah, I seek refuge in You from anxiety and grief, incapacity and laziness, cowardice and miserliness, the burden of debt and being overpowered by people.", translationFr = "Ô Allah, je cherche refuge auprès de Toi contre l’angoisse et la tristesse, l’incapacité et la paresse, la lâcheté et l’avarice, le poids des dettes et la domination des hommes.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "m_23", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ", transliteration = "Allahumma 'afini fi badani, Allahumma 'afini fi sam'i, Allahumma 'afini fi basari, la ilaha illa Ant.",
+            translationEn = "O Allah, grant health to my body, hearing, and sight; there is no deity except You.", translationFr = "Ô Allah, accorde la santé à mon corps, à mon ouïe et à ma vue. Nulle divinité en dehors de Toi.", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "m_24", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَٰهَ إِلَّا أَنْتَ", transliteration = "Allahumma inni a'udhu bika minal-kufri wal-faqr...",
+            translationEn = "O Allah, I seek refuge in You from disbelief and poverty, and from the punishment of the grave; there is no deity except You.", translationFr = "Ô Allah, je cherche refuge auprès de Toi contre l’incroyance, la pauvreté et le châtiment de la tombe.", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "m_25", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي", transliteration = "Allahumma fatiras-samawati wal-ard...",
+            translationEn = "O Allah, Creator of the heavens and earth, Knower of the unseen and seen, Lord and Sovereign of all things, I seek refuge in You from the evil of my own soul.", translationFr = "Ô Allah, Créateur des cieux et de la terre, Connaisseur de l’invisible et du visible, je cherche refuge auprès de Toi contre le mal de mon âme.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود والترمذي"
+        ),
+
         // Evening
         ZikrItem(
             id = "e_1",
@@ -277,6 +362,103 @@ object AzkarRepository {
             translationFr = "Ô Vivant, ô Celui qui subsiste par Lui-même, par Ta miséricorde je demande secours ; améliore toutes mes affaires et ne me laisse pas à moi-même, ne serait-ce qu'un instant.",
             targetCount = 1, virtueAr = "دعاء للاستعانة بالله وإصلاح الشأن", virtueEn = "Asks Allah for help and sound affairs", virtueFr = "Demande l'aide d'Allah et l'amélioration des affaires",
             reference = "المستدرك للحاكم"
+        ),
+
+        ZikrItem(
+            id = "e_10", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...", transliteration = "Allahu la ilaha illa Huwa al-Hayyul-Qayyum...",
+            translationEn = "Allah—there is no deity except Him, the Ever-Living, the Sustainer. (Ayat al-Kursi; full verse should be displayed in the app.)", translationFr = "Allah, nulle divinité en dehors de Lui, le Vivant, Celui qui subsiste par Lui-même. (Verset du Trône.)", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "آية الكرسي من سورة البقرة"
+        ),
+        ZikrItem(
+            id = "e_11", category = ZikrCategory.EVENING,
+            arabicText = "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", transliteration = "Qul huwa Allahu ahad, Allahus-samad...",
+            translationEn = "Say: He is Allah, One; Allah, the Eternal Refuge. (Surah Al-Ikhlas.)", translationFr = "Dis : Il est Allah, Unique, le Seul à être imploré. (Sourate Al-Ikhlas.)", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الإخلاص؛ سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "e_12", category = ZikrCategory.EVENING,
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِن شَرِّ مَا خَلَقَ...", transliteration = "Qul a'udhu bi-Rabbil-falaq...",
+            translationEn = "Say: I seek refuge in the Lord of daybreak. (Surah Al-Falaq.)", translationFr = "Dis : Je cherche protection auprès du Seigneur de l’aube. (Sourate Al-Falaq.)", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الفلق؛ سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "e_13", category = ZikrCategory.EVENING,
+            arabicText = "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ...", transliteration = "Qul a'udhu bi-Rabbin-nas, Malikin-nas...",
+            translationEn = "Say: I seek refuge in the Lord of mankind. (Surah An-Nas.)", translationFr = "Dis : Je cherche protection auprès du Seigneur des hommes. (Sourate An-Nas.)", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سورة الناس؛ سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "e_14", category = ZikrCategory.EVENING,
+            arabicText = "أَمْسَيْنَا عَلَىٰ فِطْرَةِ الْإِسْلَامِ وَكَلِمَةِ الْإِخْلَاصِ وَدِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَمِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ", transliteration = "Amsayna 'ala fitratil-Islam...",
+            translationEn = "We have entered the evening upon the natural way of Islam, the word of sincerity, the religion of our Prophet Muhammad, and the way of Abraham, upright and submitting to Allah.", translationFr = "Nous voici au soir sur la disposition naturelle de l’islam, la parole de sincérité, la religion de notre Prophète Muhammad et la voie d’Abraham.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "مسند أحمد"
+        ),
+        ZikrItem(
+            id = "e_15", category = ZikrCategory.EVENING,
+            arabicText = "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", transliteration = "Hasbiyallahu la ilaha illa Huwa, 'alayhi tawakkaltu...",
+            translationEn = "Allah is sufficient for me; there is no deity except Him. In Him I put my trust, and He is Lord of the Mighty Throne.", translationFr = "Allah me suffit. Nulle divinité en dehors de Lui. Je place en Lui ma confiance et Il est le Seigneur du Trône immense.", targetCount = 7,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود؛ ورد في أذكار المساء"
+        ),
+        ZikrItem(
+            id = "e_16", category = ZikrCategory.EVENING,
+            arabicText = "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", transliteration = "Subhanallahi wa bihamdih.",
+            translationEn = "Glory and praise be to Allah.", translationFr = "Gloire et louange à Allah.", targetCount = 100,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح البخاري ومسلم"
+        ),
+        ZikrItem(
+            id = "e_17", category = ZikrCategory.EVENING,
+            arabicText = "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", transliteration = "La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd...",
+            translationEn = "None has the right to be worshipped but Allah alone, without partner; His is the dominion and praise, and He is capable of all things.", translationFr = "Nulle divinité ne mérite d’être adorée sauf Allah, Seul sans associé ; à Lui la royauté et la louange, et Il est capable de toute chose.", targetCount = 10,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح البخاري ومسلم"
+        ),
+        ZikrItem(
+            id = "e_18", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ", transliteration = "Allahumma ajirni minan-nar.",
+            translationEn = "O Allah, protect me from the Fire.", translationFr = "Ô Allah, protège-moi du Feu.", targetCount = 7,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "ورد في بعض روايات السنن؛ يلزم التحقق من درجة الحديث"
+        ),
+        ZikrItem(
+            id = "e_19", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ", transliteration = "Allahumma inni a'udhu bika minal-hammi wal-hazan...",
+            translationEn = "O Allah, I seek refuge in You from anxiety and grief, incapacity and laziness, cowardice and miserliness, the burden of debt and being overpowered by people.", translationFr = "Ô Allah, je cherche refuge auprès de Toi contre l’angoisse et la tristesse, l’incapacité et la paresse, la lâcheté et l’avarice, le poids des dettes et la domination des hommes.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "e_20", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ", transliteration = "Allahumma 'afini fi badani, Allahumma 'afini fi sam'i, Allahumma 'afini fi basari, la ilaha illa Ant.",
+            translationEn = "O Allah, grant health to my body, hearing, and sight; there is no deity except You.", translationFr = "Ô Allah, accorde la santé à mon corps, à mon ouïe et à ma vue. Nulle divinité en dehors de Toi.", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "e_21", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَٰهَ إِلَّا أَنْتَ", transliteration = "Allahumma inni a'udhu bika minal-kufri wal-faqr...",
+            translationEn = "O Allah, I seek refuge in You from disbelief and poverty, and from the punishment of the grave; there is no deity except You.", translationFr = "Ô Allah, je cherche refuge auprès de Toi contre l’incroyance, la pauvreté et le châtiment de la tombe.", targetCount = 3,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "e_22", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي", transliteration = "Allahumma fatiras-samawati wal-ard...",
+            translationEn = "O Allah, Creator of the heavens and earth, Knower of the unseen and seen, Lord and Sovereign of all things, I seek refuge in You from the evil of my own soul.", translationFr = "Ô Allah, Créateur des cieux et de la terre, Connaisseur de l’invisible et du visible, je cherche refuge auprès de Toi contre le mal de mon âme.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "e_23", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا", transliteration = "Allahumma inni as'aluka 'ilman nafi'an wa rizqan tayyiban wa 'amalan mutaqabbalan.",
+            translationEn = "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.", translationFr = "Ô Allah, je Te demande une science utile, une subsistance bonne et des œuvres agréées.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "سنن ابن ماجه"
+        ),
+        ZikrItem(
+            id = "e_24", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ", transliteration = "Allahumma inni a'udhu bika min sharri ma 'amiltu wa min sharri ma lam a'mal.",
+            translationEn = "O Allah, I seek refuge in You from the evil of what I have done and what I have not done.", translationFr = "Ô Allah, je cherche refuge auprès de Toi contre le mal de ce que j’ai fait et de ce que je n’ai pas fait.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "e_25", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ وَتَحَوُّلِ عَافِيَتِكَ وَفُجَاءَةِ نِقْمَتِكَ وَجَمِيعِ سَخَطِكَ", transliteration = "Allahumma inni a'udhu bika min zawali ni'matik...",
+            translationEn = "O Allah, I seek refuge in You from the loss of Your blessing, the change of well-being You grant, sudden punishment, and all Your displeasure.", translationFr = "Ô Allah, je cherche refuge auprès de Toi contre la disparition de Tes bienfaits, le changement du bien-être accordé, un châtiment soudain et toute Ta colère.", targetCount = 1,
+            virtueAr = "من الأذكار المأثورة", virtueEn = "A transmitted remembrance and supplication", virtueFr = "Invocation transmise dans les sources islamiques", reference = "صحيح مسلم"
         ),
 
         // After Prayer
