@@ -503,6 +503,152 @@ object AzkarRepository {
             virtueFr = "Protection de l'âme durant le sommeil",
             reference = "صحيح البخاري ومسلم"
         )
+
+        ,
+        // Additional sleep adhkar
+        ZikrItem(
+            id = "s_2", category = ZikrCategory.SLEEP,
+            arabicText = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+            transliteration = "Allahu la ilaha illa Huwa al-Hayyul-Qayyum...",
+            translationEn = "Allah—there is no deity except Him, the Ever-Living, the Sustainer. (Ayat al-Kursi, Quran 2:255.)",
+            translationFr = "Allah, nulle divinité en dehors de Lui, le Vivant, Celui qui subsiste par Lui-même. (Verset du Trône, Coran 2:255.)",
+            targetCount = 1, virtueAr = "من أذكار النوم الواردة في السنة", virtueEn = "A Quranic verse recited before sleep", virtueFr = "Verset coranique récité avant le sommeil",
+            reference = "صحيح البخاري؛ سورة البقرة 255"
+        ),
+        ZikrItem(
+            id = "s_3", category = ZikrCategory.SLEEP,
+            arabicText = "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ",
+            transliteration = "Qul huwa Allahu ahad, Allahus-samad...",
+            translationEn = "Surah Al-Ikhlas. Recite with Al-Falaq and An-Nas, then blow into the hands and wipe over the body.",
+            translationFr = "Sourate Al-Ikhlas. À réciter avec Al-Falaq et An-Nas, puis souffler dans les mains et passer celles-ci sur le corps.",
+            targetCount = 3, virtueAr = "كان النبي ﷺ يجمع كفيه وينفث فيهما ويقرأ المعوذات عند النوم", virtueEn = "The Prophet ﷺ recited the three protective surahs before sleep", virtueFr = "Le Prophète ﷺ récitait les trois sourates protectrices avant de dormir",
+            reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "s_4", category = ZikrCategory.SLEEP,
+            arabicText = "سُبْحَانَ اللَّهِ (٣٣)، وَالْحَمْدُ لِلَّهِ (٣٣)، وَاللَّهُ أَكْبَرُ (٣٤).",
+            transliteration = "Subhanallah (33), Alhamdulillah (33), Allahu Akbar (34).",
+            translationEn = "Glory be to Allah (33), praise be to Allah (33), and Allah is the Greatest (34).",
+            translationFr = "Gloire à Allah (33), louange à Allah (33) et Allah est le Plus Grand (34).",
+            targetCount = 1, virtueAr = "من الذكر عند النوم", virtueEn = "A remembrance taught before sleep", virtueFr = "Invocation enseignée avant le sommeil",
+            reference = "صحيح البخاري ومسلم"
+        ),
+
+        // Wake-up adhkar
+        ZikrItem(
+            id = "w_1", category = ZikrCategory.WAKEUP,
+            arabicText = "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ.",
+            transliteration = "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur.",
+            translationEn = "Praise be to Allah who gave us life after causing us to die, and to Him is the resurrection.",
+            translationFr = "Louange à Allah qui nous a rendu la vie après nous avoir fait mourir, et vers Lui se fera la résurrection.",
+            targetCount = 1, virtueAr = "يقال عند الاستيقاظ من النوم", virtueEn = "Said upon waking up", virtueFr = "À dire au réveil",
+            reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "w_2", category = ZikrCategory.WAKEUP,
+            arabicText = "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ، اللَّهُمَّ أَسْتَغْفِرُكَ لِذَنْبِي وَأَسْأَلُكَ رَحْمَتَكَ، اللَّهُمَّ زِدْنِي عِلْمًا وَلَا تُزِغْ قَلْبِي بَعْدَ إِذْ هَدَيْتَنِي وَهَبْ لِي مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ.",
+            transliteration = "La ilaha illa Anta subhanak, Allahumma astaghfiruka li-dhanbi wa as'aluka rahmatak...",
+            translationEn = "A general supplication for forgiveness, mercy, knowledge and steadfastness.",
+            translationFr = "Invocation générale pour le pardon, la miséricorde, la science et la fermeté.",
+            targetCount = 1, virtueAr = "دعاء عام بعد الاستيقاظ وليس بلفظ مخصوص ثابت", virtueEn = "General supplication; not presented as a specifically established waking formula", virtueFr = "Invocation générale, non présentée comme formule spécifique authentifiée du réveil",
+            reference = "دعاء عام"
+        ),
+        ZikrItem(
+            id = "w_3", category = ZikrCategory.WAKEUP,
+            arabicText = "الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي فِي جَسَدِي، وَرَدَّ عَلَيَّ رُوحِي، وَأَذِنَ لِي بِذِكْرِهِ.",
+            transliteration = "Alhamdu lillahil-ladhi 'afani fi jasadi, wa radda 'alayya ruhi, wa adhina li bi-dhikrih.",
+            translationEn = "Praise be to Allah who granted health to my body, returned my soul to me, and permitted me to remember Him.",
+            translationFr = "Louange à Allah qui a préservé mon corps, m'a rendu mon âme et m'a permis de L'évoquer.",
+            targetCount = 1, virtueAr = "ورد في بعض كتب الأذكار؛ تُراجع درجته قبل اعتماده كحديث صحيح", virtueEn = "Reported in some adhkar compilations; grading should be checked", virtueFr = "Rapporté dans certains recueils; authenticité à vérifier",
+            reference = "ورد في كتب الأذكار؛ يحتاج إلى تحقق"
+        ),
+
+        // Mosque adhkar
+        ZikrItem(
+            id = "mo_1", category = ZikrCategory.MOSQUE,
+            arabicText = "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ.",
+            transliteration = "Allahumma-ftah li abwaba rahmatik.",
+            translationEn = "O Allah, open for me the gates of Your mercy.",
+            translationFr = "Ô Allah, ouvre-moi les portes de Ta miséricorde.",
+            targetCount = 1, virtueAr = "يقال عند دخول المسجد", virtueEn = "Said when entering the mosque", virtueFr = "À dire en entrant dans la mosquée",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "mo_2", category = ZikrCategory.MOSQUE,
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ.",
+            transliteration = "Allahumma inni as'aluka min fadlik.",
+            translationEn = "O Allah, I ask You for Your bounty.",
+            translationFr = "Ô Allah, je Te demande de Ta grâce.",
+            targetCount = 1, virtueAr = "يقال عند الخروج من المسجد", virtueEn = "Said when leaving the mosque", virtueFr = "À dire en sortant de la mosquée",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "mo_3", category = ZikrCategory.MOSQUE,
+            arabicText = "بِسْمِ اللَّهِ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِ اللَّهِ، اللَّهُمَّ اغْفِرْ لِي ذُنُوبِي وَافْتَحْ لِي أَبْوَابَ رَحْمَتِكَ.",
+            transliteration = "Bismillah, was-salatu was-salamu 'ala Rasulillah, Allahummaghfir li dhunubi wa-ftah li abwaba rahmatik.",
+            translationEn = "In the name of Allah; peace and blessings upon the Messenger of Allah. O Allah, forgive my sins and open the gates of Your mercy for me.",
+            translationFr = "Au nom d'Allah; paix et bénédictions sur le Messager d'Allah. Ô Allah, pardonne mes péchés et ouvre-moi les portes de Ta miséricorde.",
+            targetCount = 1, virtueAr = "ذكر عند دخول المسجد ورد بألفاظ في السنن", virtueEn = "An entering-mosque supplication reported with variant wordings", virtueFr = "Invocation d'entrée rapportée avec différentes formulations",
+            reference = "سنن أبي داود والترمذي؛ تختلف ألفاظ الروايات"
+        ),
+
+        // Travel adhkar
+        ZikrItem(
+            id = "t_1", category = ZikrCategory.TRAVEL,
+            arabicText = "اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَىٰ رَبِّنَا لَمُنْقَلِبُونَ.",
+            transliteration = "Allahu akbar (3); Subhanalladhi sakhkhara lana hadha wa ma kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun.",
+            translationEn = "Allah is the Greatest (3). Glory be to Him who has subjected this to us, for we could not have done so ourselves, and surely to our Lord we will return.",
+            translationFr = "Allah est le Plus Grand (3). Gloire à Celui qui nous a soumis ceci alors que nous n'aurions pu le maîtriser seuls; vers notre Seigneur nous retournerons.",
+            targetCount = 1, virtueAr = "دعاء ركوب وسيلة السفر", virtueEn = "Supplication when mounting a means of transport", virtueFr = "Invocation en montant un moyen de transport",
+            reference = "سورة الزخرف 13-14؛ صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "t_2", category = ZikrCategory.TRAVEL,
+            arabicText = "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ.",
+            transliteration = "Allahumma inna nas'aluka fi safarina hadha al-birra wat-taqwa, wa minal-'amali ma tarda; Allahumma hawwin 'alayna safarana hadha wa-twi 'anna bu'dah.",
+            translationEn = "O Allah, we ask You for righteousness and piety in this journey and deeds that please You. Make this journey easy for us and shorten its distance.",
+            translationFr = "Ô Allah, nous Te demandons la piété et les œuvres qui Te satisfont durant ce voyage. Facilite-nous ce voyage et raccourcis-en la distance.",
+            targetCount = 1, virtueAr = "من دعاء السفر", virtueEn = "Part of the Prophetic travel supplication", virtueFr = "Extrait de l'invocation prophétique du voyage",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "t_3", category = ZikrCategory.TRAVEL,
+            arabicText = "آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ.",
+            transliteration = "Ayibuna, ta'ibuna, 'abiduna, li-Rabbina hamidun.",
+            translationEn = "We return, repenting, worshipping, and praising our Lord.",
+            translationFr = "Nous revenons, repentants, adorateurs et louant notre Seigneur.",
+            targetCount = 1, virtueAr = "يقال عند الرجوع من السفر", virtueEn = "Said when returning from a journey", virtueFr = "À dire au retour d'un voyage",
+            reference = "صحيح مسلم"
+        ),
+
+        // Protection adhkar
+        ZikrItem(
+            id = "p_1", category = ZikrCategory.PROTECTION,
+            arabicText = "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.",
+            transliteration = "A'udhu bi-kalimatillahit-tammati min sharri ma khalaq.",
+            translationEn = "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+            translationFr = "Je cherche protection dans les paroles parfaites d'Allah contre le mal de ce qu'Il a créé.",
+            targetCount = 3, virtueAr = "ورد في التعوذ من شر المخلوقات", virtueEn = "A supplication seeking protection from created harm", virtueFr = "Invocation de protection contre le mal des créatures",
+            reference = "صحيح مسلم؛ ورد أصل الذكر دون تخصيصه بثلاث هنا"
+        ),
+        ZikrItem(
+            id = "p_2", category = ZikrCategory.PROTECTION,
+            arabicText = "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.",
+            transliteration = "Bismillahilladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama'i wa Huwas-Sami'ul-'Alim.",
+            translationEn = "In the name of Allah, with whose name nothing on earth or in heaven can cause harm; He is the All-Hearing, All-Knowing.",
+            translationFr = "Au nom d'Allah, avec le nom duquel rien sur terre ni dans le ciel ne peut nuire; Il est l'Audient, l'Omniscient.",
+            targetCount = 3, virtueAr = "ورد تكراره ثلاث مرات صباحًا ومساءً", virtueEn = "Reported to be recited three times morning and evening", virtueFr = "Rapporté à réciter trois fois matin et soir",
+            reference = "سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "p_3", category = ZikrCategory.PROTECTION,
+            arabicText = "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ",
+            transliteration = "Qul huwa Allahu ahad, Allahus-samad...",
+            translationEn = "Surah Al-Ikhlas, one of the three protective surahs recited morning and evening.",
+            translationFr = "Sourate Al-Ikhlas, l'une des trois sourates protectrices récitées matin et soir.",
+            targetCount = 3, virtueAr = "مع المعوذتين من أذكار الصباح والمساء", virtueEn = "Recited with Al-Falaq and An-Nas in morning and evening remembrances", virtueFr = "Récitée avec Al-Falaq et An-Nas parmi les invocations du matin et du soir",
+            reference = "سنن أبي داود والترمذي"
+        )
     )
 
     val DAILY_DUAS = listOf(
