@@ -93,7 +93,7 @@ fun ProfileScreen(
             connection.connectTimeout = 15000
             connection.readTimeout = 15000
             connection.setRequestProperty("Content-Type", "application/json")
-            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo")
+            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-gCPeXA_Xdn0eGmo")
             connection.doOutput = true
             connection.outputStream.use {
                 it.write(JSONObject().put("provider", "google").put("id_token", idToken).toString().toByteArray(Charsets.UTF_8))
@@ -160,7 +160,7 @@ fun ProfileScreen(
                 connection.connectTimeout = 15000
                 connection.readTimeout = 15000
                 connection.setRequestProperty("Content-Type", "application/json")
-                connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo")
+                connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-gCPeXA_Xdn0eGmo")
                 connection.doOutput = true
                 connection.outputStream.use {
                     it.write(JSONObject().put("email", email.trim()).put("password", password).toString().toByteArray(Charsets.UTF_8))
@@ -196,7 +196,7 @@ fun ProfileScreen(
             connection.connectTimeout = 15000
             connection.readTimeout = 15000
             connection.setRequestProperty("Content-Type", "application/json")
-            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-Gcp-eXA_Xdn0eGmo")
+            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-gCPeXA_Xdn0eGmo")
             connection.doOutput = true
             connection.outputStream.use {
                 it.write(JSONObject().put("email", email.trim()).toString().toByteArray(Charsets.UTF_8))
