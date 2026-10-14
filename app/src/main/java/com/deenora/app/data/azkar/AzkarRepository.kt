@@ -121,6 +121,71 @@ object AzkarRepository {
             reference = "صحيح مسلم"
         ),
 
+
+        ZikrItem(
+            id = "m_5", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ.",
+            transliteration = "Allahumma bika asbahna, wa bika amsayna, wa bika nahya, wa bika namutu, wa ilaykan-nushur.",
+            translationEn = "O Allah, by You we enter the morning and evening, by You we live and die, and to You is the resurrection.",
+            translationFr = "Ô Allah, c'est par Toi que nous entrons dans le matin et le soir, que nous vivons et mourons, et vers Toi est la résurrection.",
+            targetCount = 1, virtueAr = "تجديد التوكل على الله", virtueEn = "Renews reliance upon Allah", virtueFr = "Renouvelle la confiance en Allah",
+            reference = "سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "m_6", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ.",
+            transliteration = "Allahumma inni as'alukal-'afwa wal-'afiyata fid-dunya wal-akhirah.",
+            translationEn = "O Allah, I ask You for pardon and well-being in this world and the Hereafter.",
+            translationFr = "Ô Allah, je Te demande le pardon et le bien-être ici-bas et dans l'au-delà.",
+            targetCount = 1, virtueAr = "سؤال العفو والعافية", virtueEn = "A supplication for pardon and well-being", virtueFr = "Demande de pardon et de bien-être",
+            reference = "سنن أبي داود وابن ماجه"
+        ),
+        ZikrItem(
+            id = "m_7", category = ZikrCategory.MORNING,
+            arabicText = "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.",
+            transliteration = "Raditu billahi Rabban, wa bil-Islami dinan, wa bi-Muhammadin nabiyyan.",
+            translationEn = "I am pleased with Allah as Lord, Islam as religion, and Muhammad ﷺ as Prophet.",
+            translationFr = "J'agrée Allah comme Seigneur, l'islam comme religion et Muhammad ﷺ comme Prophète.",
+            targetCount = 3, virtueAr = "ورد في فضلها وعد بالرضا", virtueEn = "A morning remembrance affirming faith", virtueFr = "Un rappel matinal affirmant la foi",
+            reference = "سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "m_8", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ.",
+            transliteration = "Allahumma 'alimal-ghaybi wash-shahadah, fatiras-samawati wal-ard, Rabba kulli shay'in wa malikah, ash-hadu an la ilaha illa Ant, a'udhu bika min sharri nafsi wa min sharrish-shaytani wa shirkih.",
+            translationEn = "O Allah, Knower of the unseen and seen, Creator of the heavens and earth, Lord and Sovereign of everything, I seek refuge in You from the evil of my soul and from the evil and traps of Satan.",
+            translationFr = "Ô Allah, Connaisseur de l'invisible et du visible, Créateur des cieux et de la terre, Seigneur de toute chose, je cherche refuge auprès de Toi contre le mal de mon âme et celui de Satan.",
+            targetCount = 1, virtueAr = "استعاذة بالله من شر النفس والشيطان", virtueEn = "Seeks Allah's protection from personal and satanic evil", virtueFr = "Demande la protection contre le mal de l'âme et de Satan",
+            reference = "سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "m_9", category = ZikrCategory.MORNING,
+            arabicText = "يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.",
+            transliteration = "Ya Hayyu ya Qayyum, bi-rahmatika astaghith, aslih li sha'ni kullah, wa la takilni ila nafsi tarfata 'ayn.",
+            translationEn = "O Ever-Living, O Sustainer, by Your mercy I seek help; set all my affairs right and do not leave me to myself even for the blink of an eye.",
+            translationFr = "Ô Vivant, ô Celui qui subsiste par Lui-même, par Ta miséricorde je demande secours ; améliore toutes mes affaires et ne me laisse pas à moi-même, ne serait-ce qu'un instant.",
+            targetCount = 1, virtueAr = "دعاء للاستعانة بالله وإصلاح الشأن", virtueEn = "Asks Allah for help and sound affairs", virtueFr = "Demande l'aide d'Allah et l'amélioration des affaires",
+            reference = "المستدرك للحاكم"
+        ),
+        ZikrItem(
+            id = "m_10", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.",
+            transliteration = "Allahumma inni asbahtu ush-hiduka wa ush-hidu hamalata 'arshika wa mala'ikataka wa jami'a khalqika annaka Antallahu la ilaha illa Anta wahdaka la sharika lak, wa anna Muhammadan 'abduka wa rasuluk.",
+            translationEn = "O Allah, this morning I call You, the bearers of Your Throne, Your angels and all creation to witness that You are Allah, with no deity but You, alone without partner, and Muhammad is Your servant and messenger.",
+            translationFr = "Ô Allah, ce matin je Te prends à témoin, ainsi que les porteurs de Ton Trône, Tes anges et toute Ta création, que Tu es Allah, Seul sans associé, et que Muhammad est Ton serviteur et messager.",
+            targetCount = 4, virtueAr = "ورد في أذكار الصباح", virtueEn = "A traditional morning testimony of faith", virtueFr = "Témoignage de foi traditionnel du matin",
+            reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "m_11", category = ZikrCategory.MORNING,
+            arabicText = "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.",
+            transliteration = "Allahumma ma asbaha bi min ni'matin aw bi-ahadin min khalqika fa-minka wahdaka la sharika lak, falakal-hamdu wa lakash-shukr.",
+            translationEn = "O Allah, whatever blessing has come to me or any of Your creation this morning is from You alone, without partner; to You belongs all praise and thanks.",
+            translationFr = "Ô Allah, tout bienfait reçu ce matin par moi ou par l'une de Tes créatures vient de Toi seul ; à Toi la louange et la gratitude.",
+            targetCount = 1, virtueAr = "شكر الله على نعمه", virtueEn = "Expresses gratitude for Allah's blessings", virtueFr = "Exprime la gratitude pour les bienfaits d'Allah",
+            reference = "سنن أبي داود"
+        ),
+
         // Evening
         ZikrItem(
             id = "e_1",
@@ -147,6 +212,71 @@ object AzkarRepository {
             virtueEn = "No harm or sting will touch the one who says this 3 times in the evening",
             virtueFr = "Aucune créature venimeuse ni nuisance ne pourra lui faire de mal cette nuit-là",
             reference = "صحيح مسلم"
+        ),
+
+
+        ZikrItem(
+            id = "e_3", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ.",
+            transliteration = "Allahumma bika amsayna, wa bika asbahna, wa bika nahya, wa bika namutu, wa ilaykal-masir.",
+            translationEn = "O Allah, by You we enter the evening and morning, by You we live and die, and to You is the final return.",
+            translationFr = "Ô Allah, c'est par Toi que nous entrons dans le soir et le matin, que nous vivons et mourons, et vers Toi est le retour final.",
+            targetCount = 1, virtueAr = "تجديد التوكل على الله", virtueEn = "Renews reliance upon Allah", virtueFr = "Renouvelle la confiance en Allah",
+            reference = "سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "e_4", category = ZikrCategory.EVENING,
+            arabicText = "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.",
+            transliteration = "Raditu billahi Rabban, wa bil-Islami dinan, wa bi-Muhammadin nabiyyan.",
+            translationEn = "I am pleased with Allah as Lord, Islam as religion, and Muhammad ﷺ as Prophet.",
+            translationFr = "J'agrée Allah comme Seigneur, l'islam comme religion et Muhammad ﷺ comme Prophète.",
+            targetCount = 3, virtueAr = "ورد في فضلها وعد بالرضا", virtueEn = "An evening remembrance affirming faith", virtueFr = "Un rappel du soir affirmant la foi",
+            reference = "سنن أبي داود والترمذي"
+        ),
+        ZikrItem(
+            id = "e_5", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.",
+            transliteration = "Allahumma inni amsaytu ush-hiduka wa ush-hidu hamalata 'arshika wa mala'ikataka wa jami'a khalqika annaka Antallahu la ilaha illa Anta wahdaka la sharika lak, wa anna Muhammadan 'abduka wa rasuluk.",
+            translationEn = "O Allah, this evening I call You, the bearers of Your Throne, Your angels and all creation to witness that You are Allah, alone without partner, and Muhammad is Your servant and messenger.",
+            translationFr = "Ô Allah, ce soir je Te prends à témoin, ainsi que les porteurs de Ton Trône, Tes anges et toute Ta création, que Tu es Allah, Seul sans associé, et que Muhammad est Ton serviteur et messager.",
+            targetCount = 4, virtueAr = "ورد في أذكار المساء", virtueEn = "A traditional evening testimony of faith", virtueFr = "Témoignage de foi traditionnel du soir",
+            reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "e_6", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ مَا أَمْسَى بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.",
+            transliteration = "Allahumma ma amsa bi min ni'matin aw bi-ahadin min khalqika fa-minka wahdaka la sharika lak, falakal-hamdu wa lakash-shukr.",
+            translationEn = "O Allah, whatever blessing has come to me or any of Your creation this evening is from You alone, without partner; to You belongs all praise and thanks.",
+            translationFr = "Ô Allah, tout bienfait reçu ce soir par moi ou par l'une de Tes créatures vient de Toi seul ; à Toi la louange et la gratitude.",
+            targetCount = 1, virtueAr = "شكر الله على نعمه", virtueEn = "Expresses gratitude for Allah's blessings", virtueFr = "Exprime la gratitude pour les bienfaits d'Allah",
+            reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "e_7", category = ZikrCategory.EVENING,
+            arabicText = "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ غَضَبِهِ وَعِقَابِهِ، وَشَرِّ عِبَادِهِ، وَمِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَنْ يَحْضُرُونِ.",
+            transliteration = "A'udhu bi-kalimatillahit-tammati min ghadabihi wa 'iqabih, wa sharri 'ibadih, wa min hamazatish-shayatini wa an yahdurun.",
+            translationEn = "I seek refuge in the perfect words of Allah from His anger and punishment, from the evil of His servants, and from the whispers of devils and their presence.",
+            translationFr = "Je cherche refuge dans les paroles parfaites d'Allah contre Sa colère et Son châtiment, le mal de Ses serviteurs, les suggestions des démons et leur présence.",
+            targetCount = 1, virtueAr = "دعاء للاستعاذة من الشر", virtueEn = "A supplication seeking refuge from harm", virtueFr = "Invocation de protection contre le mal",
+            reference = "سنن أبي داود"
+        ),
+        ZikrItem(
+            id = "e_8", category = ZikrCategory.EVENING,
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ.",
+            transliteration = "Allahumma inni as'alukal-'afwa wal-'afiyata fid-dunya wal-akhirah.",
+            translationEn = "O Allah, I ask You for pardon and well-being in this world and the Hereafter.",
+            translationFr = "Ô Allah, je Te demande le pardon et le bien-être ici-bas et dans l'au-delà.",
+            targetCount = 1, virtueAr = "سؤال العفو والعافية", virtueEn = "A supplication for pardon and well-being", virtueFr = "Demande de pardon et de bien-être",
+            reference = "سنن أبي داود وابن ماجه"
+        ),
+        ZikrItem(
+            id = "e_9", category = ZikrCategory.EVENING,
+            arabicText = "يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.",
+            transliteration = "Ya Hayyu ya Qayyum, bi-rahmatika astaghith, aslih li sha'ni kullah, wa la takilni ila nafsi tarfata 'ayn.",
+            translationEn = "O Ever-Living, O Sustainer, by Your mercy I seek help; set all my affairs right and do not leave me to myself even for the blink of an eye.",
+            translationFr = "Ô Vivant, ô Celui qui subsiste par Lui-même, par Ta miséricorde je demande secours ; améliore toutes mes affaires et ne me laisse pas à moi-même, ne serait-ce qu'un instant.",
+            targetCount = 1, virtueAr = "دعاء للاستعانة بالله وإصلاح الشأن", virtueEn = "Asks Allah for help and sound affairs", virtueFr = "Demande l'aide d'Allah et l'amélioration des affaires",
+            reference = "المستدرك للحاكم"
         ),
 
         // After Prayer
