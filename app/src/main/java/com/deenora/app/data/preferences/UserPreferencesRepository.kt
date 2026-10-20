@@ -37,7 +37,23 @@ class UserPreferencesRepository(context: Context) {
         val lang = AppLanguage.values().firstOrNull { it.code == langCode } ?: AppLanguage.ARABIC
 
         val cityName = prefs.getString("key_city_name", PredefinedCities.DEFAULT_CITY.nameEn)
-        val city = PredefinedCities.CITIES.firstOrNull { it.nameEn == cityName } ?: PredefinedCities.DEFAULT_CITY
+        val predefinedCity = PredefinedCities.CITIES.firstOrNull { it.nameEn == cityName }
+        // Restore the full saved city, including GPS/custom coordinates.
+        val city = if (prefs.contains("key_city_latitude") && prefs.contains("key_city_longitude")) {
+            CityLocation(
+                nameEn = cityName ?: PredefinedCities.DEFAULT_CITY.nameEn,
+                nameAr = prefs.getString("key_city_name_ar", cityName) ?: (cityName ?: PredefinedCities.DEFAULT_CITY.nameAr),
+                nameFr = prefs.getString("key_city_name_fr", cityName) ?: (cityName ?: PredefinedCities.DEFAULT_CITY.nameFr),
+                countryEn = prefs.getString("key_city_country_en", "GPS") ?: "GPS",
+                countryAr = prefs.getString("key_city_country_ar", "GPS") ?: "GPS",
+                latitude = prefs.getFloat("key_city_latitude", PredefinedCities.DEFAULT_CITY.latitude.toFloat()).toDouble(),
+                longitude = prefs.getFloat("key_city_longitude", PredefinedCities.DEFAULT_CITY.longitude.toFloat()).toDouble(),
+                timezoneOffsetHours = prefs.getFloat("key_city_timezone", PredefinedCities.DEFAULT_CITY.timezoneOffsetHours.toFloat()).toDouble(),
+                isGps = prefs.getBoolean("key_city_is_gps", false)
+            )
+        } else {
+            predefinedCity ?: PredefinedCities.DEFAULT_CITY
+        }
 
         val methodId = prefs.getString("key_method", CalculationMethod.UMM_AL_QURA.id)
         val method = CalculationMethod.values().firstOrNull { it.id == methodId } ?: CalculationMethod.UMM_AL_QURA
@@ -74,7 +90,17 @@ class UserPreferencesRepository(context: Context) {
     }
 
     fun updateCity(city: CityLocation) {
-        prefs.edit().putString("key_city_name", city.nameEn).apply()
+        prefs.edit()
+            .putString("key_city_name", city.nameEn)
+            .putString("key_city_name_ar", city.nameAr)
+            .putString("key_city_name_fr", city.nameFr)
+            .putString("key_city_country_en", city.countryEn)
+            .putString("key_city_country_ar", city.countryAr)
+            .putFloat("key_city_latitude", city.latitude.toFloat())
+            .putFloat("key_city_longitude", city.longitude.toFloat())
+            .putFloat("key_city_timezone", city.timezoneOffsetHours.toFloat())
+            .putBoolean("key_city_is_gps", city.isGps)
+            .apply()
         _settings.value = _settings.value.copy(city = city)
     }
 
