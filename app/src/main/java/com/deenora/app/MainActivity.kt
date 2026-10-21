@@ -17,6 +17,7 @@ import com.deenora.app.ads.AdMobConsentManager
 import com.deenora.app.ads.DeenoraBannerAd
 import com.deenora.app.data.local.AppDatabase
 import com.deenora.app.data.preferences.UserPreferencesRepository
+import com.deenora.app.service.PrayerStatusService
 import com.deenora.app.service.PrayerNotificationHelper
 import com.deenora.app.service.PrayerWorkManagerScheduler
 import com.deenora.app.ui.DeenoraApp
@@ -42,6 +43,7 @@ class MainActivity : ComponentActivity() {
         PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(
             applicationContext
         )
+        PrayerStatusService.start(applicationContext)
 
         setContent {
 
