@@ -154,6 +154,34 @@ fun ProfileScreen(
             }
         }
 
+    suspend fun sendPasswordReset(email: String) = withContext(Dispatchers.IO) {
+        val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/recover").openConnection() as HttpURLConnection)
+        try {
+            connection.requestMethod = "POST"
+            connection.connectTimeout = 15000
+            connection.readTimeout = 15000
+            connection.setRequestProperty("Content-Type", "application/json")
+            connection.setRequestProperty("apikey", "sb_publishable_6AlIaFNnew-_-2Y-gCPeXA_Xdn0eGmo")
+            connection.doOutput = true
+            connection.outputStream.use {
+                it.write(JSONObject().put("email", email.trim()).toString().toByteArray(Charsets.UTF_8))
+            }
+            val code = connection.responseCode
+            if (code !in 200..299) {
+                val stream = connection.errorStream
+                val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+                val json = runCatching { JSONObject(body) }.getOrNull()
+                throw IllegalStateException(
+                    json?.optString("msg")?.takeIf { it.isNotBlank() }
+                        ?: json?.optString("message")?.takeIf { it.isNotBlank() }
+                        ?: "HTTP $code"
+                )
+            }
+        } finally {
+            connection.disconnect()
+        }
+    }
+
     if (showAccountDialog) {
         AlertDialog(
             onDismissRequest = { if (!accountBusy) showAccountDialog = false },
@@ -220,6 +248,22 @@ fun ProfileScreen(
                             } finally { accountBusy = false }
                         }
                     }) { Text(if (currentLanguage == AppLanguage.ARABIC) "إنشاء حساب" else "Create account") }
+                    TextButton(enabled = !accountBusy && accountEmail.contains("@"), onClick = {
+                        accountBusy = true
+                        accountMessage = ""
+                        accountScope.launch {
+                            try {
+                                sendPasswordReset(accountEmail)
+                                accountMessage = when (currentLanguage) {
+                                    AppLanguage.ARABIC -> "بعثنالك رابط إعادة تعيين كلمة السر إلى بريدك الإلكتروني."
+                                    AppLanguage.FRENCH -> "Un lien de réinitialisation a été envoyé à votre e-mail."
+                                    AppLanguage.ENGLISH -> "A password reset link has been sent to your email."
+                                }
+                            } catch (e: Exception) {
+                                accountMessage = e.message ?: "Could not send password reset email."
+                            } finally { accountBusy = false }
+                        }
+                    }) { Text(if (currentLanguage == AppLanguage.ARABIC) "نسيت كلمة السر؟" else if (currentLanguage == AppLanguage.FRENCH) "Mot de passe oublié ?" else "Forgot password?") }
                 }
             },
             dismissButton = {
