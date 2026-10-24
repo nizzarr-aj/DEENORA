@@ -11,6 +11,7 @@ import com.deenora.app.data.prayer.CityLocation
 import com.deenora.app.data.preferences.UserPreferencesRepository
 import com.deenora.app.data.preferences.UserSettings
 import com.deenora.app.service.PrayerWorkManagerScheduler
+import com.deenora.app.service.PrayerStatusService
 import com.deenora.app.ui.i18n.AppLanguage
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -43,17 +44,26 @@ class ProfileViewModel(
 
     fun setCity(city: CityLocation, context: Context? = null) {
         preferencesRepository.updateCity(city)
-        context?.let { PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it) }
+        context?.let {
+            PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it)
+            PrayerStatusService.start(it)
+        }
     }
 
     fun setCalculationMethod(method: CalculationMethod, context: Context? = null) {
         preferencesRepository.updateCalculationMethod(method)
-        context?.let { PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it) }
+        context?.let {
+            PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it)
+            PrayerStatusService.start(it)
+        }
     }
 
     fun setAsrMethod(asr: AsrJuristicMethod, context: Context? = null) {
         preferencesRepository.updateAsrMethod(asr)
-        context?.let { PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it) }
+        context?.let {
+            PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it)
+            PrayerStatusService.start(it)
+        }
     }
 
     fun setHijriAdjustment(days: Int) {
@@ -72,8 +82,10 @@ class ProfileViewModel(
         preferencesRepository.updateNotification(enabled)
         if (enabled) {
             PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(context)
+            PrayerStatusService.start(context)
         } else {
             PrayerWorkManagerScheduler.cancelAllPrayerNotifications(context)
+            PrayerStatusService.stop(context)
         }
     }
 
