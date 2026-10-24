@@ -191,6 +191,92 @@ object AzkarRepository {
             virtueFr = "Protection de l'âme durant le sommeil",
             reference = "صحيح البخاري ومسلم"
         )
+
+        // Sleep, wake-up, mosque, travel and protection categories
+        ZikrItem(
+            id = "s_2", category = ZikrCategory.SLEEP,
+            arabicText = "اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا.",
+            transliteration = "Allahumma bismika amutu wa ahya.",
+            translationEn = "O Allah, in Your name I die and I live.",
+            translationFr = "Ô Allah, c'est en Ton nom que je meurs et que je vis.",
+            targetCount = 1,
+            virtueAr = "من أذكار النوم",
+            virtueEn = "A remembrance said before sleeping",
+            virtueFr = "Invocation à réciter avant de dormir",
+            reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "s_3", category = ZikrCategory.SLEEP,
+            arabicText = "سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَاللَّهُ أَكْبَرُ.",
+            transliteration = "SubhanAllah, walhamdulillah, wa Allahu akbar.",
+            translationEn = "Glory be to Allah, praise be to Allah, and Allah is the Greatest.",
+            translationFr = "Gloire à Allah, louange à Allah et Allah est le Plus Grand.",
+            targetCount = 33,
+            virtueAr = "من الذكر عند النوم",
+            virtueEn = "A remembrance taught for bedtime",
+            virtueFr = "Évocation recommandée au coucher",
+            reference = "صحيح البخاري ومسلم"
+        ),
+        ZikrItem(
+            id = "w_1", category = ZikrCategory.WAKEUP,
+            arabicText = "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ.",
+            transliteration = "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur.",
+            translationEn = "Praise be to Allah who gave us life after causing us to die, and to Him is the resurrection.",
+            translationFr = "Louange à Allah qui nous a rendu la vie après nous avoir fait mourir, et vers Lui est la résurrection.",
+            targetCount = 1,
+            virtueAr = "يقال عند الاستيقاظ من النوم",
+            virtueEn = "Said upon waking from sleep",
+            virtueFr = "À réciter au réveil",
+            reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "mos_1", category = ZikrCategory.MOSQUE,
+            arabicText = "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ.",
+            transliteration = "Allahumma-ftah li abwaba rahmatik.",
+            translationEn = "O Allah, open for me the gates of Your mercy.",
+            translationFr = "Ô Allah, ouvre-moi les portes de Ta miséricorde.",
+            targetCount = 1,
+            virtueAr = "يقال عند دخول المسجد",
+            virtueEn = "Said when entering the mosque",
+            virtueFr = "À réciter en entrant dans la mosquée",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "mos_2", category = ZikrCategory.MOSQUE,
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ.",
+            transliteration = "Allahumma inni as'aluka min fadlik.",
+            translationEn = "O Allah, I ask You for Your bounty.",
+            translationFr = "Ô Allah, je Te demande de Ta grâce.",
+            targetCount = 1,
+            virtueAr = "يقال عند الخروج من المسجد",
+            virtueEn = "Said when leaving the mosque",
+            virtueFr = "À réciter en sortant de la mosquée",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "t_1", category = ZikrCategory.TRAVEL,
+            arabicText = "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ.",
+            transliteration = "Subhanalladhi sakh-khara lana hadha wa ma kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun.",
+            translationEn = "Glory be to Him who has subjected this to us, for we could not have done so by ourselves, and surely to our Lord we will return.",
+            translationFr = "Gloire à Celui qui a mis ceci à notre service alors que nous n'aurions pu le maîtriser seuls, et c'est vers notre Seigneur que nous retournerons.",
+            targetCount = 1,
+            virtueAr = "من دعاء ركوب الدابة أو وسيلة السفر",
+            virtueEn = "Said when boarding a means of transport",
+            virtueFr = "À réciter en montant dans un moyen de transport",
+            reference = "سورة الزخرف 13-14"
+        ),
+        ZikrItem(
+            id = "p_1", category = ZikrCategory.PROTECTION,
+            arabicText = "قُلْ هُوَ اللَّهُ أَحَدٌ، اللَّهُ الصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ.",
+            transliteration = "Qul huwa Allahu ahad. Allahus-samad. Lam yalid wa lam yulad. Wa lam yakun lahu kufuwan ahad.",
+            translationEn = "Say: He is Allah, the One; Allah, the Eternal Refuge; He neither begets nor is born, nor is there any equivalent to Him.",
+            translationFr = "Dis : Il est Allah, l'Unique. Allah, Celui dont toute la création dépend. Il n'a pas engendré et n'a pas été engendré, et nul n'est égal à Lui.",
+            targetCount = 3,
+            virtueAr = "من أذكار الحفظ صباحًا ومساءً",
+            virtueEn = "Recited among the morning and evening remembrances for protection",
+            virtueFr = "À réciter parmi les évocations du matin et du soir pour la protection",
+            reference = "سورة الإخلاص؛ سنن أبي داود والترمذي"
+        ),
     )
 
     val DAILY_DUAS = listOf(
