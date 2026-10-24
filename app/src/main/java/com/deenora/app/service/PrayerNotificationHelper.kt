@@ -21,8 +21,6 @@ object PrayerNotificationHelper {
     const val CHANNEL_ID = "deenora_prayer_alerts_v2"
     const val CHANNEL_NAME = "DEENORA Prayer Times Alerts"
     const val CHANNEL_DESC = "Notifications and Adhan alerts when prayer times are reached"
-    const val STATUS_CHANNEL_ID = "deenora_prayer_status"
-    const val STATUS_NOTIFICATION_ID = 900
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -46,58 +44,6 @@ object PrayerNotificationHelper {
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
         }
-    }
-
-    fun showOngoingStatusNotification(context: Context, cityName: String) {
-        createNotificationChannel(context)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
-        ) return
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            if (manager.getNotificationChannel(STATUS_CHANNEL_ID) == null) {
-                manager.createNotificationChannel(
-                    NotificationChannel(
-                        STATUS_CHANNEL_ID,
-                        "DEENORA Prayer Status",
-                        NotificationManager.IMPORTANCE_LOW
-                    ).apply {
-                        description = "Shows that prayer-time notifications are enabled"
-                        setSound(null, null)
-                        enableVibration(false)
-                    }
-                )
-            }
-        }
-
-        val openApp = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            STATUS_NOTIFICATION_ID,
-            openApp,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        val notification = NotificationCompat.Builder(context, STATUS_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("DEENORA • أوقات الصلاة")
-            .setContentText("تنبيهات الصلاة مفعّلة • $cityName")
-            .setCategory(NotificationCompat.CATEGORY_SERVICE)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setOngoing(true)
-            .setOnlyAlertOnce(true)
-            .setContentIntent(pendingIntent)
-            .build()
-        try {
-            NotificationManagerCompat.from(context).notify(STATUS_NOTIFICATION_ID, notification)
-        } catch (_: SecurityException) {
-        }
-    }
-
-    fun clearOngoingStatusNotification(context: Context) {
-        NotificationManagerCompat.from(context).cancel(STATUS_NOTIFICATION_ID)
     }
 
     fun showPrayerNotification(
