@@ -647,6 +647,90 @@ object AzkarRepository {
             targetCount = 3, virtueAr = "مع المعوذتين من أذكار الصباح والمساء", virtueEn = "Recited with Al-Falaq and An-Nas in morning and evening remembrances", virtueFr = "Récitée avec Al-Falaq et An-Nas parmi les invocations du matin et du soir",
             reference = "سنن أبي داود والترمذي"
         )
+
+        // Expanded authentic daily adhkar
+        ZikrItem(
+            id = "ap_3", category = ZikrCategory.AFTER_PRAYER,
+            arabicText = "اللَّهُمَّ أَعِنِّي عَلَىٰ ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ.",
+            transliteration = "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.",
+            translationEn = "O Allah, help me to remember You, thank You, and worship You in the best manner.",
+            translationFr = "Ô Allah, aide-moi à T'évoquer, à Te remercier et à T'adorer de la meilleure manière.",
+            targetCount = 1, virtueAr = "وصية نبوية تقال عقب الصلاة", virtueEn = "A Prophetic instruction to say after prayer", virtueFr = "Une recommandation prophétique après la prière",
+            reference = "سنن أبي داود والنسائي"
+        ),
+        ZikrItem(
+            id = "ap_4", category = ZikrCategory.AFTER_PRAYER,
+            arabicText = "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ وَلَا مُعْطِيَ لِمَا مَنَعْتَ.",
+            transliteration = "La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd wa huwa 'ala kulli shay'in qadir. Allahumma la mani'a lima a'tayt wa la mu'tiya lima mana't.",
+            translationEn = "None has the right to be worshipped except Allah alone. To Him belongs the kingdom and praise, and He is capable of all things. O Allah, none can withhold what You give, and none can give what You withhold.",
+            translationFr = "Nulle divinité sauf Allah, seul sans associé. À Lui la royauté et la louange. Ô Allah, nul ne peut retenir ce que Tu donnes ni donner ce que Tu retiens.",
+            targetCount = 1, virtueAr = "من الأذكار الواردة عقب الصلاة", virtueEn = "A remembrance reported after obligatory prayers", virtueFr = "Invocation rapportée après les prières obligatoires",
+            reference = "صحيح البخاري ومسلم"
+        ),
+        ZikrItem(
+            id = "s_5", category = ZikrCategory.SLEEP,
+            arabicText = "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.",
+            transliteration = "Bismika Allahumma amutu wa ahya.",
+            translationEn = "In Your name, O Allah, I die and I live.",
+            translationFr = "En Ton nom, ô Allah, je meurs et je vis.",
+            targetCount = 1, virtueAr = "يقال عند النوم", virtueEn = "Said when going to sleep", virtueFr = "À dire au moment de dormir",
+            reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "s_6", category = ZikrCategory.SLEEP,
+            arabicText = "آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِنْ رَبِّهِ وَالْمُؤْمِنُونَ ...",
+            transliteration = "Amanar-rasulu bima unzila ilayhi min rabbihi wal-mu'minun...",
+            translationEn = "The last two verses of Surah Al-Baqarah are recommended to be recited at night.",
+            translationFr = "Les deux derniers versets de la sourate Al-Baqara sont à réciter la nuit.",
+            targetCount = 1, virtueAr = "من قرأ بالآيتين من آخر سورة البقرة في ليلة كفتاه", virtueEn = "The last two verses of Al-Baqarah at night are sufficient for the reciter", virtueFr = "Les deux derniers versets d'Al-Baqara suffisent à celui qui les récite la nuit",
+            reference = "صحيح البخاري ومسلم؛ البقرة 285-286"
+        ),
+        ZikrItem(
+            id = "w_4", category = ZikrCategory.WAKEUP,
+            arabicText = "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَٰهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ.",
+            transliteration = "La ilaha illallahu wahdahu la sharika lah... Subhanallah, walhamdulillah, wa la ilaha illallah, wallahu akbar.",
+            translationEn = "There is no deity but Allah alone... Glory be to Allah, praise be to Allah, there is no deity but Allah, and Allah is the Greatest.",
+            translationFr = "Nulle divinité sauf Allah seul... Gloire à Allah, louange à Allah, nulle divinité sauf Allah et Allah est le Plus Grand.",
+            targetCount = 1, virtueAr = "ذكر عند الاستيقاظ ورد في السنة", virtueEn = "A remembrance reported for waking", virtueFr = "Invocation rapportée au réveil",
+            reference = "صحيح البخاري"
+        ),
+        ZikrItem(
+            id = "mo_4", category = ZikrCategory.MOSQUE,
+            arabicText = "بِسْمِ اللَّهِ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ، اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ.",
+            transliteration = "Bismillah, was-salatu was-salamu 'ala Rasulillah, Allahumma-ftah li abwaba rahmatik.",
+            translationEn = "In the name of Allah, peace and blessings upon the Messenger of Allah. O Allah, open for me the gates of Your mercy.",
+            translationFr = "Au nom d'Allah, paix et bénédictions sur le Messager d'Allah. Ô Allah, ouvre-moi les portes de Ta miséricorde.",
+            targetCount = 1, virtueAr = "دعاء دخول المسجد", virtueEn = "Supplication when entering the mosque", virtueFr = "Invocation en entrant dans la mosquée",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "mo_5", category = ZikrCategory.MOSQUE,
+            arabicText = "بِسْمِ اللَّهِ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ.",
+            transliteration = "Bismillah, was-salatu was-salamu 'ala Rasulillah, Allahumma inni as'aluka min fadlik.",
+            translationEn = "In the name of Allah, peace and blessings upon the Messenger of Allah. O Allah, I ask You for Your bounty.",
+            translationFr = "Au nom d'Allah, paix et bénédictions sur le Messager d'Allah. Ô Allah, je Te demande de Ta grâce.",
+            targetCount = 1, virtueAr = "دعاء الخروج من المسجد", virtueEn = "Supplication when leaving the mosque", virtueFr = "Invocation en sortant de la mosquée",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "t_4", category = ZikrCategory.TRAVEL,
+            arabicText = "اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الْأَهْلِ.",
+            transliteration = "Allahumma Antas-sahibu fis-safar, wal-khalifatu fil-ahl.",
+            translationEn = "O Allah, You are the Companion on the journey and the Guardian over the family left behind.",
+            translationFr = "Ô Allah, Tu es le Compagnon durant le voyage et le Protecteur de la famille laissée derrière.",
+            targetCount = 1, virtueAr = "من دعاء السفر", virtueEn = "Part of the Prophetic travel supplication", virtueFr = "Extrait de l'invocation prophétique du voyage",
+            reference = "صحيح مسلم"
+        ),
+        ZikrItem(
+            id = "p_4", category = ZikrCategory.PROTECTION,
+            arabicText = "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.",
+            transliteration = "Hasbiyallahu la ilaha illa Huwa, 'alayhi tawakkaltu wa Huwa Rabbul-'Arshil-'Azim.",
+            translationEn = "Allah is sufficient for me; there is no deity except Him. In Him I put my trust, and He is Lord of the Mighty Throne.",
+            translationFr = "Allah me suffit. Nulle divinité sauf Lui. En Lui je place ma confiance, et Il est le Seigneur du Trône immense.",
+            targetCount = 7, virtueAr = "ورد في أذكار الصباح والمساء", virtueEn = "Reported among morning and evening remembrances", virtueFr = "Rapporté parmi les invocations du matin et du soir",
+            reference = "سنن أبي داود؛ يُراجع اختلاف أهل العلم في ثبوت العدد"
+        ),
+
     )
 
     val DAILY_DUAS = listOf(
