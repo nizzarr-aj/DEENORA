@@ -17,6 +17,7 @@ import com.deenora.app.data.prayer.PrayerTimeCalculator
 import com.deenora.app.data.prayer.PrayerType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
@@ -31,6 +32,7 @@ class PrayerStatusService : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val channelId = "deenora_prayer_status"
     private val notificationId = 7401
+    private var refreshJob: Job? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -39,7 +41,8 @@ class PrayerStatusService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(notificationId, buildNotification("DEENORA", "جاري تحديث مواقيت الصلاة…"))
-        scope.launch {
+        refreshJob?.cancel()
+        refreshJob = scope.launch {
             while (true) {
                 try {
                     val settings = UserPreferencesRepository(applicationContext).settings.first()
@@ -115,6 +118,7 @@ class PrayerStatusService : Service() {
     }
 
     override fun onDestroy() {
+        refreshJob?.cancel()
         scope.cancel()
         super.onDestroy()
     }
@@ -126,6 +130,10 @@ class PrayerStatusService : Service() {
             val intent = Intent(context, PrayerStatusService::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) context.startForegroundService(intent)
             else context.startService(intent)
+        }
+
+        fun stop(context: Context) {
+            context.stopService(Intent(context, PrayerStatusService::class.java))
         }
     }
 }
