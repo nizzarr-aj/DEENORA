@@ -190,7 +190,7 @@ object AzkarRepository {
             virtueEn = "Safeguarding and protection of the soul during sleep",
             virtueFr = "Protection de l'âme durant le sommeil",
             reference = "صحيح البخاري ومسلم"
-        )
+        ),
 
         // Sleep, wake-up, mosque, travel and protection categories
         ZikrItem(
