@@ -673,7 +673,7 @@ fun HomeScreen(
             currentCity = state.settings.city,
             currentLanguage = lang,
             onCitySelected = { city ->
-                viewModel.setCity(city)
+                viewModel.setCity(city, context)
             },
             onDismissRequest = { showLocationSelector = false }
         )
