@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.media.AudioAttributes
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,7 +18,7 @@ import com.deenora.app.R
 
 object PrayerNotificationHelper {
 
-    const val CHANNEL_ID = "deenora_prayer_alerts"
+    const val CHANNEL_ID = "deenora_prayer_alerts_v2"
     const val CHANNEL_NAME = "DEENORA Prayer Times Alerts"
     const val CHANNEL_DESC = "Notifications and Adhan alerts when prayer times are reached"
 
@@ -32,6 +33,13 @@ object PrayerNotificationHelper {
                 enableLights(true)
                 enableVibration(true)
                 vibrationPattern = longArrayOf(0, 500, 200, 500)
+                setSound(
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM),
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build()
+                )
             }
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
@@ -62,7 +70,7 @@ object PrayerNotificationHelper {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
 
         val title = "حَانَ الآنَ وَقْتُ صَلَاةِ $prayerName • Time for $prayerName"
         val message = "حَيَّ عَلَى الصَّلَاةِ • حي على الفلاح | $cityName"
