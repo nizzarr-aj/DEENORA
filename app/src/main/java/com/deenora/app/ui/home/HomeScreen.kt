@@ -5,6 +5,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.Ringtone
+import android.media.RingtoneManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -51,6 +54,7 @@ fun HomeScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    var previewRingtone by remember { mutableStateOf<Ringtone?>(null) }
     val lang = state.settings.language
 
     var showLocationSelector by remember { mutableStateOf(false) }
@@ -361,7 +365,25 @@ fun HomeScreen(
                                 isNext = isNext,
                                 language = lang,
                                 onSoundToggle = {
-                                    // toggle adhan audio preview
+                                    try {
+                                        val currentTone = previewRingtone
+                                        if (currentTone?.isPlaying == true) {
+                                            currentTone.stop()
+                                            previewRingtone = null
+                                        } else {
+                                            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+                                                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                                            val tone = RingtoneManager.getRingtone(context, soundUri)
+                                            tone?.audioAttributes = AudioAttributes.Builder()
+                                                .setUsage(AudioAttributes.USAGE_ALARM)
+                                                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                                .build()
+                                            tone?.play()
+                                            previewRingtone = tone
+                                        }
+                                    } catch (_: Exception) {
+                                        previewRingtone = null
+                                    }
                                 }
                             )
                         }
@@ -673,7 +695,7 @@ fun HomeScreen(
             currentCity = state.settings.city,
             currentLanguage = lang,
             onCitySelected = { city ->
-                viewModel.setCity(city)
+                viewModel.setCity(city, context)
             },
             onDismissRequest = { showLocationSelector = false }
         )
