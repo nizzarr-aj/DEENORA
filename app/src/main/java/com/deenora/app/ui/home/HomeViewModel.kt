@@ -13,6 +13,7 @@ import com.deenora.app.data.preferences.UserSettings
 import com.deenora.app.data.quran.Ayah
 import com.deenora.app.data.quran.QuranRepository
 import com.deenora.app.service.PrayerWorkManagerScheduler
+import com.deenora.app.service.PrayerStatusService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.isActive
@@ -87,7 +88,10 @@ class HomeViewModel(
 
     fun setCity(city: CityLocation, context: Context? = null) {
         preferencesRepository.updateCity(city)
-        context?.let { PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it) }
+        context?.let {
+            PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(it)
+            PrayerStatusService.start(it)
+        }
     }
 
     fun detectLocation(context: Context) {
