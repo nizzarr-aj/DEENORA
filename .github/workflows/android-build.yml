@@ -31,8 +31,14 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install required Android SDK platform
+        run: sdkmanager "platforms;android-36.1" "build-tools;36.0.0"
+
       - name: Set up Gradle 9.3.1
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: "9.3.1"
 
@@ -68,7 +74,7 @@ jobs:
           keytool -list -v -keystore debug.keystore -storepass android -alias androiddebugkey | grep -E 'SHA1:|SHA-1:'
 
       - name: Build debug APK
-        run: gradle --no-daemon assembleDebug
+        run: gradle --no-daemon :app:assembleDebug --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
@@ -88,7 +94,7 @@ jobs:
 
       - name: Build signed release APK
         if: env.RELEASE_SIGNING_CONFIGURED == 'true'
-        run: gradle --no-daemon assembleRelease
+        run: gradle --no-daemon :app:assembleRelease --stacktrace
 
       - name: Upload signed release APK
         if: env.RELEASE_SIGNING_CONFIGURED == 'true'
