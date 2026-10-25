@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = EmeraldGlow,
+    primary = EmeraldLight,
     onPrimary = EmeraldDark,
     primaryContainer = EmeraldPrimary,
     onPrimaryContainer = EmeraldPale,
