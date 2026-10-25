@@ -5,10 +5,10 @@ import androidx.compose.ui.graphics.Color
 // Primary DEENORA Emeralds
 val EmeraldDark = Color(0xFF0C2B22)
 val EmeraldPrimary = Color(0xFF134E3F)
-val EmeraldMedium = Color(0xFF1E6654)
-val EmeraldLight = Color(0xFF2E8B73)
+val EmeraldMedium = Color(0xFF1A5748)
+val EmeraldLight = Color(0xFF246B57)
 val EmeraldPale = Color(0xFFE4F0EC)
-val EmeraldGlow = Color(0xFF38B28F)
+val EmeraldGlow = Color(0xFF2D7D66)
 
 // DEENORA Gold & Champagne Accents
 val GoldPrimary = Color(0xFFC9A038)
@@ -26,9 +26,9 @@ val TextDark = Color(0xFF1B2320)
 val TextMuted = Color(0xFF5E6D66)
 
 // Dark Theme Neutrals
-val DarkBackground = Color(0xFF0B120F)
-val DarkSurface = Color(0xFF121B17)
-val DarkSurfaceVariant = Color(0xFF1B2722)
+val DarkBackground = Color(0xFF08110E)
+val DarkSurface = Color(0xFF101915)
+val DarkSurfaceVariant = Color(0xFF17231D)
 val DarkBorder = Color(0xFF283832)
 val TextLight = Color(0xFFF0F5F2)
 val TextLightMuted = Color(0xFFA1B3AB)
