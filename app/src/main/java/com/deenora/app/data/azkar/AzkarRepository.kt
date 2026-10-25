@@ -646,7 +646,7 @@ object AzkarRepository {
             translationFr = "Sourate Al-Ikhlas, l'une des trois sourates protectrices récitées matin et soir.",
             targetCount = 3, virtueAr = "مع المعوذتين من أذكار الصباح والمساء", virtueEn = "Recited with Al-Falaq and An-Nas in morning and evening remembrances", virtueFr = "Récitée avec Al-Falaq et An-Nas parmi les invocations du matin et du soir",
             reference = "سنن أبي داود والترمذي"
-        )
+        ),
 
         // Expanded authentic daily adhkar
         ZikrItem(
