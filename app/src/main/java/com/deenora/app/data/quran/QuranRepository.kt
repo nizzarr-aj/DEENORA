@@ -270,9 +270,10 @@ object QuranRepository {
         Ayah(13, 28, "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", "Those who have believed and whose hearts are assured by the remembrance of Allah. Unquestionably, by the remembrance of Allah hearts are assured.", "Ceux qui ont cru, et dont les cœurs s'apaisent à l'évocation d'Allah. N'est-ce point par l'évocation d'Allah que se tranquillisent les cœurs ?", "True tranquility and psychological peace are discovered in remembering Allah.")
     )
 
+    // Stable per local date: the verse remains fixed all day and changes at midnight.
     fun getDailyVerse(): Ayah {
-        val dayOfYear = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR)
-        val index = (dayOfYear % DAILY_VERSES.size).coerceIn(0, DAILY_VERSES.size - 1)
+        val today = java.time.LocalDate.now()
+        val index = Math.floorMod(today.toEpochDay(), DAILY_VERSES.size.toLong()).toInt()
         return DAILY_VERSES[index]
     }
 }
