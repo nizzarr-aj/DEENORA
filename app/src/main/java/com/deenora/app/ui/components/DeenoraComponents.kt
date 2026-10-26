@@ -66,7 +66,7 @@ fun DeenoraTopBar(
                     // DEENORA Minimal Emblem
                     Box(
                         modifier = Modifier
-                            .size(38.dp)
+                            .size(42.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .background(
                                 Brush.linearGradient(listOf(EmeraldPrimary, EmeraldMedium))
@@ -78,7 +78,7 @@ fun DeenoraTopBar(
                             painter = painterResource(id = R.drawable.ic_deenora_logo_vector),
                             contentDescription = "DEENORA",
                             tint = Color.Unspecified,
-                            modifier = Modifier.size(34.dp)
+                            modifier = Modifier.size(38.dp)
                         )
                     }
                 }

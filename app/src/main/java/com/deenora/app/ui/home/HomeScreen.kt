@@ -609,12 +609,22 @@ fun HomeScreen(
 
                         Spacer(modifier = Modifier.height(8.dp))
 
-                        Text(
-                            text = "[${verse.surahNumber}:${verse.ayahNumber}]",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = EmeraldPrimary,
-                            fontWeight = FontWeight.Bold
-                        )
+                        val surahName = QuranRepository.SURAHS
+                            .firstOrNull { it.number == verse.surahNumber }
+                            ?.getName(lang).orEmpty()
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = EmeraldPale,
+                            border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.55f))
+                        ) {
+                            Text(
+                                text = "${surahName} • ${verse.surahNumber}:${verse.ayahNumber}",
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = EmeraldDark,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             }
