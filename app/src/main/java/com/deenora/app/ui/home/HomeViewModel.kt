@@ -42,14 +42,14 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    private var lastDailyContentDay: Int = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
+    private var lastDailyContentDay: Long = java.time.LocalDate.now().toEpochDay()
 
     init {
         // Refresh the daily cards when the local calendar day changes, even if the app stays open.
         viewModelScope.launch {
             while (isActive) {
                 delay(30_000L)
-                val day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
+                val day = java.time.LocalDate.now().toEpochDay()
                 if (day != lastDailyContentDay) {
                     lastDailyContentDay = day
                     _uiState.update {
