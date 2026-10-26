@@ -796,13 +796,14 @@ object AzkarRepository {
         )
     )
 
-    fun getDailyDua(): DailyDua {
-        val day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR)
-        return DAILY_DUAS[day % DAILY_DUAS.size]
+    // Use the local calendar date, so daily content changes exactly at local midnight
+    // and does not repeat the same day-of-year mapping every January.
+    private fun localDayIndex(size: Int): Int {
+        val today = java.time.LocalDate.now()
+        return Math.floorMod(today.toEpochDay(), size.toLong()).toInt()
     }
 
-    fun getDailyReminder(): IslamicReminder {
-        val day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR)
-        return DAILY_REMINDERS[day % DAILY_REMINDERS.size]
-    }
+    fun getDailyDua(): DailyDua = DAILY_DUAS[localDayIndex(DAILY_DUAS.size)]
+
+    fun getDailyReminder(): IslamicReminder = DAILY_REMINDERS[localDayIndex(DAILY_REMINDERS.size)]
 }
