@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import com.deenora.app.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -72,11 +74,11 @@ fun DeenoraTopBar(
                             .border(1.dp, GoldPrimary.copy(alpha = 0.5f), RoundedCornerShape(10.dp)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = "D",
-                            color = GoldLight,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_deenora_logo_vector),
+                            contentDescription = "DEENORA",
+                            tint = Color.Unspecified,
+                            modifier = Modifier.size(34.dp)
                         )
                     }
                 }
