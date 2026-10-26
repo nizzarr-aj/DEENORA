@@ -71,7 +71,7 @@ fun DeenoraTopBar(
                             .background(
                                 Brush.linearGradient(listOf(EmeraldPrimary, EmeraldMedium))
                             )
-                            .border(1.dp, GoldPrimary.copy(alpha = 0.5f), RoundedCornerShape(10.dp)),
+                            .border(1.dp, GoldLight.copy(alpha = 0.75f), RoundedCornerShape(13.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
