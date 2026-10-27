@@ -16,8 +16,8 @@ android {
     applicationId = "com.deenora.app"
     minSdk = 24
     targetSdk = 36
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = 2
+    versionName = "1.1"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -41,7 +41,6 @@ android {
 
   buildTypes {
     release {
-      // Real AdMob inventory is only enabled in release builds.
       buildConfigField("boolean", "USE_TEST_ADS", "false")
       isCrunchPngs = false
       isMinifyEnabled = false
@@ -53,7 +52,6 @@ android {
     }
 
     debug {
-      // Keep all local/CI testing on Google's official test ad unit.
       buildConfigField("boolean", "USE_TEST_ADS", "true")
       signingConfig = signingConfigs.getByName("debugConfig")
     }
@@ -117,7 +115,6 @@ dependencies {
   implementation(libs.converter.moshi)
   implementation(libs.firebase.ai)
 
-  // Google sign-in (Credential Manager + Firebase Authentication)
   implementation(libs.firebase.auth)
   implementation(libs.androidx.credentials)
   implementation(libs.androidx.credentials.play.services)
@@ -135,10 +132,7 @@ dependencies {
   implementation(libs.play.services.location)
   implementation(libs.retrofit)
 
-  // AdMob
   implementation("com.google.android.gms:play-services-ads:25.5.0")
-
-  // Google User Messaging Platform (privacy/consent)
   implementation("com.google.android.ump:user-messaging-platform:4.0.0")
 
   testImplementation(libs.androidx.compose.ui.test.junit4)
