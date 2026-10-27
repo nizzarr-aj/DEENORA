@@ -188,8 +188,8 @@ fun DiscoverScreen(
         extraPage == ExtraPage.DUAS -> {
             ExtrasDuasScreen(currentLanguage) { extraPage = ExtraPage.NONE }
         }
-        extraPage == ExtraPage.STORIES -> {
-            ExtrasStoriesScreen(currentLanguage) { extraPage = ExtraPage.NONE }
+        state.currentSection == DiscoverSection.STORIES -> {
+            ExtrasStoriesScreen(currentLanguage) { viewModel.navigateToSection(DiscoverSection.HUB) }
         }
         extraPage == ExtraPage.QUIZ -> {
             ExtrasQuizScreen(currentLanguage) { extraPage = ExtraPage.NONE }
@@ -340,11 +340,7 @@ fun DiscoverScreen(
                             icon = Icons.Outlined.AutoStories,
                             accentColor = Color(0xFF6C63A8),
                             tag = "discover_stories_card",
-                            onClick = {
-                                // Ensure the Discover hub is active before opening the local stories page.
-                                viewModel.navigateToSection(DiscoverSection.HUB)
-                                extraPage = ExtraPage.STORIES
-                            }
+                            onClick = { viewModel.navigateToSection(DiscoverSection.STORIES) }
                         )
                     }
 
