@@ -857,7 +857,7 @@ object AzkarRepository {
     // and does not repeat the same day-of-year mapping every January.
     private fun localDayIndex(size: Int): Int {
         val today = java.time.LocalDate.now()
-        return Math.floorMod(today.toEpochDay(), size.toLong()).toInt()
+        return Math.floorMod(today.toEpochDay() + 1L, size.toLong()).toInt()
     }
 
     fun getDailyDua(): DailyDua = DAILY_DUAS[localDayIndex(DAILY_DUAS.size)]
