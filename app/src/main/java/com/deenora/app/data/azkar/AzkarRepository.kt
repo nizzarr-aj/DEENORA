@@ -763,6 +763,36 @@ object AzkarRepository {
             translationEn = "O Turner of the hearts, keep my heart firm upon Your religion.",
             translationFr = "Ô Toi qui retournes les cœurs, affermis mon cœur sur Ta religion.",
             source = "جامع الترمذي"
+        ),
+        DailyDua(
+            titleAr = "دعاء الهداية والتقوى والعفاف",
+            titleEn = "Dua for Guidance and Piety",
+            titleFr = "Invocation pour la guidance et la piété",
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى.",
+            transliteration = "Allahumma inni as'alukal-huda wat-tuqa wal-'afafa wal-ghina.",
+            translationEn = "O Allah, I ask You for guidance, piety, chastity, and self-sufficiency.",
+            translationFr = "Ô Allah, je Te demande la bonne direction, la piété, la chasteté et la suffisance.",
+            source = "صحيح مسلم"
+        ),
+        DailyDua(
+            titleAr = "دعاء الاستعانة بالله",
+            titleEn = "Dua for Help",
+            titleFr = "Invocation pour demander de l'aide",
+            arabicText = "اللَّهُمَّ أَعِنِّي وَلَا تُعِنْ عَلَيَّ، وَانْصُرْنِي وَلَا تَنْصُرْ عَلَيَّ.",
+            transliteration = "Allahumma a'inni wa la tu'in 'alayya, wansurni wa la tansur 'alayya.",
+            translationEn = "O Allah, help me and do not help others against me; grant me victory and do not grant victory over me.",
+            translationFr = "Ô Allah, aide-moi et ne donne pas d'aide contre moi; accorde-moi le soutien et ne soutiens pas ceux qui s'opposent à moi.",
+            source = "سنن أبي داود والترمذي"
+        ),
+        DailyDua(
+            titleAr = "دعاء طلب العلم النافع",
+            titleEn = "Dua for Beneficial Knowledge",
+            titleFr = "Invocation pour une science bénéfique",
+            arabicText = "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا.",
+            transliteration = "Allahumma inni as'aluka 'ilman nafi'an, wa rizqan tayyiban, wa 'amalan mutaqabbalan.",
+            translationEn = "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
+            translationFr = "Ô Allah, je Te demande une science bénéfique, une subsistance bonne et des œuvres acceptées.",
+            source = "سنن ابن ماجه"
         )
     )
 
@@ -793,6 +823,33 @@ object AzkarRepository {
             translationEn = "\"The merciful will be shown mercy by the Most Merciful. Be merciful to those on the earth, and the One in the heavens will have mercy upon you.\"",
             translationFr = "« Les miséricordieux recevront la miséricorde du Tout Miséricordieux. Faites preuve de miséricorde envers les êtres de la terre, et Celui qui est au ciel vous fera miséricorde. »",
             narrator = "سنن الترمذي عن عبد الله بن عمرو رضي الله عنهما"
+        ),
+        IslamicReminder(
+            titleAr = "يسروا ولا تعسروا",
+            titleEn = "Make Things Easy",
+            titleFr = "Facilitez les choses",
+            arabicText = "«يَسِّرُوا وَلَا تُعَسِّرُوا، وَبَشِّرُوا وَلَا تُنَفِّرُوا»",
+            translationEn = "Make things easy and do not make them difficult; give glad tidings and do not drive people away.",
+            translationFr = "Facilitez les choses et ne les rendez pas difficiles; annoncez de bonnes nouvelles et ne rebutez pas les gens.",
+            narrator = "صحيح البخاري ومسلم"
+        ),
+        IslamicReminder(
+            titleAr = "الكلمة الطيبة صدقة",
+            titleEn = "A Good Word Is Charity",
+            titleFr = "Une bonne parole est une aumône",
+            arabicText = "«وَالْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ»",
+            translationEn = "A good word is charity.",
+            translationFr = "Une bonne parole est une aumône.",
+            narrator = "صحيح البخاري ومسلم"
+        ),
+        IslamicReminder(
+            titleAr = "لا تغضب",
+            titleEn = "Do Not Give in to Anger",
+            titleFr = "Ne te mets pas en colère",
+            arabicText = "«لَا تَغْضَبْ»",
+            translationEn = "Do not give in to anger.",
+            translationFr = "Ne te mets pas en colère.",
+            narrator = "صحيح البخاري عن أبي هريرة رضي الله عنه"
         )
     )
 
