@@ -34,7 +34,8 @@ enum class DiscoverSection {
     QIBLA,
     TASBIH,
     NAMES_OF_ALLAH,
-    CALENDAR
+    CALENDAR,
+    STORIES
 }
 
 data class DhikrPreset(
