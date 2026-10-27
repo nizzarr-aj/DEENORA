@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.deenora.app.data.location.LocationHelper
 import com.deenora.app.data.prayer.PrayerType
+import com.deenora.app.data.quran.QuranRepository
 import com.deenora.app.ui.components.*
 import com.deenora.app.ui.i18n.AppLanguage
 import com.deenora.app.ui.i18n.AppStrings
