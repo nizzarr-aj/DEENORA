@@ -340,7 +340,11 @@ fun DiscoverScreen(
                             icon = Icons.Outlined.AutoStories,
                             accentColor = Color(0xFF6C63A8),
                             tag = "discover_stories_card",
-                            onClick = { extraPage = ExtraPage.STORIES }
+                            onClick = {
+                                // Ensure the Discover hub is active before opening the local stories page.
+                                viewModel.navigateToSection(DiscoverSection.HUB)
+                                extraPage = ExtraPage.STORIES
+                            }
                         )
                     }
 
