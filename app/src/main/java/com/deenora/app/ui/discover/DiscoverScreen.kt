@@ -1,7 +1,6 @@
 package com.deenora.app.ui.discover
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -384,10 +383,10 @@ fun DiscoverCardItem(
     modifier: Modifier = Modifier
 ) {
     Card(
+        onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .testTag(tag)
-            .clickable(onClick = onClick),
+            .testTag(tag),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = androidx.compose.foundation.BorderStroke(1.dp, accentColor.copy(alpha = 0.3f))
