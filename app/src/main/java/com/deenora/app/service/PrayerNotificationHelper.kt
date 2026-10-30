@@ -18,7 +18,7 @@ import com.deenora.app.R
 
 object PrayerNotificationHelper {
 
-    const val CHANNEL_ID = "deenora_prayer_alerts_v3"
+    const val CHANNEL_ID = "deenora_prayer_alerts_v4"
     const val CHANNEL_NAME = "DEENORA Prayer Times Alerts"
     const val CHANNEL_DESC = "Notifications and Adhan alerts when prayer times are reached"
 
@@ -84,8 +84,9 @@ object PrayerNotificationHelper {
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText("$message\nDEENORA — دينورا"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setSound(soundUri)
-            .setVibrate(longArrayOf(0, 500, 200, 500))
+            // The channel owns audio playback. Do not attach a second sound to the notification.
+            .setOnlyAlertOnce(true)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()
