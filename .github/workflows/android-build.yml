@@ -33,7 +33,7 @@ jobs:
             --output app/src/main/res/raw/adhan.ogg
           test -s app/src/main/res/raw/adhan.ogg
           file app/src/main/res/raw/adhan.ogg
-          cat > app/src/main/res/raw/ADHAN_ATTRIBUTION.txt <<'EOF'
+          cat > app/src/main/res/raw/adhan_attribution.txt <<'EOF'
           Recording: Islamic call to prayer from the Prophet's Mosque (Madinah)
           Author/uploader: ejaz215
           Source: https://commons.wikimedia.org/wiki/File:33937_ejaz215_call-to-prayer-from-the-prophet-s-mo.ogg
