@@ -25,14 +25,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Add real Adhan recording (CC0 public domain)
+      - name: Add higher-bitrate Madinah Adhan recording (CC BY 3.0)
         run: |
           mkdir -p app/src/main/res/raw
           curl --fail --location --retry 3 --retry-delay 2 \
-            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Beautiful_adhan.ogg' \
+            'https://commons.wikimedia.org/wiki/Special:Redirect/file/33937_ejaz215_call-to-prayer-from-the-prophet-s-mo.ogg' \
             --output app/src/main/res/raw/adhan.ogg
           test -s app/src/main/res/raw/adhan.ogg
           file app/src/main/res/raw/adhan.ogg
+          cat > app/src/main/res/raw/ADHAN_ATTRIBUTION.txt <<'EOF'
+          Recording: Islamic call to prayer from the Prophet's Mosque (Madinah)
+          Author/uploader: ejaz215
+          Source: https://commons.wikimedia.org/wiki/File:33937_ejaz215_call-to-prayer-from-the-prophet-s-mo.ogg
+          Original source: https://freesound.org/people/ejaz215/sounds/33937/
+          Licence: Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+          Licence URL: https://creativecommons.org/licenses/by/3.0/
+          Changes: Bundled as app notification audio; no audio edits made.
+          EOF
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
