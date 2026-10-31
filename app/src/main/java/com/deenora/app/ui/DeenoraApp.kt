@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -79,6 +80,7 @@ fun DeenoraApp(
     database: AppDatabase,
     preferencesRepository: UserPreferencesRepository
 ) {
+    val appContext = LocalContext.current.applicationContext
     val settings by preferencesRepository.settings.collectAsState()
     val isSystemDark = isSystemInDarkTheme()
     val isDark = settings.isDarkMode ?: isSystemDark
@@ -87,7 +89,7 @@ fun DeenoraApp(
 
     // ViewModels with factory/manual injection
     val homeViewModel = remember { HomeViewModel(preferencesRepository) }
-    val quranViewModel = remember { QuranViewModel(database.bookmarkDao(), preferencesRepository) }
+    val quranViewModel = remember { QuranViewModel(appContext, database.bookmarkDao(), preferencesRepository) }
     val azkarViewModel = remember { AzkarViewModel(preferencesRepository) }
     val discoverViewModel = remember { DiscoverViewModel(database.tasbihDao(), preferencesRepository) }
     val profileViewModel = remember { ProfileViewModel(preferencesRepository) }
