@@ -244,21 +244,26 @@ object QuranRepository {
         )
     )
 
-    fun getVersesForSurah(surahNumber: Int): List<Ayah> {
-        val specific = SURAH_VERSES[surahNumber]
-        if (specific != null) return specific
-
-        val surah = SURAHS.firstOrNull { it.number == surahNumber } ?: SURAHS[0]
-        // Generate placeholder authentic verses for remaining surahs
-        return (1..surah.versesCount.coerceAtMost(10)).map { num ->
-            Ayah(
-                surahNumber = surahNumber,
-                ayahNumber = num,
-                textAr = "وَاذْكُر رَّبَّكَ فِي نَفْسِكَ تَضَرُّعًا وَخِيفَةً وَدُونَ الْجَهْرِ مِنَ الْقَوْلِ بِالْغُدُوِّ وَالْآصَالِ وَلَا تَكُن مِّنَ الْغَافِلِينَ",
-                textEn = "And remember your Lord within yourself in humility and in fear without being loud in words - in the mornings and the evenings. And do not be among the heedless.",
-                textFr = "Et invoque ton Seigneur en toi-même, en humilité et crainte, à mi-voix, le matin et le soir, et ne sois pas du nombre des insouciants.",
-                tafsirSummary = "Constant remembrance of Allah nourishes the heart and shields the soul."
-            )
+    fun getVersesForSurah(context: android.content.Context, surahNumber: Int): List<Ayah> {
+        if (surahNumber !in 1..114) return emptyList()
+        return try {
+            val json = context.assets.open("quran/surah_${surahNumber}.json")
+                .bufferedReader(Charsets.UTF_8).use { it.readText() }
+            val root = org.json.JSONObject(json)
+            val verses = root.getJSONObject("verse")
+            val expected = SURAHS.first { it.number == surahNumber }.versesCount
+            val result = (1..expected).map { number ->
+                val key = "verse_${number}"
+                require(verses.has(key)) { "Missing Quran verse $surahNumber:$number" }
+                val text = verses.getString(key).trim()
+                require(text.isNotEmpty()) { "Empty Quran verse $surahNumber:$number" }
+                Ayah(surahNumber, number, text, "", "", "")
+            }
+            require(result.size == expected)
+            result
+        } catch (_: Exception) {
+            // Never substitute fabricated text for Quranic verses.
+            emptyList()
         }
     }
 
