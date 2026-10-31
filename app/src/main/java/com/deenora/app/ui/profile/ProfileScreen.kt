@@ -20,6 +20,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
+import com.deenora.app.R
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +33,7 @@ import com.deenora.app.data.prayer.AsrJuristicMethod
 import com.deenora.app.data.prayer.CalculationMethod
 import com.deenora.app.data.prayer.CityLocation
 import com.deenora.app.data.prayer.PredefinedCities
-import com.deenora.app.ui.components.DeenoraTopBar
+import com.deenora.app.ui.components.DeenkTopBar
 import com.deenora.app.ui.components.LocationSelectorDialog
 import com.deenora.app.ui.i18n.AppLanguage
 import com.deenora.app.ui.i18n.AppStrings
@@ -244,7 +247,7 @@ fun ProfileScreen(
     if (showAccountDialog) {
         AlertDialog(
             onDismissRequest = { if (!accountBusy) showAccountDialog = false },
-            title = { Text(if (currentLanguage == AppLanguage.ARABIC) "حساب Deenora" else if (currentLanguage == AppLanguage.ENGLISH) "Deenora account" else "Compte Deenora") },
+            title = { Text(if (currentLanguage == AppLanguage.ARABIC) "حساب دينك" else if (currentLanguage == AppLanguage.ENGLISH) "Deenk account" else "Compte Deenk") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedTextField(
@@ -383,9 +386,9 @@ fun ProfileScreen(
                         Text(
                             if (accountSignedIn) (accountEmail.ifBlank { context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("email", "") ?: "" })
                             else when (currentLanguage) {
-                                AppLanguage.ARABIC -> "حساب Deenora"
-                                AppLanguage.ENGLISH -> "Deenora account"
-                                AppLanguage.FRENCH -> "Compte Deenora"
+                                AppLanguage.ARABIC -> "حساب دينك"
+                                AppLanguage.ENGLISH -> "Deenk account"
+                                AppLanguage.FRENCH -> "Compte Deenk"
                             },
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
@@ -477,18 +480,17 @@ fun ProfileScreen(
                                     .border(2.dp, GoldLight, RoundedCornerShape(18.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(
-                                    text = "D",
-                                    color = GoldLight,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 32.sp
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_deenora_logo_vector),
+                                    contentDescription = "شعار دينك",
+                                    modifier = Modifier.size(60.dp)
                                 )
                             }
 
                             Spacer(modifier = Modifier.height(12.dp))
 
                             Text(
-                                text = "DEENORA • دينورا",
+                                text = AppStrings.appName(currentLanguage),
                                 style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
@@ -762,7 +764,7 @@ fun ProfileScreen(
                         AppLanguage.FRENCH -> "Politique de confidentialité"
                         AppLanguage.ENGLISH -> "Privacy Policy"
                     },
-                    value = "DEENORA",
+                    value = "دينك",
                     icon = Icons.Outlined.Security,
                     onClick = { PrivacyPolicyHelper.open(context) },
                     tag = "setting_privacy_policy_row"
@@ -772,7 +774,7 @@ fun ProfileScreen(
             item {
                 SettingsOptionItem(
                     title = AppStrings.aboutApp(currentLanguage),
-                    value = "DEENORA v1.0.0",
+                    value = "دينك v1.0.0",
                     icon = Icons.Outlined.Info,
                     onClick = { showAboutDialog = true },
                     tag = "setting_about_row"
@@ -928,11 +930,11 @@ fun ProfileScreen(
     if (showAboutDialog) {
         AlertDialog(
             onDismissRequest = { showAboutDialog = false },
-            title = { Text("DEENORA (دينورا)", fontWeight = FontWeight.Bold) },
+            title = { Text(if (currentLanguage == AppLanguage.ARABIC) "دينك" else "Deenk", fontWeight = FontWeight.Bold) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = "DEENORA is a pure, calm, and elegant Islamic companion built with high fidelity native Android Jetpack Compose.",
+                        text = if (currentLanguage == AppLanguage.ARABIC) "دينك رفيقك اليومي للقرآن الكريم والعبادات ومواقيت الصلاة." else "Deenk is your daily companion for Quran, worship, and prayer times.",
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(

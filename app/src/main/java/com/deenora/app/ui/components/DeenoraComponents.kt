@@ -76,7 +76,7 @@ fun DeenoraTopBar(
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_deenora_logo_vector),
-                            contentDescription = "DEENORA",
+                            contentDescription = "دينك",
                             tint = Color.Unspecified,
                             modifier = Modifier.size(38.dp)
                         )
