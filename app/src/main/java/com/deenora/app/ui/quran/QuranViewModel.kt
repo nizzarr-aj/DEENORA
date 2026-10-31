@@ -164,7 +164,8 @@ class QuranViewModel(
 
     private fun buildEveryAyahUrl(surahNumber: Int, ayahNumber: Int): String {
         val fileName = "%03d%03d.mp3".format(surahNumber, ayahNumber)
-        return "https://everyayah.com/data/Maher_AlMuaiqly_128kbps/$fileName"
+        // Exact upstream folder spelling: MaherAlMuaiqly128kbps (no underscores).
+        return "https://everyayah.com/data/MaherAlMuaiqly128kbps/$fileName"
     }
 
     private fun stopAudio() {

@@ -19,7 +19,7 @@ import com.deenora.app.R
 object PrayerNotificationHelper {
 
     const val CHANNEL_ID = "deenora_prayer_alerts_v4"
-    const val CHANNEL_NAME = "DEENORA Prayer Times Alerts"
+    const val CHANNEL_NAME = "Deenk Prayer Times Alerts"
     const val CHANNEL_DESC = "Notifications and Adhan alerts when prayer times are reached"
 
     private fun adhanUri(context: Context): Uri =
@@ -82,7 +82,7 @@ object PrayerNotificationHelper {
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(title)
             .setContentText(message)
-            .setStyle(NotificationCompat.BigTextStyle().bigText("$message\nDEENORA — دينورا"))
+            .setStyle(NotificationCompat.BigTextStyle().bigText("$message\nدينك"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             // The channel owns audio playback. Do not attach a second sound to the notification.
             .setOnlyAlertOnce(true)

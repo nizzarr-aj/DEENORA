@@ -2,8 +2,8 @@ package com.deenora.app.ui.i18n
 
 object AppStrings {
     fun appName(lang: AppLanguage) = when (lang) {
-        AppLanguage.ARABIC -> "دينورا"
-        AppLanguage.ENGLISH, AppLanguage.FRENCH -> "DEENORA"
+        AppLanguage.ARABIC -> "دينك"
+        AppLanguage.ENGLISH, AppLanguage.FRENCH -> "Deenk"
     }
 
     // Navigation
@@ -324,9 +324,9 @@ object AppStrings {
         AppLanguage.FRENCH -> "Retour Haptique"
     }
     fun aboutApp(lang: AppLanguage) = when (lang) {
-        AppLanguage.ARABIC -> "عن تطبيق دينورا"
-        AppLanguage.ENGLISH -> "About DEENORA"
-        AppLanguage.FRENCH -> "À propos de DEENORA"
+        AppLanguage.ARABIC -> "عن تطبيق دينك"
+        AppLanguage.ENGLISH -> "About Deenk"
+        AppLanguage.FRENCH -> "À propos de Deenk"
     }
     fun appVersion(lang: AppLanguage) = "v1.0.0"
 }
