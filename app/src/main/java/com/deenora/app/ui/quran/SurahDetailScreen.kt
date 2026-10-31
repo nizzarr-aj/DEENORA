@@ -105,66 +105,56 @@ fun SurahDetailScreen(
             )
         },
         bottomBar = {
-            // Audio Recitation Bar
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                tonalElevation = 6.dp,
-                color = MaterialTheme.colorScheme.surface,
-                border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.2f))
+            // Compact, centered recitation control leaves more room for Quran text.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .navigationBarsPadding()
-                        .padding(horizontal = 20.dp, vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                Surface(
+                    modifier = Modifier.fillMaxWidth(0.94f).widthIn(max = 380.dp),
+                    shape = RoundedCornerShape(22.dp),
+                    tonalElevation = 5.dp,
+                    color = MaterialTheme.colorScheme.surface,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.28f))
                 ) {
                     Row(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 7.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Box(
-                            modifier = Modifier
-                                .size(38.dp)
-                                .clip(CircleShape)
+                            modifier = Modifier.size(32.dp).clip(CircleShape)
                                 .background(if (isAudioPlaying) GoldPrimary else EmeraldPrimary),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                imageVector = if (isAudioPlaying) Icons.Filled.Headphones else Icons.Outlined.Headphones,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(20.dp)
-                            )
+                            Icon(Icons.Outlined.Headphones, contentDescription = null,
+                                tint = Color.White, modifier = Modifier.size(18.dp))
                         }
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text("ماهر المعيقلي", style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold, maxLines = 1)
                             Text(
-                                text = if (isAudioPlaying) "Recitation Playing..." else "Recitation (Mishary Alafasy)",
-                                style = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.SemiBold
+                                if (isAudioPlaying && verses.isNotEmpty())
+                                    "الآية ${verses.getOrNull(playingAyahIndex)?.ayahNumber ?: 1} / ${surah.versesCount}"
+                                else "تشغيل تلاوة القرآن",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1
                             )
-                            if (isAudioPlaying && verses.isNotEmpty()) {
-                                Text(
-                                    text = "Ayah ${verses.getOrNull(playingAyahIndex)?.ayahNumber ?: 1} of ${surah.versesCount}",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
                         }
-                    }
-
-                    FilledIconButton(
-                        onClick = onToggleAudio,
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = EmeraldPrimary
-                        ),
-                        modifier = Modifier.testTag("audio_play_pause_button")
-                    ) {
-                        Icon(
-                            imageVector = if (isAudioPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                            contentDescription = if (isAudioPlaying) "Pause" else "Play"
-                        )
+                        FilledIconButton(
+                            onClick = onToggleAudio,
+                            modifier = Modifier.size(42.dp).testTag("audio_play_pause_button"),
+                            colors = IconButtonDefaults.filledIconButtonColors(containerColor = EmeraldPrimary)
+                        ) {
+                            Icon(
+                                imageVector = if (isAudioPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                                contentDescription = if (isAudioPlaying) "Pause" else "Play"
+                            )
+                        }
                     }
                 }
             }
