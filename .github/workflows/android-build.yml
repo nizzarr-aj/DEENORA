@@ -43,6 +43,28 @@ jobs:
           Changes: Bundled as app notification audio; no audio edits made.
           EOF
 
+      - name: Bundle complete Uthmani Quran (114 surahs, 6236 ayahs)
+        run: |
+          set -euo pipefail
+          mkdir -p app/src/main/assets/quran
+          total=0
+          for surah in $(seq 1 114); do
+            url="https://raw.githubusercontent.com/semarketir/quranjson/master/source/surah/surah_${surah}.json"
+            file="app/src/main/assets/quran/surah_${surah}.json"
+            curl --fail --location --retry 4 --retry-delay 2 "$url" --output "$file"
+            count=$(jq '[.verse | keys[] | select(startswith("verse_") and . != "verse_0")] | length' "$file")
+            test "$count" -gt 0
+            total=$((total + count))
+          done
+          test "$total" -eq 6236
+          curl --fail --location --retry 4             'https://raw.githubusercontent.com/semarketir/quranjson/master/LICENSE'             --output app/src/main/assets/quran/LICENSE.txt
+          cat > app/src/main/assets/quran/SOURCE.txt <<'EOF'
+          Arabic Quran text dataset: quranjson by semarketir
+          https://github.com/semarketir/quranjson
+          Dataset states 6,236 verses, 114 surahs and 30 juz.
+          Licence: MIT. See LICENSE.txt.
+          EOF
+
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
