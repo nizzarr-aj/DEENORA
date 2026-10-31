@@ -1,5 +1,6 @@
 package com.deenora.app.ui.quran
 
+import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,7 @@ data class QuranUiState(
 )
 
 class QuranViewModel(
+    private val appContext: Context,
     private val bookmarkDao: BookmarkDao,
     private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
@@ -72,7 +74,7 @@ class QuranViewModel(
 
     fun openSurah(surah: Surah) {
         stopAudio()
-        val verses = QuranRepository.getVersesForSurah(surah.number)
+        val verses = QuranRepository.getVersesForSurah(appContext, surah.number)
         _uiState.update {
             it.copy(
                 selectedSurah = surah,
