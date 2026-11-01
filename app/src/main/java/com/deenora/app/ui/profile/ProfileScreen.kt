@@ -33,6 +33,7 @@ import com.deenora.app.data.prayer.AsrJuristicMethod
 import com.deenora.app.data.prayer.CalculationMethod
 import com.deenora.app.data.prayer.CityLocation
 import com.deenora.app.data.prayer.PredefinedCities
+// App branding: Deenk
 import com.deenora.app.ui.components.DeenoraTopBar
 import com.deenora.app.ui.components.LocationSelectorDialog
 import com.deenora.app.ui.i18n.AppLanguage
