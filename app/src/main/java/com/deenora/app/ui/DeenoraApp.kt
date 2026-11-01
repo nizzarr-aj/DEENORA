@@ -1,8 +1,10 @@
 package com.deenora.app.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -107,7 +109,13 @@ fun DeenoraApp(
                         tonalElevation = 0.dp,
                         modifier = Modifier
                             .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .shadow(8.dp, RoundedCornerShape(24.dp))
                             .clip(RoundedCornerShape(24.dp))
+                            .border(
+                                1.dp,
+                                GoldPrimary.copy(alpha = 0.24f),
+                                RoundedCornerShape(24.dp)
+                            )
                             .testTag("deenora_bottom_navigation")
                     ) {
                         DeenoraTab.values().forEach { tab ->
