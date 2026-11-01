@@ -48,7 +48,8 @@ fun AzkarScreen(
     val progressFraction = if (totalItems > 0) completedCount.toFloat() / totalItems else 0f
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().deenkPageBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             DeenoraTopBar(
                 title = AppStrings.navAzkar(currentLanguage),
