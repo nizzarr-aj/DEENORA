@@ -505,6 +505,12 @@ private fun ExtrasDuasScreen(language: AppLanguage, onBack: () -> Unit) {
         containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFF071A36),
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = GoldLight,
+                    actionIconContentColor = GoldLight
+                ),
                 title = { Text(if (language == AppLanguage.ARABIC) "الأدعية" else if (language == AppLanguage.ENGLISH) "Duas" else "Invocations") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -562,6 +568,12 @@ private fun ExtrasStoriesScreen(language: AppLanguage, onBack: () -> Unit) {
         containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFF071A36),
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = GoldLight,
+                    actionIconContentColor = GoldLight
+                ),
                 title = { Text(if (language == AppLanguage.ARABIC) "قصص إسلامية" else if (language == AppLanguage.ENGLISH) "Islamic Stories" else "Histoires islamiques") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -613,6 +625,12 @@ private fun ExtrasQuizScreen(language: AppLanguage, onBack: () -> Unit) {
         containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFF071A36),
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = GoldLight,
+                    actionIconContentColor = GoldLight
+                ),
                 title = { Text(if (language == AppLanguage.ARABIC) "اختبار إسلامي" else if (language == AppLanguage.ENGLISH) "Islamic Quiz" else "Quiz islamique") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
