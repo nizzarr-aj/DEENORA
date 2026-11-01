@@ -501,6 +501,8 @@ private fun PremiumInfoCard(language: AppLanguage) {
 @Composable
 private fun ExtrasDuasScreen(language: AppLanguage, onBack: () -> Unit) {
     Scaffold(
+        modifier = Modifier.fillMaxSize().deenkPageBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(if (language == AppLanguage.ARABIC) "الأدعية" else if (language == AppLanguage.ENGLISH) "Duas" else "Invocations") },
@@ -556,6 +558,8 @@ private fun ExtrasDuasScreen(language: AppLanguage, onBack: () -> Unit) {
 @Composable
 private fun ExtrasStoriesScreen(language: AppLanguage, onBack: () -> Unit) {
     Scaffold(
+        modifier = Modifier.fillMaxSize().deenkPageBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(if (language == AppLanguage.ARABIC) "قصص إسلامية" else if (language == AppLanguage.ENGLISH) "Islamic Stories" else "Histoires islamiques") },
@@ -605,6 +609,8 @@ private fun ExtrasQuizScreen(language: AppLanguage, onBack: () -> Unit) {
     var finished by remember { mutableStateOf(false) }
 
     Scaffold(
+        modifier = Modifier.fillMaxSize().deenkPageBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(if (language == AppLanguage.ARABIC) "اختبار إسلامي" else if (language == AppLanguage.ENGLISH) "Islamic Quiz" else "Quiz islamique") },
