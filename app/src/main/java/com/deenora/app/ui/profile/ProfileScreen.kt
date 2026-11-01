@@ -359,7 +359,8 @@ fun ProfileScreen(
     }
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().deenkPageBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             DeenoraTopBar(
                 title = AppStrings.navProfile(currentLanguage),
