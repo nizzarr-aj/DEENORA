@@ -134,11 +134,11 @@ fun SurahDetailScreen(
                                 tint = Color.White, modifier = Modifier.size(18.dp))
                         }
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("ماهر المعيقلي", style = MaterialTheme.typography.labelMedium,
+                            Text("عبدالرحمن العوسي", style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.SemiBold, maxLines = 1)
                             Text(
                                 if (isAudioPlaying && verses.isNotEmpty())
-                                    "الآية ${verses.getOrNull(playingAyahIndex)?.ayahNumber ?: 1} / ${surah.versesCount}"
+                                    "جاري تشغيل سورة ${surah.nameAr}"
                                 else "تشغيل تلاوة القرآن",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
