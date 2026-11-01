@@ -13,6 +13,7 @@ import com.deenora.app.data.quran.JuzInfo
 import com.deenora.app.data.quran.QuranRepository
 import com.deenora.app.data.quran.Surah
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.isActive
@@ -48,6 +49,8 @@ class QuranViewModel(
     private var mediaPlayer: MediaPlayer? = null
     private var audioRequestJob: Job? = null
     @Volatile private var alOssiServer: String? = null
+    @Volatile private var alOssiReadId: Int? = null
+    private var ayahHighlightJob: Job? = null
 
     init {
         viewModelScope.launch {
@@ -104,14 +107,14 @@ class QuranViewModel(
         _uiState.update { it.copy(isAudioPlaying = true, playingAyahIndex = -1) }
 
         audioRequestJob = viewModelScope.launch {
-            val audioUrl = try {
-                withContext(Dispatchers.IO) { resolveAlOssiSurahUrl(surah.number) }
+            val audioInfo = try {
+                withContext(Dispatchers.IO) { resolveAlOssiAudioInfo(surah.number) }
             } catch (_: Exception) {
                 null
             }
 
             if (!isActive) return@launch
-            if (audioUrl.isNullOrBlank()) {
+            if (audioInfo == null || audioInfo.audioUrl.isBlank()) {
                 _uiState.update { it.copy(isAudioPlaying = false, playingAyahIndex = 0) }
                 return@launch
             }
@@ -125,7 +128,23 @@ class QuranViewModel(
                     .build()
             )
             player.setOnPreparedListener { mp ->
-                if (mediaPlayer === mp) mp.start() else mp.release()
+                if (mediaPlayer === mp) {
+                    mp.start()
+                    ayahHighlightJob?.cancel()
+                    ayahHighlightJob = viewModelScope.launch {
+                        while (isActive && mediaPlayer === mp) {
+                            val position = try { mp.currentPosition } catch (_: IllegalStateException) { break }
+                            val timing = audioInfo.timings.firstOrNull { position >= it.startMs && position < it.endMs && it.ayah > 0 }
+                            if (timing != null) {
+                                val index = timing.ayah - 1
+                                if (_uiState.value.playingAyahIndex != index) {
+                                    _uiState.update { state -> state.copy(playingAyahIndex = index) }
+                                }
+                            }
+                            delay(180)
+                        }
+                    }
+                } else mp.release()
             }
             player.setOnCompletionListener {
                 if (mediaPlayer === it) {
@@ -142,7 +161,7 @@ class QuranViewModel(
             }
 
             try {
-                player.setDataSource(audioUrl)
+                player.setDataSource(audioInfo.audioUrl)
                 player.prepareAsync()
             } catch (_: Exception) {
                 releaseMediaPlayer()
@@ -151,9 +170,13 @@ class QuranViewModel(
         }
     }
 
-    private fun resolveAlOssiSurahUrl(surahNumber: Int): String? {
+    private data class AyahTiming(val ayah: Int, val startMs: Int, val endMs: Int)
+    private data class AlOssiAudioInfo(val audioUrl: String, val timings: List<AyahTiming>)
+
+    private fun resolveAlOssiAudioInfo(surahNumber: Int): AlOssiAudioInfo? {
         var server = alOssiServer
-        if (server.isNullOrBlank()) {
+        var readId = alOssiReadId
+        if (server.isNullOrBlank() || readId == null) {
             val connection = (URL("https://mp3quran.net/api/v3/reciters?language=ar").openConnection() as HttpURLConnection).apply {
                 requestMethod = "GET"
                 connectTimeout = 12000
@@ -173,30 +196,65 @@ class QuranViewModel(
                         val item = moshaf.optJSONObject(j) ?: continue
                         val candidate = item.optString("server")
                         val surahList = item.optString("surah_list")
-                        if (candidate.isNotBlank() && (surahList.isBlank() || surahList.split(",").any { it.trim() == surahNumber.toString() })) {
+                        val candidateId = item.optInt("id", -1)
+                        if (candidate.isNotBlank() && candidateId > 0 &&
+                            (surahList.isBlank() || surahList.split(",").any { it.trim() == surahNumber.toString() })) {
                             server = if (candidate.endsWith("/")) candidate else "$candidate/"
+                            readId = candidateId
                             break
                         }
                     }
-                    if (!server.isNullOrBlank()) break
+                    if (!server.isNullOrBlank() && readId != null) break
                 }
             } finally {
                 connection.disconnect()
             }
         }
-        if (server.isNullOrBlank()) return null
+        if (server.isNullOrBlank() || readId == null) return null
         alOssiServer = server
-        return server + "%03d.mp3".format(Locale.US, surahNumber)
+        alOssiReadId = readId
+
+        val timings = try {
+            val timingConnection = (URL("https://mp3quran.net/api/v3/ayat_timing?surah=$surahNumber&read=$readId").openConnection() as HttpURLConnection).apply {
+                requestMethod = "GET"
+                connectTimeout = 10000
+                readTimeout = 12000
+                setRequestProperty("Accept", "application/json")
+                setRequestProperty("User-Agent", "Deenk-Android")
+            }
+            try {
+                val array = org.json.JSONArray(timingConnection.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() })
+                buildList {
+                    for (i in 0 until array.length()) {
+                        val item = array.optJSONObject(i) ?: continue
+                        val ayah = item.optInt("ayah", -1)
+                        val startMs = item.optInt("start_time", -1)
+                        val endMs = item.optInt("end_time", -1)
+                        if (ayah >= 0 && startMs >= 0 && endMs > startMs) add(AyahTiming(ayah, startMs, endMs))
+                    }
+                }
+            } finally {
+                timingConnection.disconnect()
+            }
+        } catch (_: Exception) {
+            emptyList()
+        }
+
+        return AlOssiAudioInfo(server + "%03d.mp3".format(Locale.US, surahNumber), timings)
     }
 
     private fun stopAudio() {
         audioRequestJob?.cancel()
         audioRequestJob = null
+        ayahHighlightJob?.cancel()
+        ayahHighlightJob = null
         releaseMediaPlayer()
         _uiState.update { it.copy(isAudioPlaying = false, playingAyahIndex = 0) }
     }
 
     private fun releaseMediaPlayer() {
+        ayahHighlightJob?.cancel()
+        ayahHighlightJob = null
         mediaPlayer?.let { player ->
             try { if (player.isPlaying) player.stop() } catch (_: IllegalStateException) { }
             try { player.reset() } catch (_: IllegalStateException) { }
@@ -207,6 +265,7 @@ class QuranViewModel(
 
     override fun onCleared() {
         audioRequestJob?.cancel()
+        ayahHighlightJob?.cancel()
         releaseMediaPlayer()
         super.onCleared()
     }
