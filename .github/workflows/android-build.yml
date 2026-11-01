@@ -25,21 +25,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Bundle beautiful offline adhan recording (CC0 1.0)
+      - name: Bundle clear Masjid al-Haram adhan (CC BY 3.0)
         run: |
+          set -euo pipefail
           mkdir -p app/src/main/res/raw
-          curl --fail --location --retry 3 --retry-delay 2 \
-            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Beautiful_adhan.ogg' \
-            --output app/src/main/res/raw/adhan.ogg
-          test -s app/src/main/res/raw/adhan.ogg
-          file app/src/main/res/raw/adhan.ogg
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          curl --fail --location --retry 4 --retry-delay 2 \
+            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Adhan,_Great_Mosque_of_Mecca_-_Jan_21,_2013.webm' \
+            --output /tmp/masjid-al-haram-adhan.webm
+          ffmpeg -y -i /tmp/masjid-al-haram-adhan.webm -vn -ac 1 -ar 44100 -b:a 128k \
+            app/src/main/res/raw/adhan.mp3
+          test -s app/src/main/res/raw/adhan.mp3
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 app/src/main/res/raw/adhan.mp3
           cat > app/src/main/res/raw/adhan_attribution.txt <<'EOF'
-          Recording: Beautiful adhan (2 min 34 sec)
-          Author/uploader: Adam-synagda
-          Source: https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg
-          Licence: CC0 1.0 Universal (public domain dedication)
-          Licence URL: https://creativecommons.org/publicdomain/zero/1.0/
-          Changes: Bundled unchanged as the offline prayer notification sound.
+          Recording: Adhan, Great Mosque of Mecca - Jan 21, 2013
+          Author/uploader: Seyfula Islam
+          Source: https://commons.wikimedia.org/wiki/File:Adhan,_Great_Mosque_of_Mecca_-_Jan_21,_2013.webm
+          Licence: Creative Commons Attribution 3.0 (CC BY 3.0)
+          Licence URL: https://creativecommons.org/licenses/by/3.0/
+          Changes: Converted from WebM/Vorbis to mono MP3 for Android offline playback.
           EOF
 
       - name: Bundle complete Uthmani Quran (114 surahs, 6236 ayahs)

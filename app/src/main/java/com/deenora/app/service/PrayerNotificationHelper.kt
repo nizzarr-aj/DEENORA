@@ -18,7 +18,7 @@ import com.deenora.app.R
 
 object PrayerNotificationHelper {
 
-    const val CHANNEL_ID = "deenk_prayer_alerts_v6"
+    const val CHANNEL_ID = "deenk_prayer_alerts_v7"
     const val CHANNEL_NAME = "دينك - الأذان ومواقيت الصلاة"
     const val CHANNEL_DESC = "تنبيهات دينك مع صوت الأذان عند دخول وقت الصلاة"
 
