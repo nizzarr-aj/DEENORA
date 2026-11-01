@@ -8,6 +8,7 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.Ringtone
 import android.media.RingtoneManager
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,6 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
+import com.deenora.app.R
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -102,77 +108,81 @@ fun HomeScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            DeenoraTopBar(
-                title = AppStrings.appName(lang),
-                subtitle = cityName,
-                currentLanguage = lang,
-                onLanguageClick = onLanguageClick
-            )
-        }
+        topBar = {},
+        containerColor = Color.Transparent
     ) { innerPadding ->
-        LazyColumn(
+        Box(modifier = Modifier.fillMaxSize()) {
+            DeenkNightBackdrop()
+            LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 14.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp)
+            contentPadding = PaddingValues(top = 8.dp, bottom = 24.dp)
         ) {
-            // Greeting & Dates Header with Location change button
+            // Full-width branded header inspired by the approved Deenk reference.
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .statusBarsPadding()
+                        .padding(top = 8.dp, bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Column {
-                        Text(
-                            text = AppStrings.greeting(lang),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = gregorianDate,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-
-                    // Location Pill Button
                     Surface(
                         onClick = { showLocationSelector = true },
-                        shape = RoundedCornerShape(16.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.8f),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.35f)),
+                        shape = RoundedCornerShape(24.dp),
+                        color = Color(0xD9081D3B),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, GoldLight),
                         modifier = Modifier.testTag("home_location_picker_pill")
                     ) {
                         Row(
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
-                            Icon(
-                                imageVector = if (state.settings.city.isGps) Icons.Default.GpsFixed else Icons.Outlined.LocationOn,
-                                contentDescription = "Change Location",
-                                tint = if (state.settings.city.isGps) EmeraldPrimary else GoldDark,
-                                modifier = Modifier.size(16.dp)
-                            )
+                            Icon(Icons.Default.LocationOn, null, tint = GoldLight, modifier = Modifier.size(18.dp))
+                            Text(cityName, color = Color.White, style = MaterialTheme.typography.labelMedium, maxLines = 1)
+                            Icon(Icons.Default.ArrowDropDown, null, tint = GoldLight)
+                        }
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text(AppStrings.appName(lang), color = GoldLight, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.ExtraBold)
                             Text(
                                 text = when (lang) {
-                                    AppLanguage.ARABIC -> "تغيير المدينة"
-                                    AppLanguage.ENGLISH -> "Change City"
-                                    AppLanguage.FRENCH -> "Changer ville"
+                                    AppLanguage.ARABIC -> "رفيقك في دينك وحياتك"
+                                    AppLanguage.ENGLISH -> "Your companion in faith and life"
+                                    AppLanguage.FRENCH -> "Votre compagnon de foi"
                                 },
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = Color.White.copy(alpha = 0.9f),
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
+                        Box(
+                            modifier = Modifier.size(58.dp).clip(RoundedCornerShape(18.dp))
+                                .background(Brush.linearGradient(listOf(Color(0xFF173D70), Color(0xFF071A36))))
+                                .border(1.5.dp, GoldLight, RoundedCornerShape(18.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            androidx.compose.material3.Icon(
+                                painter = painterResource(id = R.drawable.ic_deenora_logo_vector),
+                                contentDescription = "Deenk",
+                                tint = Color.Unspecified,
+                                modifier = Modifier.size(54.dp)
                             )
                         }
                     }
                 }
+                Text(
+                    text = gregorianDate,
+                    color = Color.White.copy(alpha = 0.82f),
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp),
+                    textAlign = TextAlign.End
+                )
             }
 
             // Optional GPS Prompt Banner if not currently on GPS
@@ -273,6 +283,65 @@ fun HomeScreen(
                 }
             }
 
+            // Featured Quran banner, matching the illustrated reference card.
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth().height(154.dp).clickable(onClick = onNavigateToQuran).testTag("home_quran_feature"),
+                    shape = RoundedCornerShape(26.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.5.dp, GoldLight),
+                    colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize().background(
+                            Brush.horizontalGradient(listOf(Color(0xFF071A36), Color(0xFF17477C), Color(0xFF071A36)))
+                        ).padding(16.dp)
+                    ) {
+                        Icon(Icons.Outlined.MenuBook, null, tint = GoldLight.copy(alpha = 0.95f), modifier = Modifier.align(Alignment.CenterStart).size(92.dp))
+                        Column(
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                            horizontalAlignment = Alignment.End,
+                            verticalArrangement = Arrangement.spacedBy(7.dp)
+                        ) {
+                            Text(
+                                text = when (lang) {
+                                    AppLanguage.ARABIC -> "القرآن الكريم"
+                                    AppLanguage.ENGLISH -> "The Holy Quran"
+                                    AppLanguage.FRENCH -> "Le Saint Coran"
+                                },
+                                color = GoldLight,
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.ExtraBold
+                            )
+                            Text(
+                                text = when (lang) {
+                                    AppLanguage.ARABIC -> "استمع وتدبّر آيات الله العظيمة"
+                                    AppLanguage.ENGLISH -> "Listen and reflect on the verses"
+                                    AppLanguage.FRENCH -> "Écoutez et méditez les versets"
+                                },
+                                color = Color.White,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            Surface(
+                                onClick = onNavigateToQuran,
+                                color = GoldLight,
+                                shape = RoundedCornerShape(24.dp)
+                            ) {
+                                Text(
+                                    text = when (lang) {
+                                        AppLanguage.ARABIC -> "ابدأ القراءة  ▶"
+                                        AppLanguage.ENGLISH -> "Start reading  ▶"
+                                        AppLanguage.FRENCH -> "Commencer  ▶"
+                                    },
+                                    color = Color(0xFF102342),
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 8.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
             // Quick Access: spacious two-column tiles for comfortable one-hand use.
             item {
                 Column(
@@ -326,74 +395,65 @@ fun HomeScreen(
                 }
             }
 
-            // Today's 5 Prayer Times Section (Calculated via Adhan library)
+            // Compact five-prayer timetable in a single pearl card.
             item {
                 val times = state.prayerTimes
                 if (times != null) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    Card(
+                        modifier = Modifier.fillMaxWidth().testTag("today_prayer_strip"),
+                        shape = RoundedCornerShape(26.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF5E5)),
+                        border = androidx.compose.foundation.BorderStroke(1.5.dp, GoldPrimary)
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = AppStrings.todayPrayers(lang),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-
-                            Text(
-                                text = state.settings.calculationMethod.titleEn,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = GoldDark,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
-
-                        val prayers = listOf(
-                            PrayerType.FAJR,
-                            PrayerType.SUNRISE,
-                            PrayerType.DHUHR,
-                            PrayerType.ASR,
-                            PrayerType.MAGHRIB,
-                            PrayerType.ISHA
-                        )
-
-                        prayers.forEach { prayer ->
-                            val isActive = state.currentPrayer == prayer
-                            val isNext = state.nextPrayerInfo?.prayer == prayer
-                            PrayerCardItem(
-                                prayer = prayer,
-                                timeFormatted = times.getFormattedTime(prayer),
-                                isActive = isActive,
-                                isNext = isNext,
-                                language = lang,
-                                onSoundToggle = {
-                                    try {
-                                        val currentTone = previewRingtone
-                                        if (currentTone?.isPlaying == true) {
-                                            currentTone.stop()
-                                            previewRingtone = null
-                                        } else {
-                                            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-                                                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                                            val tone = RingtoneManager.getRingtone(context, soundUri)
-                                            tone?.audioAttributes = AudioAttributes.Builder()
-                                                .setUsage(AudioAttributes.USAGE_ALARM)
-                                                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                                                .build()
-                                            tone?.play()
-                                            previewRingtone = tone
-                                        }
-                                    } catch (_: Exception) {
-                                        previewRingtone = null
+                        Column(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(AppStrings.todayPrayers(lang), color = Color(0xFF102342), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold)
+                                Text(state.settings.calculationMethod.titleEn, color = GoldDark, style = MaterialTheme.typography.labelSmall)
+                            }
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                listOf(PrayerType.FAJR, PrayerType.DHUHR, PrayerType.ASR, PrayerType.MAGHRIB, PrayerType.ISHA).forEach { prayer ->
+                                    val active = state.nextPrayerInfo?.prayer == prayer
+                                    Column(
+                                        modifier = Modifier.weight(1f).clip(RoundedCornerShape(15.dp))
+                                            .background(if (active) Color(0xFF102D55) else Color(0xFFFFEED2))
+                                            .border(1.dp, if (active) GoldPrimary else Color(0xFFE5CFA8), RoundedCornerShape(15.dp))
+                                            .padding(vertical = 12.dp, horizontal = 3.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = when (prayer) {
+                                                PrayerType.FAJR -> Icons.Outlined.Brightness4
+                                                PrayerType.DHUHR -> Icons.Outlined.WbSunny
+                                                PrayerType.ASR -> Icons.Outlined.WbTwilight
+                                                PrayerType.MAGHRIB -> Icons.Outlined.NightsStay
+                                                else -> Icons.Filled.DarkMode
+                                            },
+                                            contentDescription = null,
+                                            tint = if (active) GoldLight else GoldDark,
+                                            modifier = Modifier.size(22.dp)
+                                        )
+                                        Text(
+                                            prayer.getDisplayName(lang),
+                                            color = if (active) Color.White else Color(0xFF102342),
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            maxLines = 1
+                                        )
+                                        Text(
+                                            times.getFormattedTime(prayer),
+                                            color = if (active) GoldLight else Color(0xFF17213A),
+                                            style = MaterialTheme.typography.labelMedium,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            maxLines = 1
+                                        )
                                     }
                                 }
-                            )
+                            }
                         }
                     }
                 }
@@ -407,8 +467,8 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .testTag("daily_dua_card"),
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.35f))
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF7EA)),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.65f))
                 ) {
                     Column(
                         modifier = Modifier
@@ -484,7 +544,7 @@ fun HomeScreen(
                             style = MaterialTheme.typography.titleLarge.copy(lineHeight = 36.sp),
                             fontWeight = FontWeight.Medium,
                             textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = Color(0xFF102D55),
                             modifier = Modifier.fillMaxWidth()
                         )
 
@@ -717,6 +777,51 @@ fun HomeScreen(
             },
             onDismissRequest = { showLocationSelector = false }
         )
+    }
+}
+
+@Composable
+private fun DeenkNightBackdrop() {
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val width = size.width
+        val height = size.height
+        drawRect(
+            brush = Brush.verticalGradient(
+                colorStops = arrayOf(
+                    0f to Color(0xFF04152F),
+                    0.20f to Color(0xFF0A2B55),
+                    0.39f to Color(0xFF173E69),
+                    0.43f to Color(0xFFF5EDE2),
+                    1f to Color(0xFFF7F4EF)
+                ),
+                startY = 0f,
+                endY = height
+            )
+        )
+        // Fine stars across the deep-blue header.
+        for (i in 0 until 115) {
+            val x = ((i * 73) % 997) / 997f * width
+            val y = ((i * 47) % 389) / 389f * height * 0.39f
+            val radius = if (i % 9 == 0) 2.0f else 0.8f
+            drawCircle(Color(0xFFFFE6AD).copy(alpha = if (i % 4 == 0) 0.9f else 0.48f), radius, androidx.compose.ui.geometry.Offset(x, y))
+        }
+        // Crescent moon with a soft golden edge.
+        val moon = androidx.compose.ui.geometry.Offset(width * 0.20f, height * 0.115f)
+        drawCircle(Color(0xFFFFD989), radius = width * 0.075f, center = moon)
+        drawCircle(Color(0xFF0A2B55), radius = width * 0.069f, center = androidx.compose.ui.geometry.Offset(moon.x + width * 0.032f, moon.y - height * 0.012f))
+        // Distant mosque skyline along the transition into the pearl content area.
+        val base = height * 0.405f
+        drawRect(Color(0xFF061B37), topLeft = androidx.compose.ui.geometry.Offset(0f, base), size = androidx.compose.ui.geometry.Size(width, height * 0.045f))
+        drawRect(Color(0xFF0A2446), topLeft = androidx.compose.ui.geometry.Offset(width * 0.12f, base - height * 0.075f), size = androidx.compose.ui.geometry.Size(width * 0.76f, height * 0.075f))
+        drawCircle(Color(0xFF0A2446), radius = width * 0.105f, center = androidx.compose.ui.geometry.Offset(width * 0.5f, base - height * 0.075f))
+        drawRect(Color(0xFF0A2446), topLeft = androidx.compose.ui.geometry.Offset(width * 0.46f, base - height * 0.16f), size = androidx.compose.ui.geometry.Size(width * 0.08f, height * 0.085f))
+        drawCircle(Color(0xFF0A2446), radius = width * 0.04f, center = androidx.compose.ui.geometry.Offset(width * 0.5f, base - height * 0.16f))
+        for (x in listOf(0.12f, 0.82f)) {
+            drawRect(Color(0xFF0A2446), topLeft = androidx.compose.ui.geometry.Offset(width * x, base - height * 0.14f), size = androidx.compose.ui.geometry.Size(width * 0.045f, height * 0.14f))
+            drawCircle(Color(0xFF0A2446), radius = width * 0.023f, center = androidx.compose.ui.geometry.Offset(width * (x + 0.022f), base - height * 0.14f))
+        }
+        // Warm horizon glow.
+        drawRect(Brush.verticalGradient(listOf(Color(0x00F5D69A), Color(0x55F5D69A))), topLeft = androidx.compose.ui.geometry.Offset(0f, base - height * 0.025f), size = androidx.compose.ui.geometry.Size(width, height * 0.075f))
     }
 }
 

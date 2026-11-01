@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import com.deenora.app.data.local.AppDatabase
 import com.deenora.app.data.preferences.UserPreferencesRepository
 import com.deenora.app.ui.azkar.AzkarScreen
@@ -105,7 +106,8 @@ fun DeenoraApp(
                 modifier = Modifier.fillMaxSize(),
                 bottomBar = {
                     NavigationBar(
-                        containerColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color(0xFF061A36),
+                        contentColor = Color.White,
                         tonalElevation = 0.dp,
                         modifier = Modifier
                             .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -141,11 +143,11 @@ fun DeenoraApp(
                                     )
                                 },
                                 colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = MaterialTheme.colorScheme.surface,
-                                    indicatorColor = EmeraldPrimary,
-                                    selectedTextColor = EmeraldPrimary,
-                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                    selectedIconColor = Color(0xFFFFD989),
+                                    indicatorColor = Color(0xFF214A7C),
+                                    selectedTextColor = Color(0xFFFFD989),
+                                    unselectedIconColor = Color.White,
+                                    unselectedTextColor = Color.White
                                 ),
                                 modifier = Modifier.testTag(tab.testTag)
                             )
