@@ -64,6 +64,12 @@ fun SurahDetailScreen(
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF071A36),
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = GoldLight,
+                    actionIconContentColor = GoldLight
+                ),
                 title = {
                     Column {
                         Text(
