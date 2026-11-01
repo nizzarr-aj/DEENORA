@@ -13,14 +13,14 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = EmeraldLight,
-    onPrimary = EmeraldDark,
+    onPrimary = DarkBackground,
     primaryContainer = EmeraldPrimary,
     onPrimaryContainer = EmeraldPale,
     secondary = GoldLight,
     onSecondary = DarkBackground,
     secondaryContainer = GoldDark,
     onSecondaryContainer = GoldContainer,
-    tertiary = EmeraldLight,
+    tertiary = EmeraldGlow,
     background = DarkBackground,
     onBackground = TextLight,
     surface = DarkSurface,
