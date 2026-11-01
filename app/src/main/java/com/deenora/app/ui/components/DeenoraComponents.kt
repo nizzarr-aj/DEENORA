@@ -433,24 +433,28 @@ fun QuickActionButton(
 ) {
     Card(
         modifier = modifier
+            .shadow(2.dp, RoundedCornerShape(20.dp))
             .testTag("quick_action_${title.lowercase()}")
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            GoldPrimary.copy(alpha = 0.22f)
+        )
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 14.dp, horizontal = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(horizontal = 14.dp, vertical = 15.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Box(
                 modifier = Modifier
                     .size(46.dp)
-                    .clip(CircleShape)
-                    .background(color.copy(alpha = 0.12f)),
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(color.copy(alpha = 0.13f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -460,13 +464,13 @@ fun QuickActionButton(
                     modifier = Modifier.size(24.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2
             )
         }
     }
