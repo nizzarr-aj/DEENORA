@@ -18,9 +18,9 @@ import com.deenora.app.R
 
 object PrayerNotificationHelper {
 
-    const val CHANNEL_ID = "deenk_prayer_alerts_v5"
-    const val CHANNEL_NAME = "دينك - تنبيهات الصلاة"
-    const val CHANNEL_DESC = "تنبيهات دينك لمواقيت الصلاة والأذان"
+    const val CHANNEL_ID = "deenora_prayer_alerts_v4"
+    const val CHANNEL_NAME = "Deenk Prayer Times Alerts"
+    const val CHANNEL_DESC = "Notifications and Adhan alerts when prayer times are reached"
 
     private fun adhanUri(context: Context): Uri =
         Uri.parse("android.resource://${context.packageName}/${R.raw.adhan}")
