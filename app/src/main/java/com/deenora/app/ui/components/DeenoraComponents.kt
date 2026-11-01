@@ -66,19 +66,19 @@ fun DeenoraTopBar(
                     // DEENORA Minimal Emblem
                     Box(
                         modifier = Modifier
-                            .size(42.dp)
-                            .clip(RoundedCornerShape(10.dp))
+                            .size(52.dp)
+                            .clip(RoundedCornerShape(16.dp))
                             .background(
                                 Brush.linearGradient(listOf(EmeraldPrimary, EmeraldMedium))
                             )
-                            .border(1.dp, GoldLight.copy(alpha = 0.75f), RoundedCornerShape(13.dp)),
+                            .border(1.4.dp, GoldLight.copy(alpha = 0.9f), RoundedCornerShape(16.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_deenora_logo_vector),
                             contentDescription = "DEENORA",
                             tint = Color.Unspecified,
-                            modifier = Modifier.size(38.dp)
+                            modifier = Modifier.size(48.dp)
                         )
                     }
                 }
@@ -169,7 +169,7 @@ fun NextPrayerHeroCard(
                         colors = listOf(
                             EmeraldDark,
                             EmeraldPrimary,
-                            Color(0xFF0F362C)
+                            Color(0xFF0B1224)
                         )
                     )
                 )
