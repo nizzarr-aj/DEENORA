@@ -60,7 +60,8 @@ fun SurahDetailScreen(
     var selectedAyahForTafsir by remember { mutableStateOf<Ayah?>(null) }
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().deenkPageBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = {
