@@ -75,7 +75,8 @@ fun TasbihView(
     )
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().deenkPageBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = {
