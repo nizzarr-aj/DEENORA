@@ -767,6 +767,8 @@ fun HomeScreen(
         }
     }
 
+    }
+
     // Location Selector Dialog
     if (showLocationSelector) {
         LocationSelectorDialog(
