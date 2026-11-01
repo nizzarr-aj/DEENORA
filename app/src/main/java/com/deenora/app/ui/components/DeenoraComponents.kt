@@ -45,8 +45,8 @@ fun DeenoraTopBar(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 2.dp
+        color = Color(0xFF071A36),
+        tonalElevation = 0.dp
     ) {
         Row(
             modifier = Modifier
@@ -88,7 +88,7 @@ fun DeenoraTopBar(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = Color.White
                     )
                     if (subtitle != null) {
                         Text(
@@ -109,7 +109,7 @@ fun DeenoraTopBar(
                 Surface(
                     onClick = onLanguageClick,
                     shape = RoundedCornerShape(20.dp),
-                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f),
+                    color = Color(0xFF102B50),
                     border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.3f)),
                     modifier = Modifier.testTag("language_toggle_button")
                 ) {
@@ -121,14 +121,14 @@ fun DeenoraTopBar(
                         Icon(
                             imageVector = Icons.Outlined.Translate,
                             contentDescription = "Language",
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = GoldLight,
                             modifier = Modifier.size(16.dp)
                         )
                         Text(
                             text = currentLanguage.nativeName,
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = GoldLight
                         )
                     }
                 }
