@@ -273,16 +273,18 @@ fun HomeScreen(
                 }
             }
 
-            // Quick Access Bar
+            // Quick Access: spacious two-column tiles for comfortable one-hand use.
             item {
-                Column(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     Text(
                         text = AppStrings.quickAccess(lang),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -301,17 +303,22 @@ fun HomeScreen(
                             onClick = onNavigateToTasbih,
                             modifier = Modifier.weight(1f)
                         )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
                         QuickActionButton(
                             title = AppStrings.qibla(lang),
                             icon = Icons.Outlined.Explore,
-                            color = Color(0xFF2A7261),
+                            color = EmeraldLight,
                             onClick = onNavigateToQibla,
                             modifier = Modifier.weight(1f)
                         )
                         QuickActionButton(
                             title = AppStrings.navAzkar(lang),
                             icon = Icons.Outlined.VolunteerActivism,
-                            color = Color(0xFFC07025),
+                            color = GoldDark,
                             onClick = onNavigateToAzkar,
                             modifier = Modifier.weight(1f)
                         )
