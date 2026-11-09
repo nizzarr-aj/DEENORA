@@ -30,6 +30,7 @@ import com.deenora.app.data.prayer.PredefinedCities
 import com.deenora.app.ui.i18n.AppLanguage
 import com.deenora.app.ui.theme.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import java.util.TimeZone
 
@@ -59,7 +60,7 @@ fun LocationSelectorDialog(
         )
     )
 
-    val hasAnyLocationPermission = locationPermissionsState.permissions.any { it.status.isGranted }
+    val hasAnyLocationPermission = locationPermissionsState.permissions.any { it.status == PermissionStatus.Granted }
 
     LaunchedEffect(hasAnyLocationPermission, hasRequestedLocation) {
         if (hasAnyLocationPermission && hasRequestedLocation) {
