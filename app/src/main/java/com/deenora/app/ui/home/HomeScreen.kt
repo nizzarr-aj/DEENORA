@@ -781,6 +781,8 @@ fun HomeScreen(
     }
 }
 
+}
+
 @Composable
 private fun DeenkNightBackdrop() {
     Canvas(modifier = Modifier.fillMaxSize()) {
