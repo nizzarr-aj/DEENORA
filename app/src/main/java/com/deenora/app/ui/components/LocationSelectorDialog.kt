@@ -59,8 +59,10 @@ fun LocationSelectorDialog(
         )
     )
 
-    LaunchedEffect(locationPermissionsState.allPermissionsGranted) {
-        if (locationPermissionsState.allPermissionsGranted && hasRequestedLocation) {
+    val hasAnyLocationPermission = locationPermissionsState.permissions.any { it.status.isGranted }
+
+    LaunchedEffect(hasAnyLocationPermission, hasRequestedLocation) {
+        if (hasAnyLocationPermission && hasRequestedLocation) {
             isDetectingGps = true
             gpsStatusMessage = "Acquiring GPS fix..."
             LocationHelper.fetchCurrentLocation(
@@ -126,7 +128,7 @@ fun LocationSelectorDialog(
                 Button(
                     onClick = {
                         gpsStatusMessage = null
-                        if (locationPermissionsState.allPermissionsGranted) {
+                        if (hasAnyLocationPermission || LocationHelper.hasLocationPermission(context)) {
                             isDetectingGps = true
                             gpsStatusMessage = "Detecting actual device location..."
                             LocationHelper.fetchCurrentLocation(
