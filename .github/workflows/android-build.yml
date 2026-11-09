@@ -34,7 +34,7 @@ jobs:
           curl --fail --location --retry 4 --retry-delay 2 \
             'https://commons.wikimedia.org/wiki/Special:Redirect/file/Adhan,_Great_Mosque_of_Mecca_-_Jan_21,_2013.webm' \
             --output /tmp/masjid-al-haram-adhan.webm
-          ffmpeg -y -i /tmp/masjid-al-haram-adhan.webm -vn -ac 1 -ar 44100 -b:a 128k \
+          ffmpeg -y -i /tmp/masjid-al-haram-adhan.webm -vn -af "highpass=f=75,afftdn=nf=-28:tn=1,loudnorm=I=-16:TP=-1.5:LRA=11" -ac 1 -ar 48000 -b:a 192k \
             app/src/main/res/raw/adhan.mp3
           test -s app/src/main/res/raw/adhan.mp3
           ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 app/src/main/res/raw/adhan.mp3
