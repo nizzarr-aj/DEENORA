@@ -5,6 +5,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.deenora.app.data.preferences.UserPreferencesRepository
 import kotlinx.coroutines.flow.first
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PrayerAlarmWorker(
     appContext: Context,
@@ -26,14 +29,30 @@ class PrayerAlarmWorker(
         val settings = prefs.settings.first()
 
         if (settings.isNotificationEnabled) {
-            PrayerNotificationHelper.showPrayerNotification(
-                context = applicationContext,
-                prayerName = prayerName,
-                cityName = cityName,
-                notificationId = notifId
+            // WorkManager can retry or an older scheduled alarm can survive an update.
+            // Persist a per-prayer/per-day guard so the same prayer never alerts twice.
+            val dayKey = SimpleDateFormat("yyyyMMdd", Locale.US).format(Date())
+            val guardKey = "fired_${dayKey}_${notifId}_${cityName.hashCode()}"
+            val guard = applicationContext.getSharedPreferences(
+                "prayer_alarm_guard",
+                Context.MODE_PRIVATE
             )
+            val alreadyAlerted = guard.getBoolean(guardKey, false)
 
-            // Reschedule subsequent upcoming prayer times
+            if (!alreadyAlerted) {
+                // Commit before showing the alert to prevent simultaneous duplicate workers.
+                val saved = guard.edit().putBoolean(guardKey, true).commit()
+                if (saved) {
+                    PrayerNotificationHelper.showPrayerNotification(
+                        context = applicationContext,
+                        prayerName = prayerName,
+                        cityName = cityName,
+                        notificationId = notifId
+                    )
+                }
+            }
+
+            // Reschedule subsequent upcoming prayer times even when a duplicate was skipped.
             PrayerWorkManagerScheduler.scheduleAllPrayerNotifications(applicationContext)
         }
 
