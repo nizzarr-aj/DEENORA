@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -27,6 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -365,39 +369,71 @@ fun TasbihView(
                 )
             }
 
-            // Big Interactive Circular Touch Counter with Tactile Ripple & Spring Press
+            // Interactive digital misbaha inspired by the reference: gold ring,
+            // ten glossy green beads and a small gold tassel.
             Box(
                 modifier = Modifier
-                    .size(240.dp)
+                    .size(300.dp)
                     .scale(scaleOnPress)
-                    .clip(CircleShape)
-                    .shadow(18.dp, CircleShape)
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(
-                                EmeraldPrimary,
-                                EmeraldDark
-                            )
-                        )
-                    )
-                    .border(4.dp, GoldPrimary, CircleShape)
                     .clickable(
                         interactionSource = interactionSource,
-                        indication = ripple(bounded = true, color = Color.White)
+                        indication = ripple(bounded = false, color = EmeraldPrimary)
                     ) {
                         viewModel.tapTasbih(context)
                     }
                     .testTag("tasbih_tap_area"),
                 contentAlignment = Alignment.Center
             ) {
-                // Circular Progress Ring Indicator
-                CircularProgressIndicator(
-                    progress = { setProgress },
-                    modifier = Modifier.fillMaxSize().padding(10.dp),
-                    color = GoldLight,
-                    strokeWidth = 7.dp,
-                    trackColor = Color.White.copy(alpha = 0.15f)
-                )
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    val center = Offset(size.width / 2f, size.height / 2f)
+                    val ringRadius = size.minDimension * 0.405f
+                    val beadRadius = 12.dp.toPx()
+                    drawCircle(
+                        color = Color(0xFFB18A50),
+                        radius = ringRadius,
+                        center = center,
+                        style = Stroke(width = 2.dp.toPx())
+                    )
+                    // Leave a small opening at the top, like the pictured prayer beads.
+                    repeat(10) { index ->
+                        val angle = Math.toRadians((-55.0 + index * (290.0 / 9.0)))
+                        val x = center.x + kotlin.math.cos(angle).toFloat() * ringRadius
+                        val y = center.y + kotlin.math.sin(angle).toFloat() * ringRadius
+                        val beadCenter = Offset(x, y)
+                        drawCircle(
+                            color = Color(0x33000000),
+                            radius = beadRadius,
+                            center = Offset(x + 1.dp.toPx(), y + 2.dp.toPx())
+                        )
+                        drawCircle(
+                            brush = Brush.radialGradient(
+                                colors = listOf(
+                                    Color(0xFFB9F1DF),
+                                    Color(0xFF16866C),
+                                    Color(0xFF064B40)
+                                ),
+                                center = Offset(x - beadRadius * 0.35f, y - beadRadius * 0.4f),
+                                radius = beadRadius * 1.7f
+                            ),
+                            radius = beadRadius,
+                            center = beadCenter
+                        )
+                        drawCircle(
+                            color = Color.White.copy(alpha = 0.55f),
+                            radius = beadRadius * 0.18f,
+                            center = Offset(x - beadRadius * 0.35f, y - beadRadius * 0.4f)
+                        )
+                    }
+                    // Gold connector and hanging tassel at the bottom.
+                    val tasselY = center.y + ringRadius
+                    drawCircle(Color(0xFFC18B36), beadRadius * 0.62f, Offset(center.x, tasselY))
+                    drawLine(Color(0xFF9D6B25), Offset(center.x, tasselY + 4.dp.toPx()),
+                        Offset(center.x, tasselY + 40.dp.toPx()), strokeWidth = 3.dp.toPx(), cap = StrokeCap.Round)
+                    drawLine(Color(0xFFB8873A), Offset(center.x - 4.dp.toPx(), tasselY + 8.dp.toPx()),
+                        Offset(center.x - 4.dp.toPx(), tasselY + 38.dp.toPx()), strokeWidth = 1.5.dp.toPx(), cap = StrokeCap.Round)
+                    drawLine(Color(0xFFB8873A), Offset(center.x + 4.dp.toPx(), tasselY + 8.dp.toPx()),
+                        Offset(center.x + 4.dp.toPx(), tasselY + 38.dp.toPx()), strokeWidth = 1.5.dp.toPx(), cap = StrokeCap.Round)
+                }
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -406,23 +442,15 @@ fun TasbihView(
                     Text(
                         text = state.tasbihCount.toString(),
                         style = MaterialTheme.typography.displayLarge.copy(fontSize = 62.sp),
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFF102D27)
                     )
-                    if (state.tasbihTarget > 0) {
-                        Text(
-                            text = "/ ${state.tasbihTarget}",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = GoldLight,
-                            fontWeight = FontWeight.Bold
-                        )
-                    } else {
-                        Text(
-                            text = "∞ Free",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = GoldLight
-                        )
-                    }
+                    Text(
+                        text = if (state.tasbihTarget > 0) "of ${state.tasbihTarget}" else "Dhikr",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color(0xFF536A61),
+                        fontWeight = FontWeight.Medium
+                    )
                 }
             }
 
