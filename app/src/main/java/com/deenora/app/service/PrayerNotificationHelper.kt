@@ -73,7 +73,15 @@ object PrayerNotificationHelper {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val soundUri = adhanUri(context)
+        val stopIntent = Intent(context, StopPrayerAlertReceiver::class.java).apply {
+            putExtra(StopPrayerAlertReceiver.EXTRA_NOTIFICATION_ID, notificationId)
+        }
+        val stopPendingIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId,
+            stopIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val title = "حَانَ الآنَ وَقْتُ صَلَاةِ $prayerName • Time for $prayerName"
         val message = "حَيَّ عَلَى الصَّلَاةِ • حي على الفلاح | $cityName"
@@ -87,6 +95,7 @@ object PrayerNotificationHelper {
             // The channel owns audio playback. Do not attach a second sound to the notification.
             .setOnlyAlertOnce(true)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .addAction(android.R.drawable.ic_media_pause, "إيقاف الأذان", stopPendingIntent)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()
