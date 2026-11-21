@@ -33,6 +33,10 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5225037816508060~3623299169" />
 
+        <receiver
+            android:name=".service.StopPrayerAlertReceiver"
+            android:exported="false" />
+
         <service
             android:name=".service.PrayerStatusService"
             android:exported="false"
