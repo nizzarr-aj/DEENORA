@@ -91,7 +91,7 @@ fun DeenoraApp(
     val layoutDirection = if (settings.language.isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr
 
     // ViewModels with factory/manual injection
-    val homeViewModel = remember { HomeViewModel(preferencesRepository) }
+    val homeViewModel = remember { HomeViewModel(appContext, preferencesRepository) }
     val quranViewModel = remember { QuranViewModel(appContext, database.bookmarkDao(), preferencesRepository) }
     val azkarViewModel = remember { AzkarViewModel(preferencesRepository) }
     val discoverViewModel = remember { DiscoverViewModel(database.tasbihDao(), preferencesRepository) }

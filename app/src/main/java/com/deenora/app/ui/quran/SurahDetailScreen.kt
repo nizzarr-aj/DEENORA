@@ -60,7 +60,7 @@ fun SurahDetailScreen(
     var selectedAyahForTafsir by remember { mutableStateOf<Ayah?>(null) }
 
     Scaffold(
-        modifier = modifier.fillMaxSize().deenkPageBackground(),
+        modifier = modifier.fillMaxSize().background(Color(0xFFF4EBD8)),
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
@@ -164,21 +164,22 @@ fun SurahDetailScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp),
             contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             // Surah Header Banner
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = EmeraldDark)
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E8)),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC8A76B))
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(
                                 Brush.verticalGradient(
-                                    listOf(EmeraldDark, EmeraldPrimary)
+                                    listOf(Color(0xFFFFF9E9), Color(0xFFF1E2C2))
                                 )
                             )
                             .padding(24.dp),
@@ -188,8 +189,9 @@ fun SurahDetailScreen(
                             Text(
                                 text = surah.nameAr,
                                 style = MaterialTheme.typography.displayMedium,
-                                color = GoldLight,
-                                fontWeight = FontWeight.Bold
+                                color = Color(0xFF234333),
+                                fontWeight = FontWeight.Normal,
+                                fontFamily = com.deenora.app.ui.theme.QuranFontFamily
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
@@ -198,15 +200,6 @@ fun SurahDetailScreen(
                                 color = Color.White.copy(alpha = 0.8f)
                             )
 
-                            if (surah.number != 9) { // At-Tawbah does not begin with Bismillah
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Text(
-                                    text = AppStrings.bismillah(currentLanguage),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = GoldLight,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
                         }
                     }
                 }
@@ -337,11 +330,11 @@ fun AyahCard(
             .testTag("ayah_card_${ayah.ayahNumber}"),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isPlaying) EmeraldPale else MaterialTheme.colorScheme.surface
+            containerColor = if (isPlaying) Color(0xFFF0DDAE) else Color(0xFFFFF9EB)
         ),
         border = androidx.compose.foundation.BorderStroke(
-            1.dp,
-            if (isPlaying) EmeraldPrimary else MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
+            if (isPlaying) 1.6.dp else 1.dp,
+            if (isPlaying) Color(0xFF9A7134) else Color(0xFFD8C59D)
         )
     ) {
         Column(
@@ -421,11 +414,12 @@ fun AyahCard(
             // Arabic Quranic Text
             Text(
                 text = ayah.textAr,
+                fontFamily = com.deenora.app.ui.theme.QuranFontFamily,
                 fontSize = fontSizeSp.sp,
-                lineHeight = (fontSizeSp * 1.8f).sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Right,
-                color = MaterialTheme.colorScheme.onSurface,
+                lineHeight = (fontSizeSp * 2.0f).sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                color = Color(0xFF2A241B),
                 modifier = Modifier.fillMaxWidth()
             )
 

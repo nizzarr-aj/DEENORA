@@ -49,7 +49,7 @@ class QuranViewModel(
     private var mediaPlayer: MediaPlayer? = null
     private var audioRequestJob: Job? = null
     @Volatile private var alOssiServer: String? = null
-    @Volatile private var alOssiReadId: Int? = null
+    @Volatile private var alOssiTimingReadId: Int? = null
     private var ayahHighlightJob: Job? = null
 
     init {
@@ -137,7 +137,8 @@ class QuranViewModel(
                             val timing = audioInfo.timings.firstOrNull { position >= it.startMs && position < it.endMs && it.ayah > 0 }
                             if (timing != null) {
                                 val index = timing.ayah - 1
-                                if (_uiState.value.playingAyahIndex != index) {
+                                if (index in _uiState.value.currentVerses.indices &&
+                                    _uiState.value.playingAyahIndex != index) {
                                     _uiState.update { state -> state.copy(playingAyahIndex = index) }
                                 }
                             }
@@ -175,8 +176,7 @@ class QuranViewModel(
 
     private fun resolveAlOssiAudioInfo(surahNumber: Int): AlOssiAudioInfo? {
         var server = alOssiServer
-        var readId = alOssiReadId
-        if (server.isNullOrBlank() || readId == null) {
+        if (server.isNullOrBlank()) {
             val connection = (URL("https://mp3quran.net/api/v3/reciters?language=ar").openConnection() as HttpURLConnection).apply {
                 requestMethod = "GET"
                 connectTimeout = 12000
@@ -196,51 +196,92 @@ class QuranViewModel(
                         val item = moshaf.optJSONObject(j) ?: continue
                         val candidate = item.optString("server")
                         val surahList = item.optString("surah_list")
-                        val candidateId = item.optInt("id", -1)
-                        if (candidate.isNotBlank() && candidateId > 0 &&
+                        if (candidate.isNotBlank() &&
                             (surahList.isBlank() || surahList.split(",").any { it.trim() == surahNumber.toString() })) {
                             server = if (candidate.endsWith("/")) candidate else "$candidate/"
-                            readId = candidateId
                             break
                         }
                     }
-                    if (!server.isNullOrBlank() && readId != null) break
+                    if (!server.isNullOrBlank()) break
                 }
             } finally {
                 connection.disconnect()
             }
         }
-        if (server.isNullOrBlank() || readId == null) return null
+        if (server.isNullOrBlank()) return null
         alOssiServer = server
-        alOssiReadId = readId
 
-        val timings = try {
-            val timingConnection = (URL("https://mp3quran.net/api/v3/ayat_timing?surah=$surahNumber&read=$readId").openConnection() as HttpURLConnection).apply {
-                requestMethod = "GET"
-                connectTimeout = 10000
-                readTimeout = 12000
-                setRequestProperty("Accept", "application/json")
-                setRequestProperty("User-Agent", "Deenk-Android")
-            }
-            try {
-                val array = org.json.JSONArray(timingConnection.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() })
-                buildList {
-                    for (i in 0 until array.length()) {
-                        val item = array.optJSONObject(i) ?: continue
-                        val ayah = item.optInt("ayah", -1)
-                        val startMs = item.optInt("start_time", -1)
-                        val endMs = item.optInt("end_time", -1)
-                        if (ayah >= 0 && startMs >= 0 && endMs > startMs) add(AyahTiming(ayah, startMs, endMs))
-                    }
-                }
-            } finally {
-                timingConnection.disconnect()
-            }
-        } catch (_: Exception) {
+        // The timing API uses its own read IDs. A moshaf ID from /reciters is NOT
+        // interchangeable with the timing-read ID; confusing them caused the
+        // highlight to work for only a few recordings.
+        val timingReadId = resolveAlOssiTimingReadId()
+        val timings = if (timingReadId == null) {
             emptyList()
+        } else {
+            try {
+                val timingConnection = (URL("https://mp3quran.net/api/v3/ayat_timing?surah=$surahNumber&read=$timingReadId").openConnection() as HttpURLConnection).apply {
+                    requestMethod = "GET"
+                    connectTimeout = 10000
+                    readTimeout = 12000
+                    setRequestProperty("Accept", "application/json")
+                    setRequestProperty("User-Agent", "Deenk-Android")
+                }
+                try {
+                    val body = timingConnection.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
+                    val array = org.json.JSONArray(body)
+                    buildList {
+                        for (i in 0 until array.length()) {
+                            val item = array.optJSONObject(i) ?: continue
+                            val ayah = item.optInt("ayah", -1)
+                            val startMs = item.optInt("start_time", -1)
+                            val endMs = item.optInt("end_time", -1)
+                            if (ayah > 0 && startMs >= 0 && endMs > startMs) {
+                                add(AyahTiming(ayah, startMs, endMs))
+                            }
+                        }
+                    }.sortedBy { it.startMs }
+                } finally {
+                    timingConnection.disconnect()
+                }
+            } catch (_: Exception) {
+                emptyList()
+            }
         }
 
         return AlOssiAudioInfo(server + "%03d.mp3".format(Locale.US, surahNumber), timings)
+    }
+
+    private fun resolveAlOssiTimingReadId(): Int? {
+        alOssiTimingReadId?.let { return it }
+        val connection = (URL("https://mp3quran.net/api/v3/ayat_timing/reads").openConnection() as HttpURLConnection).apply {
+            requestMethod = "GET"
+            connectTimeout = 10000
+            readTimeout = 12000
+            setRequestProperty("Accept", "application/json")
+            setRequestProperty("User-Agent", "Deenk-Android")
+        }
+        return try {
+            val body = connection.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
+            val reads = org.json.JSONArray(body)
+            var found: Int? = null
+            for (i in 0 until reads.length()) {
+                val item = reads.optJSONObject(i) ?: continue
+                val name = item.optString("name")
+                if (name.contains("العوسي") || name.contains("Al-Ossi", true) || name.contains("Aloosi", true)) {
+                    val id = item.optInt("id", -1)
+                    if (id > 0) {
+                        found = id
+                        break
+                    }
+                }
+            }
+            alOssiTimingReadId = found
+            found
+        } catch (_: Exception) {
+            null
+        } finally {
+            connection.disconnect()
+        }
     }
 
     private fun stopAudio() {

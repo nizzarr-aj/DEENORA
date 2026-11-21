@@ -27,7 +27,7 @@ data class HomeUiState(
     val nextPrayerInfo: NextPrayerInfo? = null,
     val currentPrayer: PrayerType = PrayerType.FAJR,
     val hijriDate: HijriDate = HijriCalendarHelper.getHijriDate(),
-    val dailyVerse: Ayah = QuranRepository.getDailyVerse(),
+    val dailyVerse: Ayah = Ayah(0, 0, "", "", "", ""),
     val dailyDua: DailyDua = AzkarRepository.getDailyDua(),
     val dailyReminder: IslamicReminder = AzkarRepository.getDailyReminder(),
     val isCopiedNotificationVisible: Boolean = false,
@@ -36,10 +36,13 @@ data class HomeUiState(
 )
 
 class HomeViewModel(
+    private val appContext: Context,
     private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(
+        HomeUiState(dailyVerse = QuranRepository.getDailyVerse(appContext))
+    )
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private var lastDailyContentDay: Long = java.time.LocalDate.now().toEpochDay()
@@ -56,7 +59,7 @@ class HomeViewModel(
                         it.copy(
                             currentTimeMillis = System.currentTimeMillis(),
                             dailyDua = AzkarRepository.getDailyDua(),
-                            dailyVerse = QuranRepository.getDailyVerse(),
+                            dailyVerse = QuranRepository.getDailyVerse(appContext),
                             dailyReminder = AzkarRepository.getDailyReminder()
                         )
                     }

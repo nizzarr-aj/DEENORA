@@ -81,16 +81,21 @@ fun ProfileScreen(
     var showAboutDialog by remember { mutableStateOf(false) }
     var showAccountDialog by remember { mutableStateOf(false) }
     var showAdminPanel by remember { mutableStateOf(false) }
-    var accountEmail by remember { mutableStateOf("") }
+    var accountEmail by remember {
+        mutableStateOf(context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("email", "").orEmpty())
+    }
     var accountPassword by remember { mutableStateOf("") }
     var accountBusy by remember { mutableStateOf(false) }
     var accountMessage by remember { mutableStateOf("") }
     var accountSignedIn by remember { mutableStateOf(
-        context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).getString("email", null) != null
+        context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).let {
+            !it.getString("email", null).isNullOrBlank() &&
+                !it.getString("access_token", null).isNullOrBlank()
+        }
     ) }
     val accountScope = rememberCoroutineScope()
 
-    suspend fun supabaseGoogleAuth(idToken: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun supabaseGoogleAuth(idToken: String, email: String): Boolean = withContext(Dispatchers.IO) {
         val connection = (URL("https://iujslmvuyundjxbkkkon.supabase.co/auth/v1/token?grant_type=id_token").openConnection() as HttpURLConnection)
         try {
             connection.requestMethod = "POST"
@@ -110,7 +115,7 @@ fun ProfileScreen(
             val access = json.optString("access_token")
             if (access.isBlank()) return@withContext false
             context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
-                .putString("email", accountEmail.ifBlank { json.optJSONObject("user")?.optString("email").orEmpty() })
+                .putString("email", email)
                 .putString("access_token", access)
                 .putString("refresh_token", json.optString("refresh_token"))
                 .apply()
@@ -139,20 +144,21 @@ fun ProfileScreen(
         }
         val user = authResult.user ?: throw IllegalStateException("Google account could not be loaded.")
         val email = user.email ?: throw IllegalStateException("No email was returned by Google.")
-        val supabaseResult = supabaseGoogleAuth(googleCredential.idToken)
+        accountEmail = email
+        val supabaseResult = supabaseGoogleAuth(googleCredential.idToken, email)
+        if (!supabaseResult) {
+            accountSignedIn = false
+            accountMessage = "Google was authenticated, but the Deenora account server did not create a session. Please try again."
+            return
+        }
         context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit()
             .putString("email", email)
             .putString("firebase_uid", user.uid)
             .putString("auth_provider", "google")
             .apply()
-        accountEmail = email
         accountSignedIn = true
-        if (supabaseResult) {
-            showAccountDialog = false
-            accountMessage = ""
-        } else {
-            accountMessage = "Google login worked, but Deenora admin session could not be created. Check Google provider settings in Supabase."
-        }
+        showAccountDialog = false
+        accountMessage = ""
     }
 
     suspend fun supabaseAuth(signUp: Boolean, email: String, password: String): String =
@@ -278,21 +284,6 @@ fun ProfileScreen(
                     ) {
                         Text(if (currentLanguage == AppLanguage.ARABIC) "المواصلة باستعمال Google" else "Continue with Google")
                     }
-                    TextButton(
-                        enabled = !accountBusy && accountEmail.contains("@"),
-                        onClick = {
-                            accountBusy = true
-                            accountMessage = ""
-                            accountScope.launch {
-                                try {
-                                    accountMessage = recoverPassword(accountEmail)
-                                } catch (e: Exception) {
-                                    accountMessage = e.message ?: "Could not send password reset email."
-                                } finally { accountBusy = false }
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    ) { Text(if (currentLanguage == AppLanguage.ARABIC) "نسيت كلمة السر؟" else if (currentLanguage == AppLanguage.FRENCH) "Mot de passe oublié ?" else "Forgot password?") }
                     if (accountMessage.isNotBlank()) Text(accountMessage, color = if (accountMessage.startsWith("If this email") || accountMessage.startsWith("Google login worked")) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
                 }
             },
@@ -414,6 +405,7 @@ fun ProfileScreen(
                             OutlinedButton(
                                 onClick = {
                                     context.getSharedPreferences("deenora_auth", Context.MODE_PRIVATE).edit().clear().apply()
+                                    FirebaseAuth.getInstance().signOut()
                                     accountSignedIn = false
                                     accountEmail = ""
                                     accountPassword = ""

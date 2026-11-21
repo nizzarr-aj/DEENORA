@@ -47,27 +47,71 @@ jobs:
           Changes: Extracted audio from WebM, high-pass filtered, noise-reduced, loudness-normalised, and converted to mono MP3 for Android offline playback.
           EOF
 
-      - name: Bundle complete Uthmani Quran (114 surahs, 6236 ayahs)
+      - name: Bundle Amiri Quran font
+        run: |
+          set -euo pipefail
+          mkdir -p app/src/main/res/font app/src/main/assets/fonts
+          curl --fail --location --retry 4 \
+            'https://raw.githubusercontent.com/aliftype/amiri/d3d0c5cb6fe7196cb4a58608fc5c8ecd2e6e80fa/fonts/AmiriQuran.ttf' \
+            --output app/src/main/res/font/amiri_quran.ttf
+          curl --fail --location --retry 4 \
+            'https://raw.githubusercontent.com/aliftype/amiri/d3d0c5cb6fe7196cb4a58608fc5c8ecd2e6e80fa/OFL.txt' \
+            --output app/src/main/assets/fonts/AMIRI-OFL.txt
+          test -s app/src/main/res/font/amiri_quran.ttf
+          test -s app/src/main/assets/fonts/AMIRI-OFL.txt
+
+      - name: Bundle verified Tanzil Uthmani Quran (114 surahs, 6236 ayahs)
         run: |
           set -euo pipefail
           mkdir -p app/src/main/assets/quran
-          total=0
-          for surah in $(seq 1 114); do
-            url="https://raw.githubusercontent.com/semarketir/quranjson/master/source/surah/surah_${surah}.json"
-            file="app/src/main/assets/quran/surah_${surah}.json"
-            curl --fail --location --retry 4 --retry-delay 2 "$url" --output "$file"
-            count=$(jq '[.verse | keys[] | select(startswith("verse_") and . != "verse_0")] | length' "$file")
-            test "$count" -gt 0
-            total=$((total + count))
-          done
-          test "$total" -eq 6236
-          curl --fail --location --retry 4             'https://raw.githubusercontent.com/semarketir/quranjson/master/LICENSE'             --output app/src/main/assets/quran/LICENSE.txt
-          cat > app/src/main/assets/quran/SOURCE.txt <<'EOF'
-          Arabic Quran text dataset: quranjson by semarketir
-          https://github.com/semarketir/quranjson
-          Dataset states 6,236 verses, 114 surahs and 30 juz.
-          Licence: MIT. See LICENSE.txt.
-          EOF
+          curl --fail --location --retry 4 \
+            'https://raw.githubusercontent.com/acfatah/tanzil/052b515f3a24dfacbe4cafc3b89f0681a447f462/data/quran-uthmani.txt' \
+            --output /tmp/quran-uthmani.txt
+          curl --fail --location --retry 4 \
+            'https://raw.githubusercontent.com/acfatah/tanzil/052b515f3a24dfacbe4cafc3b89f0681a447f462/LICENSE' \
+            --output app/src/main/assets/quran/LICENSE.txt
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          expected = [7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6]
+          verses = {number: {} for number in range(1, 115)}
+          for raw_line in Path("/tmp/quran-uthmani.txt").read_text(encoding="utf-8").splitlines():
+              line = raw_line.strip()
+              if not line or line.startswith("#"):
+                  continue
+              parts = line.split("|", 2)
+              if len(parts) != 3:
+                  raise SystemExit(f"Invalid Tanzil row: {line[:80]!r}")
+              surah, ayah = int(parts[0]), int(parts[1])
+              text = parts[2]
+              if surah not in verses or ayah != len(verses[surah]) + 1 or not text.strip():
+                  raise SystemExit(f"Invalid or out-of-order ayah: {surah}:{ayah}")
+              verses[surah][f"verse_{ayah}"] = text
+
+          total = sum(len(items) for items in verses.values())
+          if total != 6236:
+              raise SystemExit(f"Expected 6236 ayahs, got {total}")
+          for surah, expected_count in enumerate(expected, start=1):
+              if len(verses[surah]) != expected_count:
+                  raise SystemExit(f"Surah {surah}: expected {expected_count}, got {len(verses[surah])}")
+              target = Path(f"app/src/main/assets/quran/surah_{surah}.json")
+              target.write_text(
+                  json.dumps({"verse": verses[surah]}, ensure_ascii=False, separators=(",", ":")),
+                  encoding="utf-8"
+              )
+
+          Path("app/src/main/assets/quran/SOURCE.txt").write_text(
+              "Tanzil Quran Text (Uthmani, Version 1.1)\n"
+              "Original source: https://tanzil.net/docs\n"
+              "Source mirror: https://github.com/acfatah/tanzil/tree/052b515f3a24dfacbe4cafc3b89f0681a447f462\n"
+              "Copyright (C) 2007-2021 Tanzil Project. License: Creative Commons Attribution 3.0.\n"
+              "The Quran text is copied verbatim. No text edits or normalisation are applied.\n"
+              "See LICENSE.txt and https://tanzil.net/docs/Text_License.\n",
+              encoding="utf-8"
+          )
+          print(f"Validated and bundled {total} Tanzil Uthmani ayahs across 114 surahs.")
+          PY
 
       - name: Set up Java 17
         uses: actions/setup-java@v4

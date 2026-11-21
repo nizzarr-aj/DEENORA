@@ -1,5 +1,6 @@
 package com.deenora.app.data.quran
 
+import android.content.Context
 import com.deenora.app.ui.i18n.AppLanguage
 
 enum class RevelationType {
@@ -188,63 +189,7 @@ object QuranRepository {
         )
     }
 
-    // Authentic Ayahs for selected frequently read Surahs and Daily Verses
-    private val SURAH_VERSES: Map<Int, List<Ayah>> = mapOf(
-        1 to listOf(
-            Ayah(1, 1, "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "In the name of Allah, the Entirely Merciful, the Especially Merciful.", "Au nom d'Allah, le Tout Miséricordieux, le Très Miséricordieux.", "Opening of the Book of Allah"),
-            Ayah(1, 2, "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", "[All] praise is [due] to Allah, Lord of the worlds -", "Louange à Allah, Seigneur de l'univers.", "Universal praise for the Sustainer"),
-            Ayah(1, 3, "الرَّحْمَٰنِ الرَّحِيمِ", "The Entirely Merciful, the Especially Merciful,", "Le Tout Miséricordieux, le Très Miséricordieux,", "Affirmation of boundless divine mercy"),
-            Ayah(1, 4, "مَالِكِ يَوْمِ الدِّينِ", "Sovereign of the Day of Recompense.", "Maître du Jour de la rétribution.", "Absolute justice and ultimate accountability"),
-            Ayah(1, 5, "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "It is You we worship and You we ask for help.", "C'est Toi [Seul] que nous adorons, et c'est Toi [Seul] dont nous implorons secours.", "Sincerity of devotion and exclusive reliance"),
-            Ayah(1, 6, "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", "Guide us to the straight path -", "Guide-nous dans le droit chemin,", "The supreme supplication for continuous guidance"),
-            Ayah(1, 7, "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ", "The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.", "Le chemin de ceux que Tu as comblés de faveurs, non pas de ceux qui ont encouru Ta colère, ni des égarés.", "The path of righteous prophets and truthful believers")
-        ),
-        112 to listOf(
-            Ayah(112, 1, "قُلْ هُوَ اللَّهُ أَحَدٌ", "Say, \"He is Allah, [who is] One,", "Dis : « Il est Allah, Unique.", "Pure monotheism (Tawhid)"),
-            Ayah(112, 2, "اللَّهُ الصَّمَدُ", "Allah, the Eternal Refuge.", "Allah, Le Seul à être imploré pour ce que nous désirons.", "Self-sufficient and all depend on Him"),
-            Ayah(112, 3, "لَمْ يَلِدْ وَلَمْ يُولَدْ", "He neither begets nor is born,", "Il n'a jamais engendré, n'a pas été engendré non plus.", "Free of human attributes or offspring"),
-            Ayah(112, 4, "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", "Nor is there to Him any equivalent.\"", "Et nul n'est égal à Lui. »", "Incomparable and beyond all imagination")
-        ),
-        113 to listOf(
-            Ayah(113, 1, "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ", "Say, \"I seek refuge in the Lord of daybreak", "Dis : « Je cherche protection auprès du Seigneur de l'aube naissante,", "Seeking divine protection at the break of dawn"),
-            Ayah(113, 2, "مِن شَرِّ مَا خَلَقَ", "From the evil of that which He created", "contre le mal des êtres qu'Il a créés,", "Shelter from harm of created beings"),
-            Ayah(113, 3, "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ", "And from the evil of darkness when it settles", "contre le mal de l'obscurité quand elle s'approfondit,", "Refuge during the depths of night"),
-            Ayah(113, 4, "وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ", "And from the evil of the blowers in knots", "contre le mal de celles qui soufflent sur les nœuds,", "Protection against witchcraft and harm"),
-            Ayah(113, 5, "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ", "And from the evil of an envier when he envies.\"", "et contre le mal de l'envieux quand il envie. »", "Deliverance from destructive jealousy")
-        ),
-        114 to listOf(
-            Ayah(114, 1, "قُلْ أَعُوذُ بِرَبِّ النَّاسِ", "Say, \"I seek refuge in the Lord of mankind,", "Dis : « Je cherche protection auprès du Seigneur des hommes,", "Refuge in the Cherisher of all humanity"),
-            Ayah(114, 2, "مَلِكِ النَّاسِ", "The Sovereign of mankind,", "Le Souverain des hommes,", "The true King of all creation"),
-            Ayah(114, 3, "إِلَٰهِ النَّاسِ", "The God of mankind,", "Dieu des hommes,", "The one true object of adoration"),
-            Ayah(114, 4, "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ", "From the evil of the retreating whisperer -", "contre le mal du mauvais conseiller, furtif,", "Shield against internal and hidden temptation"),
-            Ayah(114, 5, "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ", "Who whispers [evil] into the breasts of mankind -", "qui souffle le mal dans les poitrines des hommes,", "Insidious whisperings in human hearts"),
-            Ayah(114, 6, "مِنَ الْجِنَّةِ وَالنَّاسِ", "From among the jinn and mankind.\"", "qu'il soit d'entre les djinns ou les hommes. »", "Visible and invisible instigators of evil")
-        ),
-        108 to listOf(
-            Ayah(108, 1, "إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ", "Indeed, We have granted you, [O Muhammad], al-Kawthar.", "Nous t'avons certes accordé l'Abondance.", "The great river and heavenly blessings"),
-            Ayah(108, 2, "فَصَلِّ لِرَبِّكَ وَانْحَرْ", "So pray to your Lord and sacrifice [to Him alone].", "Accomplis donc la prière pour ton Seigneur et sacrifie.", "Gratitude manifested in prayer and charity"),
-            Ayah(108, 3, "إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ", "Indeed, your enemy is the one cut off.", "Celui qui te hait sera certes sans postérité.", "Those who oppose the truth are forsaken")
-        ),
-        103 to listOf(
-            Ayah(103, 1, "وَالْعَصْرِ", "By time,", "Par le Temps !", "Oath by the fleeting preciousness of time"),
-            Ayah(103, 2, "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ", "Indeed, mankind is in loss,", "L'homme est certes, en perdition,", "The natural descent without righteous guidance"),
-            Ayah(103, 3, "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ", "Except for those who have believed and done righteous deeds and advised each other to truth and advised each other to patience.", "sauf ceux qui croient et accomplissent les bonnes œuvres, s'enjoignent mutuellement la vérité et s'enjoignent mutuellement l'endurance.", "The four pillars of ultimate spiritual success")
-        ),
-        67 to listOf(
-            Ayah(67, 1, "تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", "Blessed is He in whose hand is dominion, and He is over all things competent -", "Béni soit celui dans la main de qui est la royauté, et Il est Omnipotent.", "The sovereign reign of Allah over everything"),
-            Ayah(67, 2, "الَّذِي خَلَقَ الْمَوْتَ وَالْحَيَاةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا وَهُوَ الْعَزِيزُ الْغَفُورُ", "[He] who created death and life to test you [as to] which of you is best in deed - and He is the Exalted in Might, the Forgiving -", "Celui qui a créé la mort et la vie afin de vous éprouver [et de savoir] qui de vous est le meilleur en œuvre, et c'est Lui le Puissant, le Pardonneur.", "The profound purpose of worldly life and mortality"),
-            Ayah(67, 3, "الَّذِي خَلَقَ سَبْعَ سَمَاوَاتٍ طِبَاقًا مَّا تَرَىٰ فِي خَلْقِ الرَّحْمَٰنِ مِن تَفَاوُتٍ", "[And] who created seven heavens in layers. You do not see in the creation of the Most Merciful any inconsistency.", "Celui qui a créé sept cieux superposés sans que tu voies de disproportion en la création du Tout Miséricordieux.", "Flawless harmony in cosmic creation"),
-            Ayah(67, 4, "فَارْجِعِ الْبَصَرَ هَلْ تَرَىٰ مِن فُطُورٍ", "So return [your] vision [to the sky]; do you see any breaks?", "Ramène sur elle le regard. Y vois-tu une brèche quelconque ?", "Inviting reflection on the universe's perfection")
-        ),
-        18 to listOf(
-            Ayah(18, 1, "الْحَمْدُ لِلَّهِ الَّذِي أَنزَلَ عَلَىٰ عَبْدِهِ الْكِتَابَ وَلَمْ يَجْعَل لَّهُ عِوَجًا", "[All] praise is [due] to Allah, who has sent down upon His Servant the Book and has not made therein any deviance.", "Louange à Allah qui a fait descendre sur Son serviteur le Livre, et n'y a point introduit de tortuosité !", "Thanksgiving for the uncorrupted divine revelation"),
-            Ayah(18, 2, "قَيِّمًا لِّيُنذِرَ بَأْسًا شَدِيدًا مِّن لَّدُنْهُ وَيُبَشِّرَ الْمُؤْمِنِينَ الَّذِينَ يَعْمَلُونَ الصَّالِحَاتِ أَنَّ لَهُمْ أَجْرًا حَسَنًا", "[He has made it] straight, to warn of severe punishment from Him and to give good tidings to the believers who do righteous deeds that they will have a good reward", "[Un Livre] d'une parfaite droiture pour avertir d'une rude punition venant de Sa part et pour annoncer aux croyants qui font de bonnes œuvres qu'il y aura pour eux une belle récompense,", "Direct warning and joyful tidings"),
-            Ayah(18, 3, "مَّاكِثِينَ فِيهِ أَبَدًا", "In which they will remain forever", "où ils demeureront éternellement,", "The enduring promise of paradise"),
-            Ayah(18, 4, "وَيُنذِرَ الَّذِينَ قَالُوا اتَّخَذَ اللَّهُ وَلَدًا", "And to warn those who say, \"Allah has taken a son.\"", "et pour avertir ceux qui disent : « Allah S'est attribué un enfant. »", "Refutation of polytheistic claims")
-        )
-    )
-
-    fun getVersesForSurah(context: android.content.Context, surahNumber: Int): List<Ayah> {
+    fun getVersesForSurah(context: Context, surahNumber: Int): List<Ayah> {
         if (surahNumber !in 1..114) return emptyList()
         return try {
             val json = context.assets.open("quran/surah_${surahNumber}.json")
@@ -267,18 +212,23 @@ object QuranRepository {
         }
     }
 
-    val DAILY_VERSES = listOf(
-        Ayah(2, 255, "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ", "Allah! There is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that could intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.", "Allah ! Point de divinité à part Lui, le Vivant, Celui qui subsiste par Lui-même. Ni somnolence ni sommeil ne Le saisissent. À Lui appartient tout ce qui est dans les cieux et sur la terre. Qui peut intercéder auprès de Lui sans Sa permission ? Il sait leur passé et leur futur. Et, de Sa science, ils n'embrassent que ce qu'Il veut. Son Trône déborde les cieux et la terre, dont la garde ne Lui coûte aucune peine. Et Il est le Très Haut, le Très Grand.", "Ayat al-Kursi (The Throne Verse) is the greatest verse in the Quran, reciting it protects against all harm and brings divine peace."),
-        Ayah(2, 286, "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا", "Allah does not burden a soul beyond that it can bear. It will have [the consequence of] what [good] it has gained, and it will bear [the consequence of] what [evil] it has earned. \"Our Lord, do not impose blame upon us if we have forgotten or erred.\"", "Allah n'impose à aucune âme une charge supérieure à sa capacité. Elle sera récompensée du bien qu'elle aura fait, punie du mal qu'elle aura fait. Seigneur, ne nous châtie pas s'il nous arrive d'oublier ou de commettre une erreur.", "Allah's mercy guarantees that no soul is tested beyond what it is capable of enduring with perseverance."),
-        Ayah(94, 5, "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا", "For indeed, with hardship [will be] ease. Indeed, with hardship [will be] ease.", "À côté de la difficulté est, certes, une facilité ! À côté de la difficulté est, certes, une facilité !", "A divine promise of relief directly accompanying every trial."),
-        Ayah(3, 139, "وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ", "So do not weaken and do not grieve, and you will be superior if you are [true] believers.", "Ne vous laissez pas battre, ne vous affligez pas alors que vous êtes les supérieurs, si vous êtes de vrais croyants.", "A potent boost of hope, spiritual dignity, and moral elevation."),
-        Ayah(13, 28, "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", "Those who have believed and whose hearts are assured by the remembrance of Allah. Unquestionably, by the remembrance of Allah hearts are assured.", "Ceux qui ont cru, et dont les cœurs s'apaisent à l'évocation d'Allah. N'est-ce point par l'évocation d'Allah que se tranquillisent les cœurs ?", "True tranquility and psychological peace are discovered in remembering Allah.")
+    // Daily verse cards are read directly from the same verified, bundled Uthmani text.
+    // Keeping only references here prevents hand-copied or truncated Quran text.
+    private val DAILY_VERSE_REFERENCES = listOf(
+        2 to 255,
+        2 to 286,
+        94 to 5,
+        3 to 139,
+        13 to 28
     )
 
-    // Stable per local date: the verse remains fixed all day and changes at midnight.
-    fun getDailyVerse(): Ayah {
+    fun getDailyVerse(context: Context): Ayah {
         val today = java.time.LocalDate.now()
-        val index = Math.floorMod(today.toEpochDay(), DAILY_VERSES.size.toLong()).toInt()
-        return DAILY_VERSES[index]
+        val index = Math.floorMod(today.toEpochDay(), DAILY_VERSE_REFERENCES.size.toLong()).toInt()
+        val (surahNumber, ayahNumber) = DAILY_VERSE_REFERENCES[index]
+        return getVersesForSurah(context, surahNumber)
+            .firstOrNull { it.ayahNumber == ayahNumber }
+            ?: Ayah(surahNumber, ayahNumber, "", "", "", "")
     }
+
 }
