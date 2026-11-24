@@ -1,70 +1,53 @@
 package com.deenora.app.service
 
 import android.Manifest
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.media.AudioAttributes
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.deenora.app.MainActivity
 import com.deenora.app.R
 
 object PrayerNotificationHelper {
 
-    const val CHANNEL_ID = "deenk_prayer_alerts_v8"
-    const val CHANNEL_NAME = "دينك - الأذان ومواقيت الصلاة"
-    const val CHANNEL_DESC = "تنبيه واحد عند دخول وقت الصلاة مع صوت الأذان"
-
-    private fun adhanUri(context: Context): Uri =
-        Uri.parse("android.resource://${context.packageName}/${R.raw.adhan}")
+    // New silent channel: audio is played once by MediaPlayer in the foreground worker.
+    // A new ID is required because Android preserves sound settings of existing channels.
+    const val CHANNEL_ID = "deenk_prayer_audio_v9"
+    const val CHANNEL_NAME = "دينك - صوت الأذان"
+    const val CHANNEL_DESC = "تشغيل تسجيل الأذان الكامل مرة واحدة عند دخول وقت الصلاة"
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_LOW
             ).apply {
                 description = CHANNEL_DESC
-                enableLights(true)
-                enableVibration(true)
-                vibrationPattern = longArrayOf(0, 500, 200, 500)
-                setSound(
-                    adhanUri(context),
-                    AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_ALARM)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .build()
-                )
+                setSound(null, null)
+                enableVibration(false)
             }
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
         }
     }
 
-    fun showPrayerNotification(
+    fun buildPrayerNotification(
         context: Context,
         prayerName: String,
         cityName: String,
         notificationId: Int
-    ) {
+    ): Notification {
         createNotificationChannel(context)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                return
-            }
-        }
-
         val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val pendingIntent = PendingIntent.getActivity(
             context,
@@ -83,27 +66,26 @@ object PrayerNotificationHelper {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val title = "حَانَ الآنَ وَقْتُ صَلَاةِ $prayerName • Time for $prayerName"
+        val title = "حَانَ الآنَ وَقْتُ صَلَاةِ $prayerName"
         val message = "حَيَّ عَلَى الصَّلَاةِ • حي على الفلاح | $cityName"
 
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+        return NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(title)
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText("$message\nدينك"))
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            // The channel owns audio playback. Do not attach a second sound to the notification.
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setSilent(true)
             .setOnlyAlertOnce(true)
-            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setOngoing(true)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .addAction(android.R.drawable.ic_media_pause, "إيقاف الأذان", stopPendingIntent)
-            .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()
+    }
 
-        try {
-            NotificationManagerCompat.from(context).notify(notificationId, notification)
-        } catch (_: SecurityException) {
-            // Handled when permission is missing
-        }
+    fun canPostNotifications(context: Context): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
     }
 }
