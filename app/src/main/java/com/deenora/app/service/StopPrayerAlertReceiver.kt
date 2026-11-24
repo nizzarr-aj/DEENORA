@@ -5,12 +5,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 
-/**
- * Stops the currently playing prayer alert by dismissing its notification.
- * Android stops the notification-channel sound when that notification is cancelled.
- */
+/** Stops the full local MP3 playback and removes its foreground notification. */
 class StopPrayerAlertReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        AdhanAudioPlayer.stop()
         val notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1)
         if (notificationId >= 0) {
             NotificationManagerCompat.from(context).cancel(notificationId)
