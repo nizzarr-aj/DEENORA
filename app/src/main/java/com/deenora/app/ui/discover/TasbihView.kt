@@ -2,6 +2,7 @@ package com.deenora.app.ui.discover
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -33,7 +34,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -80,12 +80,14 @@ fun TasbihView(
         animationSpec = spring(dampingRatio = 0.5f, stiffness = 400f),
         label = "tasbih_scale"
     )
-    // Each tap advances the strand so the beads visibly slide like a real misbaha.
-    val beadRotation by animateFloatAsState(
-        targetValue = (state.tasbihCount % 10) * 36f,
-        animationSpec = tween(durationMillis = 280, easing = FastOutSlowInEasing),
-        label = "tasbih_bead_rotation"
-    )
+    // Animate only the active bead; the cord and remaining beads stay stationary.
+    val activeBead = state.tasbihCount % 10
+    val beadSlide = remember { Animatable(0f) }
+    LaunchedEffect(state.tasbihCount) {
+        beadSlide.snapTo(0f)
+        beadSlide.animateTo(1f, animationSpec = tween(durationMillis = 260, easing = FastOutSlowInEasing))
+    }
+    val activeBeadProgress = beadSlide.value
 
     Scaffold(
         modifier = modifier.fillMaxSize().deenkPageBackground(),
@@ -403,37 +405,22 @@ fun TasbihView(
                         center = center,
                         style = Stroke(width = 2.dp.toPx())
                     )
-                    // Beads rotate together around the cord with every count, while the cord and tassel stay still.
-                    rotate(degrees = beadRotation, pivot = center) {
+                    // The loop stays fixed; one bead slides down the strand per tap.
                     repeat(10) { index ->
-                        val angle = Math.toRadians((-55.0 + index * (290.0 / 9.0)))
+                        val baseAngle = -55.0 + index * (290.0 / 9.0)
+                        val active = index == activeBead
+                        val angle = Math.toRadians(baseAngle + if (active) 18.0 * activeBeadProgress else 0.0)
                         val x = center.x + kotlin.math.cos(angle).toFloat() * ringRadius
-                        val y = center.y + kotlin.math.sin(angle).toFloat() * ringRadius
+                        val y = center.y + kotlin.math.sin(angle).toFloat() * ringRadius +
+                            if (active) 9.dp.toPx() * activeBeadProgress else 0f
                         val beadCenter = Offset(x, y)
-                        drawCircle(
-                            color = Color(0x33000000),
-                            radius = beadRadius,
-                            center = Offset(x + 1.dp.toPx(), y + 2.dp.toPx())
-                        )
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Color(0xFFB9F1DF),
-                                    Color(0xFF16866C),
-                                    Color(0xFF064B40)
-                                ),
-                                center = Offset(x - beadRadius * 0.35f, y - beadRadius * 0.4f),
-                                radius = beadRadius * 1.7f
-                            ),
-                            radius = beadRadius,
-                            center = beadCenter
-                        )
-                        drawCircle(
-                            color = Color.White.copy(alpha = 0.55f),
-                            radius = beadRadius * 0.18f,
-                            center = Offset(x - beadRadius * 0.35f, y - beadRadius * 0.4f)
-                        )
-                    }
+                        drawCircle(Color(0x33000000), beadRadius, Offset(x + 1.dp.toPx(), y + 2.dp.toPx()))
+                        drawCircle(brush = Brush.radialGradient(
+                            colors = listOf(Color(0xFFB9F1DF), Color(0xFF16866C), Color(0xFF064B40)),
+                            center = Offset(x - beadRadius * 0.35f, y - beadRadius * 0.4f),
+                            radius = beadRadius * 1.7f), radius = beadRadius, center = beadCenter)
+                        drawCircle(Color.White.copy(alpha = 0.55f), beadRadius * 0.18f,
+                            Offset(x - beadRadius * 0.35f, y - beadRadius * 0.4f))
                     }
                     // Gold connector and hanging tassel at the bottom.
                     val tasselY = center.y + ringRadius
