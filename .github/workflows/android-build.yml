@@ -29,7 +29,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p app/src/main/res/raw
-          cp "app/src/main/res/raw/The Adhan - Omar Hisham Al Arabi _ الأذان بصوت عمر هشام العربي _ The Call to Prayer(M4A_128K).mp3" app/src/main/res/raw/adhan.mp3
+          uploaded_audio="app/src/main/res/raw/The Adhan - Omar Hisham Al Arabi _ الأذان بصوت عمر هشام العربي _ The Call to Prayer(M4A_128K).mp3"
+          test -s "$uploaded_audio"
+          cp "$uploaded_audio" app/src/main/res/raw/adhan.mp3
+          rm "$uploaded_audio"
           test -s app/src/main/res/raw/adhan.mp3
           file app/src/main/res/raw/adhan.mp3
           ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 app/src/main/res/raw/adhan.mp3
