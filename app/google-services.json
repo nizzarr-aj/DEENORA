@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1017191935314",
+    "project_id": "deenora-6321f",
+    "storage_bucket": "deenora-6321f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017191935314:android:4ebcec36bd425bfe7f9e8b",
+        "android_client_info": {
+          "package_name": "com.deenora.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017191935314-6880ls2sg4vlpthvsph32cdnvp7ldr24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deenora.app",
+            "certificate_hash": "03208daf360ea4060e3d91c2d8017f0beca1818b"
+          }
+        },
+        {
+          "client_id": "1017191935314-u71sb9n884kfihsc994hshvd0glme4tj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBRTrgPEcruOIKL4aqIsUOJQMq0DtLhNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017191935314-u71sb9n884kfihsc994hshvd0glme4tj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
