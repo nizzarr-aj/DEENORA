@@ -791,40 +791,23 @@ private fun DeenkNightBackdrop() {
         drawRect(
             brush = Brush.verticalGradient(
                 colorStops = arrayOf(
-                    0f to Color(0xFF04152F),
-                    0.20f to Color(0xFF0A2B55),
-                    0.39f to Color(0xFF173E69),
-                    0.43f to Color(0xFFF5EDE2),
-                    1f to Color(0xFFF7F4EF)
+                    0f to Color(0xFFEAF0F8),
+                    0.24f to Color(0xFFF4F6FA),
+                    1f to Color(0xFFFFFEFC)
                 ),
                 startY = 0f,
                 endY = height
             )
         )
-        // Fine stars across the deep-blue header.
-        for (i in 0 until 115) {
-            val x = ((i * 73) % 997) / 997f * width
-            val y = ((i * 47) % 389) / 389f * height * 0.39f
-            val radius = if (i % 9 == 0) 2.0f else 0.8f
-            drawCircle(Color(0xFFFFE6AD).copy(alpha = if (i % 4 == 0) 0.9f else 0.48f), radius, androidx.compose.ui.geometry.Offset(x, y))
-        }
-        // Crescent moon with a soft golden edge.
-        val moon = androidx.compose.ui.geometry.Offset(width * 0.20f, height * 0.115f)
-        drawCircle(Color(0xFFFFD989), radius = width * 0.075f, center = moon)
-        drawCircle(Color(0xFF0A2B55), radius = width * 0.069f, center = androidx.compose.ui.geometry.Offset(moon.x + width * 0.032f, moon.y - height * 0.012f))
-        // Distant mosque skyline along the transition into the pearl content area.
-        val base = height * 0.405f
-        drawRect(Color(0xFF061B37), topLeft = androidx.compose.ui.geometry.Offset(0f, base), size = androidx.compose.ui.geometry.Size(width, height * 0.045f))
-        drawRect(Color(0xFF0A2446), topLeft = androidx.compose.ui.geometry.Offset(width * 0.12f, base - height * 0.075f), size = androidx.compose.ui.geometry.Size(width * 0.76f, height * 0.075f))
-        drawCircle(Color(0xFF0A2446), radius = width * 0.105f, center = androidx.compose.ui.geometry.Offset(width * 0.5f, base - height * 0.075f))
-        drawRect(Color(0xFF0A2446), topLeft = androidx.compose.ui.geometry.Offset(width * 0.46f, base - height * 0.16f), size = androidx.compose.ui.geometry.Size(width * 0.08f, height * 0.085f))
-        drawCircle(Color(0xFF0A2446), radius = width * 0.04f, center = androidx.compose.ui.geometry.Offset(width * 0.5f, base - height * 0.16f))
-        for (x in listOf(0.12f, 0.82f)) {
-            drawRect(Color(0xFF0A2446), topLeft = androidx.compose.ui.geometry.Offset(width * x, base - height * 0.14f), size = androidx.compose.ui.geometry.Size(width * 0.045f, height * 0.14f))
-            drawCircle(Color(0xFF0A2446), radius = width * 0.023f, center = androidx.compose.ui.geometry.Offset(width * (x + 0.022f), base - height * 0.14f))
-        }
-        // Warm horizon glow.
-        drawRect(Brush.verticalGradient(listOf(Color(0x00F5D69A), Color(0x55F5D69A))), topLeft = androidx.compose.ui.geometry.Offset(0f, base - height * 0.025f), size = androidx.compose.ui.geometry.Size(width, height * 0.075f))
+        drawCircle(
+            brush = Brush.radialGradient(
+                colors = listOf(Color(0x22C6A15B), Color.Transparent),
+                center = androidx.compose.ui.geometry.Offset(width * 0.88f, height * 0.08f),
+                radius = width * 0.72f
+            ),
+            radius = width * 0.72f,
+            center = androidx.compose.ui.geometry.Offset(width * 0.88f, height * 0.08f)
+        )
     }
 }
 
