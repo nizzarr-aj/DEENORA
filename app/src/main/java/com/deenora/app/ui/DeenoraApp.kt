@@ -143,8 +143,8 @@ fun DeenoraApp(
                                     )
                                 },
                                 colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = Color(0xFFFFD989),
-                                    indicatorColor = Color(0xFF214A7C),
+                                    selectedIconColor = Color(0xFF102B50),
+                                    indicatorColor = Color(0xFFFFD989),
                                     selectedTextColor = Color(0xFFFFD989),
                                     unselectedIconColor = Color.White,
                                     unselectedTextColor = Color.White

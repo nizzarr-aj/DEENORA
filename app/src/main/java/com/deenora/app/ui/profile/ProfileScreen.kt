@@ -288,51 +288,68 @@ fun ProfileScreen(
                 }
             },
             confirmButton = {
-                Column(horizontalAlignment = Alignment.End) {
-                    TextButton(enabled = !accountBusy && accountEmail.contains("@") && accountPassword.length >= 8, onClick = {
-                        accountBusy = true
-                        accountMessage = ""
-                        accountScope.launch {
-                            try {
-                                val result = supabaseAuth(false, accountEmail, accountPassword)
-                                accountSignedIn = result == "SIGNED_IN"
-                                accountMessage = if (result == "CHECK_EMAIL") "Check your email to confirm the account." else ""
-                                if (accountSignedIn) showAccountDialog = false
-                            } catch (e: Exception) {
-                                accountMessage = e.message ?: "Could not sign in."
-                            } finally { accountBusy = false }
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Button(
+                        enabled = !accountBusy && accountEmail.contains("@") && accountPassword.length >= 8,
+                        onClick = {
+                            accountBusy = true
+                            accountMessage = ""
+                            accountScope.launch {
+                                try {
+                                    val result = supabaseAuth(false, accountEmail, accountPassword)
+                                    accountSignedIn = result == "SIGNED_IN"
+                                    accountMessage = if (result == "CHECK_EMAIL") "Check your email to confirm the account." else ""
+                                    if (accountSignedIn) showAccountDialog = false
+                                } catch (e: Exception) {
+                                    accountMessage = e.message ?: "Could not sign in."
+                                } finally { accountBusy = false }
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF102B50), contentColor = Color.White)
+                    ) { Text(if (accountBusy) "…" else if (currentLanguage == AppLanguage.ARABIC) "دخول إلى حسابي" else "Sign in", fontWeight = FontWeight.Bold) }
+                    OutlinedButton(
+                        enabled = !accountBusy && accountEmail.contains("@") && accountPassword.length >= 8,
+                        onClick = {
+                            accountBusy = true
+                            accountMessage = ""
+                            accountScope.launch {
+                                try {
+                                    val result = supabaseAuth(true, accountEmail, accountPassword)
+                                    accountMessage = if (result == "CHECK_EMAIL") {
+                                        if (currentLanguage == AppLanguage.ARABIC) "تفقد بريدك لتأكيد الحساب، وبعدها ادخل." else "Check your inbox to confirm, then sign in."
+                                    } else "Account created."
+                                } catch (e: Exception) {
+                                    accountMessage = e.message ?: "Could not create account."
+                                } finally { accountBusy = false }
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF102B50))
+                    ) { Text(if (currentLanguage == AppLanguage.ARABIC) "إنشاء حساب جديد" else "Create account", fontWeight = FontWeight.Bold) }
+                    TextButton(
+                        enabled = !accountBusy && accountEmail.contains("@"),
+                        onClick = {
+                            accountBusy = true
+                            accountMessage = ""
+                            accountScope.launch {
+                                try {
+                                    sendPasswordReset(accountEmail)
+                                    accountMessage = when (currentLanguage) {
+                                        AppLanguage.ARABIC -> "بعثنالك رابط إعادة تعيين كلمة السر إلى بريدك الإلكتروني."
+                                        AppLanguage.FRENCH -> "Un lien de réinitialisation a été envoyé à votre e-mail."
+                                        AppLanguage.ENGLISH -> "A password reset link has been sent to your email."
+                                    }
+                                } catch (e: Exception) {
+                                    accountMessage = e.message ?: "Could not send password reset email."
+                                } finally { accountBusy = false }
+                            }
                         }
-                    }) { Text(if (accountBusy) "…" else if (currentLanguage == AppLanguage.ARABIC) "دخول" else "Sign in") }
-                    TextButton(enabled = !accountBusy && accountEmail.contains("@") && accountPassword.length >= 8, onClick = {
-                        accountBusy = true
-                        accountMessage = ""
-                        accountScope.launch {
-                            try {
-                                val result = supabaseAuth(true, accountEmail, accountPassword)
-                                accountMessage = if (result == "CHECK_EMAIL") {
-                                    if (currentLanguage == AppLanguage.ARABIC) "تفقد بريدك لتأكيد الحساب، وبعدها ادخل." else "Check your inbox to confirm, then sign in."
-                                } else "Account created."
-                            } catch (e: Exception) {
-                                accountMessage = e.message ?: "Could not create account."
-                            } finally { accountBusy = false }
-                        }
-                    }) { Text(if (currentLanguage == AppLanguage.ARABIC) "إنشاء حساب" else "Create account") }
-                    TextButton(enabled = !accountBusy && accountEmail.contains("@"), onClick = {
-                        accountBusy = true
-                        accountMessage = ""
-                        accountScope.launch {
-                            try {
-                                sendPasswordReset(accountEmail)
-                                accountMessage = when (currentLanguage) {
-                                    AppLanguage.ARABIC -> "بعثنالك رابط إعادة تعيين كلمة السر إلى بريدك الإلكتروني."
-                                    AppLanguage.FRENCH -> "Un lien de réinitialisation a été envoyé à votre e-mail."
-                                    AppLanguage.ENGLISH -> "A password reset link has been sent to your email."
-                                }
-                            } catch (e: Exception) {
-                                accountMessage = e.message ?: "Could not send password reset email."
-                            } finally { accountBusy = false }
-                        }
-                    }) { Text(if (currentLanguage == AppLanguage.ARABIC) "نسيت كلمة السر؟" else if (currentLanguage == AppLanguage.FRENCH) "Mot de passe oublié ?" else "Forgot password?") }
+                    ) { Text(if (currentLanguage == AppLanguage.ARABIC) "نسيت كلمة السر؟" else if (currentLanguage == AppLanguage.FRENCH) "Mot de passe oublié ?" else "Forgot password?", color = Color(0xFF244A91), fontWeight = FontWeight.SemiBold) }
                 }
             },
             dismissButton = {
@@ -373,7 +390,8 @@ fun ProfileScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(18.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD7DFEA))
                 ) {
                     Column(Modifier.fillMaxWidth().padding(18.dp)) {
                         Text(
@@ -961,7 +979,7 @@ fun SettingsOptionItem(
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC9D3E2))
     ) {
         Row(
             modifier = Modifier
@@ -979,13 +997,13 @@ fun SettingsOptionItem(
                     modifier = Modifier
                         .size(38.dp)
                         .clip(CircleShape)
-                        .background(EmeraldPale),
+                        .background(Color(0xFFEAF0FA)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = EmeraldDark,
+                        tint = Color(0xFF173B70),
                         modifier = Modifier.size(20.dp)
                     )
                 }

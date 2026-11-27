@@ -4,6 +4,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +33,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -76,6 +79,12 @@ fun TasbihView(
         targetValue = if (isPressed) 0.94f else 1.0f,
         animationSpec = spring(dampingRatio = 0.5f, stiffness = 400f),
         label = "tasbih_scale"
+    )
+    // Each tap advances the strand so the beads visibly slide like a real misbaha.
+    val beadRotation by animateFloatAsState(
+        targetValue = (state.tasbihCount % 10) * 36f,
+        animationSpec = tween(durationMillis = 280, easing = FastOutSlowInEasing),
+        label = "tasbih_bead_rotation"
     )
 
     Scaffold(
@@ -394,7 +403,8 @@ fun TasbihView(
                         center = center,
                         style = Stroke(width = 2.dp.toPx())
                     )
-                    // Leave a small opening at the top, like the pictured prayer beads.
+                    // Beads rotate together around the cord with every count, while the cord and tassel stay still.
+                    rotate(degrees = beadRotation, pivot = center) {
                     repeat(10) { index ->
                         val angle = Math.toRadians((-55.0 + index * (290.0 / 9.0)))
                         val x = center.x + kotlin.math.cos(angle).toFloat() * ringRadius
@@ -423,6 +433,7 @@ fun TasbihView(
                             radius = beadRadius * 0.18f,
                             center = Offset(x - beadRadius * 0.35f, y - beadRadius * 0.4f)
                         )
+                    }
                     }
                     // Gold connector and hanging tassel at the bottom.
                     val tasselY = center.y + ringRadius
