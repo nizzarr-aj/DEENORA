@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-    <path android:fillColor="#102A46" android:pathData="M18,3h72a15,15 0,0 1,15 15v72a15,15 0,0 1,-15 15h-72a15,15 0,0 1,-15 -15v-72a15,15 0,0 1,15 -15z"/>
-    <path android:fillColor="#173D5C" android:pathData="M9,54c0,-25 20,-45 45,-45s45,20 45,45v34c0,7 -5,12 -12,12h-66c-7,0 -12,-5 -12,-12z"/>
-    <path android:fillColor="#E9C982" android:pathData="M76,15c-9,0 -16,7 -16,16s7,16 16,16c-4,4 -9,6 -15,6 -13,0 -23,-10 -23,-23s10,-23 23,-23c6,0 11,2 15,8z"/>
-    <path android:fillColor="#FFF9EA" android:pathData="M54,48c-12,-8 -26,-9 -38,-4v34c13,-5 26,-4 38,5z"/>
-    <path android:fillColor="#F5E7C8" android:pathData="M54,48c12,-8 26,-9 38,-4v34c-13,-5 -26,-4 -38,5z"/>
-    <path android:fillColor="#C99D54" android:pathData="M52,48h4v35h-4z"/>
-    <path android:fillColor="#173D5C" android:pathData="M22,55c8,-3 17,-2 25,2v3c-8,-4 -17,-5 -25,-2zM22,65c8,-3 17,-2 25,2v3c-8,-4 -17,-5 -25,-2zM61,57c8,-4 17,-5 25,-2v3c-8,-3 -17,-2 -25,2zM61,67c8,-4 17,-5 25,-2v3c-8,-3 -17,-2 -25,2z"/>
-    <path android:fillColor="#E9C982" android:pathData="M54,31l3,7 7,3 -7,3 -3,7 -3,-7 -7,-3 7,-3z"/>
-    <path android:fillColor="#D9B66F" android:pathData="M54,83c-13,-8 -27,-9 -40,-4v7c13,-5 27,-4 40,5 13,-9 27,-10 40,-5v-7c-13,-5 -27,-4 -40,4z"/>
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/dinak_logo"
+        android:gravity="center"
+        android:width="256dp"
+        android:height="256dp" />
+</layer-list>
