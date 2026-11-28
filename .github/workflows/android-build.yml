@@ -103,6 +103,9 @@ jobs:
           print(f"Validated and bundled {total} Tanzil Uthmani ayahs across 114 surahs.")
           PY
 
+      - name: Verify Dinak logo asset
+        run: test -s app/src/main/res/drawable/dinak_logo.jpg
+
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
