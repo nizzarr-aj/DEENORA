@@ -563,7 +563,6 @@ private fun ExtrasDuasScreen(language: AppLanguage, onBack: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Composable
 private fun ExtrasStoriesScreen(language: AppLanguage, onBack: () -> Unit) {
     var expandedStory by remember { mutableIntStateOf(-1) }
     Scaffold(
@@ -593,7 +592,7 @@ private fun ExtrasStoriesScreen(language: AppLanguage, onBack: () -> Unit) {
                                 Text(item.arTitle, color = Color(0xFF102B50), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                                 if (language != AppLanguage.ARABIC) Text(if (language == AppLanguage.ENGLISH) item.enTitle else item.frTitle, color = Color(0xFF52657A), style = MaterialTheme.typography.bodySmall)
                             }
-                            Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, null, tint = Color(0xFF087456))
+                            Icon(if (expanded) Icons.Outlined.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown, null, tint = Color(0xFF087456))
                         }
                         Text(when(language) { AppLanguage.ARABIC -> item.ar; AppLanguage.ENGLISH -> item.en; AppLanguage.FRENCH -> item.fr },
                             color = Color(0xFF26384A), style = MaterialTheme.typography.bodyLarge, lineHeight = 27.sp)
