@@ -2,6 +2,7 @@ package com.deenora.app.ui.discover
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,7 +13,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +40,7 @@ fun IslamicCalendarView(
     BackHandler { onBackClick() }
 
     val todayHijri = HijriCalendarHelper.getHijriDate(adjustmentDays = hijriAdjustment)
+    var expandedEvent by remember { mutableIntStateOf(-1) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -127,9 +129,11 @@ fun IslamicCalendarView(
             }
 
             // Events List
-            items(IslamicCalendarRepository.EVENTS) { event ->
+            items(IslamicCalendarRepository.EVENTS.size) { eventIndex ->
+                val event = IslamicCalendarRepository.EVENTS[eventIndex]
+                val expanded = expandedEvent == eventIndex
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().clickable { expandedEvent = if (expanded) -1 else eventIndex },
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                     border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.25f))
@@ -171,11 +175,28 @@ fun IslamicCalendarView(
                                 color = EmeraldDark
                             )
                             Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = event.getDescription(currentLanguage),
+                            Text(text = event.getDescription(currentLanguage),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            if (expanded) {
+                                Spacer(Modifier.height(10.dp))
+                                HorizontalDivider(color = GoldPrimary.copy(alpha = 0.35f))
+                                Spacer(Modifier.height(8.dp))
+                                Text(text = when (currentLanguage) {
+                                    AppLanguage.ARABIC -> "التاريخ الهجري: ${event.hijriDay} ${listOf("محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة")[event.hijriMonth - 1]}"
+                                    AppLanguage.ENGLISH -> "Hijri date: ${event.hijriDay} ${listOf("Muharram","Safar","Rabi' al-Awwal","Rabi' al-Thani","Jumada al-Awwal","Jumada al-Thani","Rajab","Sha'ban","Ramadan","Shawwal","Dhu al-Qi'dah","Dhu al-Hijjah")[event.hijriMonth - 1]}"
+                                    AppLanguage.FRENCH -> "Date hégirienne : ${event.hijriDay} ${listOf("Mouharram","Safar","Rabi' al-Awwal","Rabi' al-Thani","Joumada al-Oula","Joumada ath-Thania","Rajab","Cha'bane","Ramadan","Chawwal","Dhou al-Qi'da","Dhou al-Hijja")[event.hijriMonth - 1]}"
+                                }, color = EmeraldDark, fontWeight = FontWeight.Bold)
+                                Text(text = when (currentLanguage) {
+                                    AppLanguage.ARABIC -> "قد يختلف التاريخ الميلادي المقابل حسب رؤية الهلال والبلد."
+                                    AppLanguage.ENGLISH -> "The corresponding Gregorian date may vary by local moon sighting and country."
+                                    AppLanguage.FRENCH -> "La date grégorienne correspondante peut varier selon l'observation locale du croissant et le pays."
+                                }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            } else Text(when (currentLanguage) {
+                                AppLanguage.ARABIC -> "اضغط لمعرفة التفاصيل"
+                                AppLanguage.ENGLISH -> "Tap to see details"
+                                AppLanguage.FRENCH -> "Touchez pour les détails"
+                            }, color = EmeraldDark, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.labelMedium)
                         }
                     }
                 }

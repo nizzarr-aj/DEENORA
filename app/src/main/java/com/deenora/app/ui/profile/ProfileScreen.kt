@@ -269,20 +269,18 @@ fun ProfileScreen(
                         singleLine = true, visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth()
                     )
-                    OutlinedButton(
-                        enabled = !accountBusy,
-                        onClick = {
-                            accountBusy = true
-                            accountMessage = ""
-                            accountScope.launch {
-                                try { signInWithGoogle() }
-                                catch (e: Exception) { accountMessage = e.message ?: "Google sign-in failed." }
-                                finally { accountBusy = false }
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(if (currentLanguage == AppLanguage.ARABIC) "المواصلة باستعمال Google" else "Continue with Google")
+                    Button(enabled = !accountBusy, onClick = {
+                        accountBusy = true
+                        accountMessage = ""
+                        accountScope.launch {
+                            try { signInWithGoogle() }
+                            catch (e: Exception) { accountMessage = e.message ?: "Google sign-in failed." }
+                            finally { accountBusy = false }
+                        }
+                    }, modifier = Modifier.fillMaxWidth().height(52.dp), shape = RoundedCornerShape(14.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF244B78), contentColor = Color.White)) {
+                        Text(if (currentLanguage == AppLanguage.ARABIC) "المواصلة باستعمال Google" else if (currentLanguage == AppLanguage.FRENCH) "Continuer avec Google" else "Continue with Google",
+                            color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                     }
                     if (accountMessage.isNotBlank()) Text(accountMessage, color = if (accountMessage.startsWith("If this email") || accountMessage.startsWith("Google login worked")) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
                 }
@@ -432,8 +430,12 @@ fun ProfileScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) { Text(if (currentLanguage == AppLanguage.ARABIC) "تسجيل الخروج" else if (currentLanguage == AppLanguage.ENGLISH) "Sign out" else "Déconnexion") }
                         } else {
-                            Button(onClick = { showAccountDialog = true }, modifier = Modifier.fillMaxWidth()) {
-                                Text(if (currentLanguage == AppLanguage.ARABIC) "تسجيل الدخول / إنشاء حساب" else if (currentLanguage == AppLanguage.ENGLISH) "Sign in / Create account" else "Connexion / Créer un compte")
+                            Button(onClick = { showAccountDialog = true }, modifier = Modifier.fillMaxWidth().height(54.dp),
+                                shape = RoundedCornerShape(15.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF102B50), contentColor = Color.White),
+                                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp, pressedElevation = 1.dp)) {
+                                Text(if (currentLanguage == AppLanguage.ARABIC) "تسجيل الدخول / إنشاء حساب" else if (currentLanguage == AppLanguage.ENGLISH) "Sign in / Create account" else "Connexion / Créer un compte",
+                                    color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                             }
                         }
                     }

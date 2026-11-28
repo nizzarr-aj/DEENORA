@@ -1,6 +1,7 @@
 package com.deenora.app.ui.discover
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -562,56 +563,56 @@ private fun ExtrasDuasScreen(language: AppLanguage, onBack: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Composable
 private fun ExtrasStoriesScreen(language: AppLanguage, onBack: () -> Unit) {
+    var expandedStory by remember { mutableIntStateOf(-1) }
     Scaffold(
-        modifier = Modifier.fillMaxSize().deenkPageBackground(),
-        containerColor = Color.Transparent,
-        topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFF071A36),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = GoldLight,
-                    actionIconContentColor = GoldLight
-                ),
-                title = { Text(if (language == AppLanguage.ARABIC) "قصص إسلامية" else if (language == AppLanguage.ENGLISH) "Islamic Stories" else "Histoires islamiques") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        }
+        modifier = Modifier.fillMaxSize().deenkPageBackground(), containerColor = Color.Transparent,
+        topBar = { CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color(0xFF071A36), titleContentColor = Color.White, navigationIconContentColor = GoldLight),
+            title = { Text(when(language) { AppLanguage.ARABIC -> "قصص الأنبياء"; AppLanguage.ENGLISH -> "Stories of the Prophets"; AppLanguage.FRENCH -> "Histoires des prophètes" }, fontWeight = FontWeight.Bold) },
+            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Outlined.ArrowBack, contentDescription = "Back") } }
+        ) }
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
-            contentPadding = PaddingValues(vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(deenoraStories) { story ->
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-                ) {
-                    Column(Modifier.padding(18.dp)) {
-                        Text(story.arTitle, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                        Text(
-                            when (language) {
-                                AppLanguage.ARABIC -> story.ar
-                                AppLanguage.ENGLISH -> "${story.enTitle}\n\n${story.en}"
-                                AppLanguage.FRENCH -> "${story.frTitle}\n\n${story.fr}"
-                            },
-                            style = MaterialTheme.typography.bodyLarge,
-                            lineHeight = 25.sp
-                        )
+        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
+            contentPadding = PaddingValues(vertical = 14.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            item { Text(when(language) { AppLanguage.ARABIC -> "اضغط على القصة لقراءة تفاصيلها"; AppLanguage.ENGLISH -> "Tap a story to read more"; AppLanguage.FRENCH -> "Touchez une histoire pour lire la suite" }, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            items(deenoraStories.size) { index ->
+                val item = deenoraStories[index]
+                val expanded = expandedStory == index
+                Card(Modifier.fillMaxWidth().clickable { expandedStory = if (expanded) -1 else index },
+                    shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, GoldPrimary.copy(alpha = 0.30f)),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)) {
+                    Column(Modifier.fillMaxWidth().padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Surface(shape = CircleShape, color = Color(0xFFEAF3EF)) {
+                                Icon(Icons.Outlined.AutoStories, null, Modifier.padding(10.dp).size(24.dp), tint = Color(0xFF087456))
+                            }
+                            Column(Modifier.weight(1f)) {
+                                Text(item.arTitle, color = Color(0xFF102B50), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                                if (language != AppLanguage.ARABIC) Text(if (language == AppLanguage.ENGLISH) item.enTitle else item.frTitle, color = Color(0xFF52657A), style = MaterialTheme.typography.bodySmall)
+                            }
+                            Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, null, tint = Color(0xFF087456))
+                        }
+                        Text(when(language) { AppLanguage.ARABIC -> item.ar; AppLanguage.ENGLISH -> item.en; AppLanguage.FRENCH -> item.fr },
+                            color = Color(0xFF26384A), style = MaterialTheme.typography.bodyLarge, lineHeight = 27.sp)
+                        if (expanded) {
+                            HorizontalDivider(color = GoldPrimary.copy(alpha = 0.35f))
+                            Text(when(language) { AppLanguage.ARABIC -> "العبرة ومصدر القصة"; AppLanguage.ENGLISH -> "Lesson and Quran reference"; AppLanguage.FRENCH -> "Leçon et référence coranique" },
+                                color = Color(0xFF087456), fontWeight = FontWeight.Bold)
+                            Text(when(language) {
+                                AppLanguage.ARABIC -> listOf("الثبات عند الشدائد والعفو عند المقدرة وحسن الظن بالله. اقرأ تفاصيل قصة يوسف عليه السلام في سورة يوسف كاملة.","لا ييأس المؤمن من رحمة الله مهما اشتد الخوف؛ فالفرج والنصر بيد الله. وردت قصة موسى عليه السلام في سورتي طه والشعراء وغيرهما.","الثبات على الإيمان والصحبة الصالحة والتوكل على الله. اقرأ قصتهم في سورة الكهف.","الصبر والدعاء وعدم القنوط من رحمة الله. ورد ذكر أيوب عليه السلام في القرآن.")[index]
+                                AppLanguage.ENGLISH -> listOf("Remain patient through hardship, forgive when able, and trust Allah. Read the full account in Surah Yusuf.","Never despair of Allah's help when fear is great. The account of Musa appears in Surah Ta-Ha and Ash-Shu'ara, among others.","Stay firm in faith, keep righteous company and rely on Allah. Their account is in Surah Al-Kahf.","Be patient, keep making dua and never despair of Allah's mercy. Ayyub is mentioned in the Quran.")[index]
+                                AppLanguage.FRENCH -> listOf("Rester patient dans l'épreuve, pardonner et placer sa confiance en Allah. Le récit complet se trouve dans la sourate Yusuf.","Ne jamais désespérer du secours d'Allah. Le récit de Musa apparaît notamment dans les sourates Ta-Ha et Ash-Shu'ara.","Rester ferme dans la foi, choisir de bonnes fréquentations et s'en remettre à Allah. Leur récit est dans la sourate Al-Kahf.","Faire preuve de patience, invoquer Allah et ne jamais désespérer de Sa miséricorde. Ayyub est mentionné dans le Coran.")[index]
+                            }, color = Color(0xFF52657A), style = MaterialTheme.typography.bodyMedium, lineHeight = 24.sp)
+                        } else Text(when(language) { AppLanguage.ARABIC -> "اقرأ القصة"; AppLanguage.ENGLISH -> "Read story"; AppLanguage.FRENCH -> "Lire l'histoire" }, color = Color(0xFF087456), fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ExtrasQuizScreen(language: AppLanguage, onBack: () -> Unit) {
