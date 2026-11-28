@@ -34,6 +34,7 @@ jobs:
           cp "$uploaded_audio" app/src/main/res/raw/adhan.mp3
           rm "$uploaded_audio"
           test -s app/src/main/res/raw/adhan.mp3
+          test -s app/src/main/res/drawable/dinak_logo.jpg
           file app/src/main/res/raw/adhan.mp3
 
       - name: Bundle Amiri Quran font
